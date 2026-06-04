@@ -45,6 +45,12 @@ export function renderStaging(staging, accent) {
       : null,
     staging.note ? h('div', { class: 'note' }, staging.note) : null,
     ...groups,
+    staging.defs && staging.defs.length
+      ? h('div', { class: 'staging-defs', style: { margin: '16px 0 0' } },
+          h('p', { style: { fontWeight: '700', fontSize: '.9rem', margin: '0 0 8px', color: 'var(--slate-700)' } }, 'Definisi & kriteria kunci'),
+          h('dl', { class: 'kv' },
+            staging.defs.map(([term, def]) => [h('dt', {}, term), h('dd', {}, def)])))
+      : null,
     staging.molecularNote
       ? h('div', { class: 'note' }, h('strong', {}, 'Modifier molekuler — '), staging.molecularNote)
       : null,
