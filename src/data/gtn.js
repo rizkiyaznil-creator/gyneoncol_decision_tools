@@ -10,6 +10,7 @@ export default {
     'Mencakup mola invasif, koriokarsinoma, PSTT, dan ETT. Manajemen ditentukan oleh stadium anatomik FIGO dan skor prognostik WHO/FIGO yang memisahkan risiko rendah vs tinggi.',
   staging: {
     system: 'FIGO Anatomic Staging (2000)',
+    guidelineNote: 'Stadium anatomik FIGO dan skor prognostik FIGO/WHO 2000 tetap menjadi standar (ditegaskan kembali pada pembaruan FIGO 2025, Ngan dkk.). Skor belum direvisi >20 tahun dan memiliki keterbatasan yang diketahui.',
     note:
       'Stadium anatomik dilengkapi skor prognostik WHO/FIGO yang dimodifikasi. Catatan: PSTT dan ETT TIDAK dinilai dengan skor prognostik ini dan umumnya dikelola secara bedah karena relatif kemoresisten.',
     reference: 'FIGO Oncology Committee (2000); Ngan HYS, dkk. FIGO Cancer Report.',
@@ -33,7 +34,7 @@ export default {
   tools: ['gtn-score', 'bsa'],
   references: [
     'FIGO Oncology Committee. FIGO staging for gestational trophoblastic neoplasia 2000. Int J Gynaecol Obstet. 2002;77(3):285-287.',
-    'Ngan HYS, Seckl MJ, Berkowitz RS, dkk. Diagnosis and management of gestational trophoblastic disease: 2021 update. Int J Gynaecol Obstet. 2021;155(Suppl 1):86-93.',
+    'Ngan HYS, Seckl MJ, Berkowitz RS, dkk. Diagnosis and management of gestational trophoblastic disease: 2025 update. Int J Gynecol Obstet. 2025.',
     'NCCN Clinical Practice Guidelines in Oncology: Gestational Trophoblastic Neoplasia (versi terkini).',
   ],
 };

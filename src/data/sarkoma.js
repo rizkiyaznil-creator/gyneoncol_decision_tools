@@ -72,7 +72,7 @@ export default {
       ['Leiomiosarkoma (LMS)', 'Agresif; reseksi en bloc, hindari morselasi. Peran kemoterapi adjuvant masih kontroversial.'],
       ['Low-grade ESS', 'Sering ER/PR positif → terapi hormonal berperan; hindari estrogen.'],
       ['High-grade ESS / undifferentiated', 'Agresif, prognosis buruk.'],
-      ['Karsinosarkoma (MMMT)', 'Kini dipandang karsinoma metaplastik agresif → di-staging & dikelola sebagai karsinoma endometrium agresif.'],
+      ['Karsinosarkoma (MMMT)', 'Kini dipandang karsinoma metaplastik agresif → di-staging & dikelola sebagai karsinoma endometrium agresif (memakai FIGO endometrium, bukan sistem sarkoma).'],
     ],
   },
   tools: ['bsa'],

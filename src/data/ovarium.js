@@ -10,6 +10,7 @@ export default {
     'Karsinoma epitelial (tersering high-grade serous), tumor germ cell, dan sex-cord stromal. Staging FIGO 2014 berlaku untuk ovarium, tuba falopii, dan peritoneum primer.',
   staging: {
     system: 'FIGO 2014',
+    guidelineNote: 'Dikonfirmasi sebagai sistem FIGO terkini untuk ovarium/tuba/peritoneum — tidak ada revisi FIGO yang lebih baru; NCCN dan ESGO memakai sistem ini.',
     note: 'Berlaku terpadu untuk karsinoma ovarium, tuba falopii, dan peritoneum primer.',
     reference: 'Prat J, FIGO Committee on Gynecologic Oncology (2014)',
     groups: [

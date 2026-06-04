@@ -10,6 +10,7 @@ export default {
     'Staging FIGO 2018 — revisi penting: pencitraan & temuan patologi boleh dipakai, ukuran tumor (IB1–IB3) diperjelas, dan status KGB dimasukkan sebagai stadium IIIC.',
   staging: {
     system: 'FIGO 2018',
+    guidelineNote: 'FIGO 2018 tetap menjadi sistem terkini dan ditegaskan kembali pada pembaruan FIGO Cancer Report 2025 (Bhatla dkk.); NCCN memakai sistem ini.',
     note: 'Pencitraan (USG/MRI/CT/PET) dan patologi boleh digunakan untuk melengkapi temuan klinis. Notasi r (imaging) atau p (patologi) dapat ditambahkan, mis. IIIC1r / IIIC1p.',
     reference: 'Bhatla N, dkk. FIGO 2018; Int J Gynaecol Obstet. 2019.',
     groups: [
@@ -69,6 +70,7 @@ export default {
   tools: ['bsa', 'cisplatin-dosing'],
   references: [
     'Bhatla N, Berek JS, Cuello Fredes M, dkk. Revised FIGO staging for carcinoma of the cervix uteri. Int J Gynaecol Obstet. 2019;145(1):129-135.',
+    'Bhatla N, dkk. Cancer of the cervix uteri: 2025 update. Int J Gynecol Obstet. 2025 (menegaskan kembali FIGO 2018).',
     'NCCN Clinical Practice Guidelines in Oncology: Cervical Cancer (versi terkini).',
     'Cibula D, dkk. ESGO/ESTRO/ESP guidelines for the management of patients with cervical cancer.',
     'WHO Classification of Tumours: Female Genital Tumours, 5th ed. (2020).',

@@ -31,6 +31,17 @@ export function renderAbout(root) {
     ),
 
     h('div', { class: 'panel' },
+      h('h2', {}, 'Status kebaruan staging (diverifikasi Juni 2026)'),
+      h('p', {}, 'Seluruh sistem stadium telah dicocokkan dengan literatur terkini (Consensus/PubMed) dan guideline:'),
+      h('ul', {},
+        h('li', {}, 'Ovarium FIGO 2014 · Serviks FIGO 2018 · Vulva FIGO 2021 · Sarkoma uteri FIGO 2009 · Vagina (FIGO) · GTN (anatomik FIGO 2000 + skor WHO/FIGO) — semuanya masih versi FIGO terkini.'),
+        h('li', {}, 'Endometrium: FIGO 2023 adalah revisi terbaru, namun NCCN (Uterine Neoplasms v3.2025) masih mempertahankan FIGO 2009 — kedua sistem kini ditampilkan pada modul endometrium.')
+      ),
+      h('p', { class: 'muted', style: { fontSize: '.85rem' } },
+        'Beberapa sistem ditegaskan kembali pada pembaruan FIGO Cancer Report 2025 (serviks, vagina, korpus uteri, GTN).')
+    ),
+
+    h('div', { class: 'panel' },
       h('h2', {}, 'Privasi & data'),
       h('p', {}, 'Aplikasi berjalan sepenuhnya di peramban Anda. Tidak ada data pasien yang dikirim ke server atau disimpan, kecuali preferensi tampilan sederhana (mis. status banner) di perangkat Anda.')
     ),

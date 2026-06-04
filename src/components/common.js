@@ -40,6 +40,9 @@ export function renderStaging(staging, accent) {
 
   return h('div', { style: { '--accent': accent } },
     h('p', { class: 'staging-system' }, 'Sistem staging: ', h('strong', {}, staging.system)),
+    staging.guidelineNote
+      ? h('div', { class: 'note note--warn' }, h('strong', {}, 'Catatan guideline — '), staging.guidelineNote)
+      : null,
     staging.note ? h('div', { class: 'note' }, staging.note) : null,
     ...groups,
     staging.molecularNote
