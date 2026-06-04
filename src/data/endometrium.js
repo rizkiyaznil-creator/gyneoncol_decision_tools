@@ -128,6 +128,8 @@ export default {
     'Gaffney D, dkk. 2023 FIGO staging system for endometrial cancer: the evolution of the revolution. Gynecol Oncol. 2024.',
     'NCCN Guidelines Insights: Uterine Neoplasms, Version 3.2025 — panel mempertahankan FIGO 2009. J Natl Compr Canc Netw. 2025;23(8).',
     'Concin N, dkk. ESGO/ESTRO/ESP guidelines for the management of patients with endometrial carcinoma. Int J Gynecol Cancer. 2021.',
+    'Talhouk A, dkk. Confirmation of ProMisE: a simple, genomics-based clinical classifier for endometrial cancer. Cancer. 2017;123(5):802-813. doi:10.1002/cncr.30496',
+    'León-Castillo A, dkk. Molecular classification of the PORTEC-3 trial for high-risk endometrial cancer: impact on prognosis and benefit from adjuvant therapy. J Clin Oncol. 2020;38(29):3388-3397. doi:10.1200/JCO.20.00549',
     'Pecorelli S. Revised FIGO staging for carcinoma of the vulva, cervix, and endometrium. Int J Gynaecol Obstet. 2009;105(2):103-104.',
     'WHO Classification of Tumours: Female Genital Tumours, 5th ed. (2020).',
   ],
