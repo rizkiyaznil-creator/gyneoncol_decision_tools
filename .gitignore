@@ -1,0 +1,14 @@
+# Dependencies (hanya untuk tooling/test lokal — aplikasi tidak butuh build)
+node_modules/
+package-lock.json
+
+# OS / editor
+.DS_Store
+Thumbs.db
+*.log
+.idea/
+.vscode/
+
+# Sementara
+*.tmp
+.cache/

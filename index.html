@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="GynOnco Decision Tools — alat bantu keputusan klinis untuk ginekologi onkologi: stadium FIGO/WHO terkini, kalkulator dosis kemoterapi, dan algoritma terapi adjuvant." />
+  <meta name="theme-color" content="#0f766e" />
+  <title>GynOnco Decision Tools</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="stylesheet" href="./styles/main.css" />
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%E2%9A%95%EF%B8%8F%3C/text%3E%3C/svg%3E" />
+</head>
+<body>
+  <a class="skip-link" href="#content">Lewati ke konten</a>
+
+  <header class="app-header">
+    <div class="container app-header__inner">
+      <a class="brand" href="#/" aria-label="Beranda GynOnco Decision Tools">
+        <span class="brand__mark" aria-hidden="true">⚕️</span>
+        <span class="brand__text">
+          <span class="brand__title">GynOnco <span>Decision Tools</span></span>
+          <span class="brand__sub">Alat bantu keputusan klinis ginekologi onkologi</span>
+        </span>
+      </a>
+      <nav class="app-nav" aria-label="Navigasi utama">
+        <a href="#/">Beranda</a>
+        <a href="#/alat">Alat</a>
+        <a href="#/tentang">Tentang &amp; Disclaimer</a>
+      </nav>
+    </div>
+  </header>
+
+  <div id="disclaimer-banner" class="disclaimer-banner" hidden>
+    <div class="container disclaimer-banner__inner">
+      <span aria-hidden="true">⚠️</span>
+      <p>
+        <strong>Alat bantu, bukan pengganti penilaian klinis.</strong>
+        Verifikasi setiap keluaran terhadap guideline primer &amp; kondisi pasien.
+        Untuk penggunaan oleh tenaga medis profesional.
+      </p>
+      <button type="button" id="disclaimer-dismiss" class="disclaimer-banner__close" aria-label="Tutup pemberitahuan">Mengerti</button>
+    </div>
+  </div>
+
+  <main id="content" class="container" tabindex="-1"></main>
+
+  <footer class="app-footer">
+    <div class="container app-footer__inner">
+      <p>
+        <strong>GynOnco Decision Tools</strong> · Edukasi &amp; pendukung keputusan klinis.
+        Konten mengacu FIGO, NCCN, ESGO/ESMO, dan WHO Classification — selalu cek versi terbaru.
+      </p>
+      <p class="app-footer__meta">Tidak menyimpan data pasien · Berjalan sepenuhnya di perangkat Anda</p>
+    </div>
+  </footer>
+
+  <script type="module" src="./src/app.js"></script>
+</body>
+</html>
