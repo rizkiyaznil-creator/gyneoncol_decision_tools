@@ -35,7 +35,7 @@ export default {
       ['Tata laksana', 'Mayoritas dengan radioterapi/kemoradiasi berbasis cisplatin; bedah pada kasus terpilih (lesi kecil sepertiga atas).'],
     ],
   },
-  tools: ['bsa', 'cisplatin-dosing'],
+  tools: ['chemo-dosing'],
   references: [
     'FIGO Committee on Gynecologic Oncology. Current FIGO staging for cancer of the vagina, fallopian tube, ovary, and gestational trophoblastic neoplasia. Int J Gynaecol Obstet. 2009;105(1):3-4.',
     'Adams TS, dkk. Cancer of the vagina: 2025 update. Int J Gynecol Obstet. 2025.',

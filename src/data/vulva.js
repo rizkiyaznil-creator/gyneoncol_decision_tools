@@ -54,7 +54,7 @@ export default {
       ['Margin', 'Target margin bedah bebas tumor; margin dekat/positif meningkatkan risiko kekambuhan lokal.'],
     ],
   },
-  tools: ['bsa'],
+  tools: ['chemo-dosing'],
   references: [
     'Olawaiye AB, Cuello MA, Rogers LJ. Cancer of the vulva: 2021 update. Int J Gynaecol Obstet. 2021;155(Suppl 1):7-18; staging Int J Gynaecol Obstet. 2021;155(1):43-47.',
     'NCCN Clinical Practice Guidelines in Oncology: Vulvar Cancer (versi terkini).',

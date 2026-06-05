@@ -70,10 +70,11 @@ export default {
     note:
       'Uji BRCA1/2 (germline & somatik) dan status HRD direkomendasikan untuk karsinoma epitelial non-musinosa guna memandu terapi rumatan (PARP inhibitor) sesuai NCCN/ESGO.',
   },
-  tools: ['bsa', 'carboplatin-auc', 'ovarian-adjuvant'],
+  tools: ['chemo-dosing', 'ovarian-adjuvant'],
   references: [
     'Prat J; FIGO Committee on Gynecologic Oncology. Staging classification for cancer of the ovary, fallopian tube, and peritoneum. Int J Gynaecol Obstet. 2014;124(1):1-5.',
     'NCCN Clinical Practice Guidelines in Oncology: Ovarian Cancer (versi terkini).',
+    'Regimen kemoterapi mengacu NCCN/ESGO–ESMO; bukti landmark: GOG-111/GOG-158 (paclitaxel–carboplatin), JGOG-3016 (dose-dense), AGO-OVAR 2.5 (gemcitabine–carboplatin), CALYPSO (PLD–carboplatin), MITO-7 (jadwal mingguan).',
     'ESGO–ESMO consensus & guidelines: epithelial ovarian cancer.',
     'WHO Classification of Tumours: Female Genital Tumours, 5th ed. (2020).',
   ],

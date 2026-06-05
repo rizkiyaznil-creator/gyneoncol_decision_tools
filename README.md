@@ -64,7 +64,7 @@ src/
   tools/
     registry.js           # registry alat
     shared.js             # helper form/hasil
-    bsa.js … gtnScore.js  # modul alat
+    chemoDosing.js … gtnScore.js  # modul alat
   components/             # halaman (home, cancerPage, toolPage, dst.)
 scripts/validate.mjs      # uji integritas modul (node scripts/validate.mjs)
 ```

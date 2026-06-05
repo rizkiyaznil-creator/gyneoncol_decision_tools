@@ -31,7 +31,7 @@ export default {
     note:
       'Diagnosis GTN pasca-mola umumnya berdasarkan kriteria β-hCG (plateau ≥ 3 minggu, kenaikan ≥ 2 minggu, atau persistensi ≥ 6 bulan) atau histologi koriokarsinoma.',
   },
-  tools: ['gtn-score', 'bsa'],
+  tools: ['gtn-score', 'chemo-dosing'],
   references: [
     'FIGO Oncology Committee. FIGO staging for gestational trophoblastic neoplasia 2000. Int J Gynaecol Obstet. 2002;77(3):285-287.',
     'Ngan HYS, Seckl MJ, Berkowitz RS, dkk. Diagnosis and management of gestational trophoblastic disease: 2025 update. Int J Gynecol Obstet. 2025.',

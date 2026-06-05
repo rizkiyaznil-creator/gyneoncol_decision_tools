@@ -75,7 +75,7 @@ export default {
       ['Karsinosarkoma (MMMT)', 'Kini dipandang karsinoma metaplastik agresif → di-staging & dikelola sebagai karsinoma endometrium agresif (memakai FIGO endometrium, bukan sistem sarkoma).'],
     ],
   },
-  tools: ['bsa'],
+  tools: ['chemo-dosing'],
   references: [
     'Prat J. FIGO staging for uterine sarcomas. Int J Gynaecol Obstet. 2009;104(3):177-178.',
     'NCCN Clinical Practice Guidelines in Oncology: Uterine Neoplasms (versi terkini).',

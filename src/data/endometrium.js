@@ -121,7 +121,7 @@ export default {
     note:
       'Algoritma adjuvant ESGO/ESMO/ESTRO/ESP 2020 mengelompokkan risiko dengan menggabungkan stadium, derajat, histologi, LVSI, dan kelas molekuler. Lihat alat “Kelas Molekuler & Kelompok Risiko”.',
   },
-  tools: ['bsa', 'carboplatin-auc', 'endometrial-molecular'],
+  tools: ['chemo-dosing', 'endometrial-molecular'],
   references: [
     'Berek JS, Matias-Guiu X, Creutzberg C, dkk. FIGO staging of endometrial cancer: 2023. Int J Gynecol Obstet. 2023;162(2):383-394. doi:10.1002/ijgo.14923',
     'Matias-Guiu X, dkk. FIGO 2023 staging for endometrial cancer, when, if it is not now? Eur J Cancer. 2024;213:115115. doi:10.1016/j.ejca.2024.115115',
