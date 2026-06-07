@@ -1,9 +1,12 @@
 name: Deploy ke GitHub Pages
 
 # Situs statik (tanpa build). Mengunggah isi repo sebagai artefak Pages.
+# Catatan: environment "github-pages" hanya mengizinkan deploy dari branch
+# default repo. Branch default saat ini = branch kerja di bawah, jadi pemicu
+# push diarahkan ke sana agar setiap perubahan otomatis ter-publish.
 on:
   push:
-    branches: [main]
+    branches: [claude/keen-galileo-Ds0jq]
   workflow_dispatch:
 
 permissions:
