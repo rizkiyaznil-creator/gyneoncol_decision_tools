@@ -16,12 +16,17 @@ export function round(value, n = 2) {
 
 /** A labelled input field. Returns { el, input }. */
 export function field({ id, label, hint, unit, type = 'number', value = '', attrs = {} }) {
+  // Field numerik dirender sebagai type="text" + inputmode="decimal".
+  // Pada keyboard iOS dengan locale koma (mis. Indonesia), <input type="number">
+  // menolak pemisah desimal koma sehingga "0,8" terbaca "08" dan dosis jadi salah.
+  // num() menerima koma maupun titik, jadi type="text" tetap akurat & aman.
+  const numeric = type === 'number';
   const input = h('input', {
     id,
-    type,
+    type: numeric ? 'text' : type,
     value,
-    inputmode: type === 'number' ? 'decimal' : null,
-    step: type === 'number' ? 'any' : null,
+    inputmode: numeric ? 'decimal' : null,
+    ...(numeric ? { autocomplete: 'off', autocorrect: 'off', spellcheck: 'false' } : {}),
     ...attrs,
   });
   const control = unit

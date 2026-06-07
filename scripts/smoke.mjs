@@ -23,7 +23,7 @@ const fresh = () => { content.innerHTML = ''; return content; };
 
 function exercise(container) {
   container.querySelectorAll('input').forEach((inp) => {
-    if (inp.type === 'number') inp.value = '60';
+    if (inp.type === 'number' || inp.getAttribute('inputmode') === 'decimal') inp.value = '60';
     inp.dispatchEvent(new dom.window.Event('input', { bubbles: true }));
     inp.dispatchEvent(new dom.window.Event('change', { bubbles: true }));
   });
