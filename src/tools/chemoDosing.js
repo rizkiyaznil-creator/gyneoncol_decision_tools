@@ -39,7 +39,7 @@ const REGIMENS = [
   {
     id: 'paclitaxel', group: 'Agen tunggal', name: 'Paclitaxel (q3 minggu)',
     schedule: 'Tiap 3 minggu.',
-    drugs: [{ key: 'pac', name: 'Paclitaxel', kind: 'm2', dose: 175, min: 135, max: 175, hint: 'Interval 135–175 mg/m².', days: 'hari 1' }],
+    drugs: [{ key: 'pac', name: 'Paclitaxel', kind: 'm2', dose: 175, min: 135, max: 175, range: true, hint: 'Interval 135–175 mg/m².', days: 'hari 1' }],
   },
   {
     id: 'docetaxel', group: 'Agen tunggal', name: 'Docetaxel (q3 minggu)',
@@ -68,7 +68,7 @@ const REGIMENS = [
     id: 'tc', group: 'Kombinasi ovarium', name: 'Paclitaxel–Carboplatin (TC)',
     schedule: 'Hari 1, tiap 3 minggu × 6 siklus.',
     drugs: [
-      { key: 'pac', name: 'Paclitaxel', kind: 'm2', dose: 175, min: 135, max: 175, hint: 'Interval 135–175 mg/m².', days: 'hari 1' },
+      { key: 'pac', name: 'Paclitaxel', kind: 'm2', dose: 175, min: 135, max: 175, range: true, hint: 'Interval 135–175 mg/m².', days: 'hari 1' },
       { key: 'carbo', name: 'Carboplatin', kind: 'auc', dose: 5, min: 1, max: 7, step: 0.5, hint: 'AUC 5–6.', days: 'hari 1' },
     ],
   },
@@ -232,8 +232,16 @@ export default {
             ...(d.step != null ? { step: String(d.step) } : {}),
           },
         });
-        f.input.addEventListener('input', calc);
-        doseInputs.push({ drug: d, input: f.input });
+        let rangeChk = null;
+        if (d.range && d.kind === 'm2') {
+          rangeChk = h('input', { id: `cx-range-${d.key}`, type: 'checkbox', checked: true });
+          f.el.appendChild(h('label', { class: 'field--inline', for: `cx-range-${d.key}`, style: { marginTop: '6px' } },
+            rangeChk, h('span', {}, `Hitung sebagai rentang ${d.min}–${d.max} mg/m²`)));
+          rangeChk.addEventListener('change', calc);
+        }
+        // Mengetik nilai spesifik otomatis menonaktifkan mode rentang.
+        f.input.addEventListener('input', () => { if (rangeChk) rangeChk.checked = false; calc(); });
+        doseInputs.push({ drug: d, input: f.input, rangeChk });
         return f.el;
       });
       mount(doseWrap, fields.length
@@ -279,14 +287,20 @@ export default {
 
       const rows = [];
       const notes = [];
-      for (const { drug, input } of doseInputs) {
-        const v = num(input.value);
-        if (!(v > 0)) { result.hidden = true; return; }
+      for (const { drug, input, rangeChk } of doseInputs) {
         if (drug.kind === 'auc') {
+          const v = num(input.value);
+          if (!(v > 0)) { result.hidden = true; return; }
           const exact = v * (gfr + 25);
           const rounded = Math.round(exact / 10) * 10;
           rows.push({ name: drug.name, spec: `AUC ${v}`, total: `${rounded} mg`, days: drug.days || '—' });
+        } else if (rangeChk && rangeChk.checked) {
+          const lo = Math.round(drug.min * bsa);
+          const hi = Math.round(drug.max * bsa);
+          rows.push({ name: drug.name, spec: `${drug.min}–${drug.max} mg/m²`, total: `${lo}–${hi} mg`, days: drug.days || '—' });
         } else {
+          const v = num(input.value);
+          if (!(v > 0)) { result.hidden = true; return; }
           let total = v * bsa;
           let capApplied = false;
           if (drug.cap != null && total > drug.cap) { total = drug.cap; capApplied = true; }
