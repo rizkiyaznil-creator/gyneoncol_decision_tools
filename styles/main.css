@@ -126,6 +126,33 @@ a:hover { text-decoration: underline; }
 }
 .disclaimer-banner__close:hover { background: var(--amber-100); }
 
+/* ---------- Gerbang akses tenaga kesehatan ---------- */
+.pro-gate {
+  position: fixed; inset: 0; z-index: 200;
+  display: flex; padding: 24px; overflow-y: auto;
+  background: rgba(15, 23, 42, .6);
+  -webkit-backdrop-filter: blur(3px); backdrop-filter: blur(3px);
+}
+.pro-ack .pro-gate { display: none; }
+html:not(.pro-ack) body { overflow: hidden; }
+.pro-gate__card {
+  margin: auto; width: 100%; max-width: 480px; padding: 28px 26px;
+  background: var(--surface); border-radius: var(--radius);
+  border-top: 5px solid var(--teal-700); box-shadow: var(--shadow-lg);
+  text-align: center;
+}
+.pro-gate__mark { display: block; font-size: 2.3rem; margin-bottom: 8px; }
+.pro-gate__title { font-size: 1.35rem; font-weight: 800; color: var(--teal-800); margin: 0 0 12px; }
+.pro-gate__desc { font-size: .92rem; line-height: 1.6; color: var(--text); text-align: left; margin: 0 0 20px; }
+.pro-gate__actions { display: flex; flex-direction: column; gap: 10px; }
+.pro-gate__btn { width: 100%; justify-content: center; font-size: 1rem; }
+.pro-gate__link {
+  background: none; border: none; font: inherit; font-size: .9rem;
+  color: var(--teal-700); cursor: pointer; padding: 6px; text-decoration: underline;
+}
+.pro-gate__link:hover { color: var(--teal-800); }
+.pro-gate__fine { font-size: .78rem; color: var(--muted); margin: 16px 0 0; }
+
 /* ---------- Main ---------- */
 #content { padding-top: 28px; padding-bottom: 56px; min-height: 60vh; outline: none; }
 
@@ -314,7 +341,7 @@ body { display: flex; flex-direction: column; min-height: 100vh; }
 }
 
 @media print {
-  .app-header, .app-footer, .disclaimer-banner, .app-nav, .btn-row, .tabs, .back-link, .skip-link { display: none !important; }
+  .app-header, .app-footer, .disclaimer-banner, .pro-gate, .app-nav, .btn-row, .tabs, .back-link, .skip-link { display: none !important; }
   body { background: #fff; }
   .panel, .card, .result { box-shadow: none; border-color: #ccc; }
 }

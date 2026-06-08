@@ -63,4 +63,58 @@ window.addEventListener('hashchange', route);
   });
 })();
 
+// Gerbang akses tenaga kesehatan (atestasi sekali per perangkat, tanpa akun/verifikasi kredensial).
+(function initProGate() {
+  const gate = document.getElementById('pro-gate');
+  if (!gate) return;
+  const KEY = 'gynonco-pro-ack';
+  const PATIENT_SITE_URL = ''; // TODO: isi URL situs edukasi pasien bila sudah ada.
+
+  let acked = false;
+  try { acked = localStorage.getItem(KEY) === '1'; } catch { /* ignore */ }
+  if (acked) { document.documentElement.classList.add('pro-ack'); return; }
+
+  const mainCard = document.getElementById('pro-gate-main');
+  const declinedCard = document.getElementById('pro-gate-declined');
+  const accept = document.getElementById('pro-gate-accept');
+  const decline = document.getElementById('pro-gate-decline');
+  const back = document.getElementById('pro-gate-back');
+
+  if (PATIENT_SITE_URL) {
+    const span = document.getElementById('pro-gate-patient');
+    if (span) {
+      const link = document.createElement('a');
+      link.href = PATIENT_SITE_URL;
+      link.textContent = 'situs edukasi pasien kami';
+      span.append(' Atau kunjungi ', link, '.');
+    }
+  }
+
+  accept.addEventListener('click', () => {
+    try { localStorage.setItem(KEY, '1'); } catch { /* ignore */ }
+    document.documentElement.classList.add('pro-ack');
+    // Hindari notifikasi ganda: anggap disclaimer banner sudah dipahami.
+    try { localStorage.setItem('gynonco-disclaimer-dismissed', '1'); } catch { /* ignore */ }
+    const banner = document.getElementById('disclaimer-banner');
+    if (banner) banner.hidden = true;
+    content.focus({ preventScroll: true });
+  });
+
+  decline.addEventListener('click', () => { mainCard.hidden = true; declinedCard.hidden = false; back.focus(); });
+  back.addEventListener('click', () => { declinedCard.hidden = true; mainCard.hidden = false; accept.focus(); });
+
+  // Jaga fokus tetap di dalam gerbang (kunci scroll latar diatur via CSS).
+  gate.addEventListener('keydown', (e) => {
+    if (e.key !== 'Tab') return;
+    const card = mainCard.hidden ? declinedCard : mainCard;
+    const f = card.querySelectorAll('button, a[href]');
+    if (!f.length) return;
+    const first = f[0], last = f[f.length - 1];
+    if (e.shiftKey && document.activeElement === first) { e.preventDefault(); last.focus(); }
+    else if (!e.shiftKey && document.activeElement === last) { e.preventDefault(); first.focus(); }
+  });
+
+  accept.focus();
+})();
+
 route();

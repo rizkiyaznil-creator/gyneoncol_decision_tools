@@ -6,12 +6,46 @@
   <meta name="description" content="GynOnco Decision Tools — alat bantu keputusan klinis untuk ginekologi onkologi: stadium FIGO/WHO terkini, kalkulator dosis kemoterapi, dan algoritma terapi adjuvant." />
   <meta name="theme-color" content="#0f766e" />
   <title>GynOnco Decision Tools</title>
+  <script>
+    /* Pra-render: sembunyikan gerbang tenaga kesehatan tanpa flash bagi yang sudah masuk. */
+    try { if (localStorage.getItem('gynonco-pro-ack') === '1') document.documentElement.classList.add('pro-ack'); } catch (e) {}
+  </script>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="stylesheet" href="./styles/main.css" />
   <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%E2%9A%95%EF%B8%8F%3C/text%3E%3C/svg%3E" />
 </head>
 <body>
   <a class="skip-link" href="#content">Lewati ke konten</a>
+
+  <!-- Gerbang akses tenaga kesehatan (atestasi sekali per perangkat, tanpa akun). Disembunyikan via .pro-ack. -->
+  <div id="pro-gate" class="pro-gate" role="dialog" aria-modal="true" aria-labelledby="pro-gate-title">
+    <div class="pro-gate__card" id="pro-gate-main">
+      <span class="pro-gate__mark" aria-hidden="true">⚕️</span>
+      <h2 id="pro-gate-title" class="pro-gate__title">Khusus tenaga kesehatan</h2>
+      <p class="pro-gate__desc">
+        <strong>GynOnco Decision Tools</strong> adalah alat bantu keputusan klinis untuk dokter dan tenaga
+        kesehatan. Keluaran (misalnya dosis kemoterapi) <strong>wajib diverifikasi</strong> terhadap guideline
+        primer dan kondisi pasien, dan bukan pengganti penilaian klinis. Alat ini bukan untuk diagnosis atau
+        pengobatan mandiri oleh pasien.
+      </p>
+      <div class="pro-gate__actions">
+        <button type="button" id="pro-gate-accept" class="btn btn--primary pro-gate__btn">Saya tenaga kesehatan — Masuk</button>
+        <button type="button" id="pro-gate-decline" class="pro-gate__link">Saya bukan tenaga kesehatan</button>
+      </div>
+      <p class="pro-gate__fine">Dengan memilih “Masuk”, Anda menyatakan sebagai tenaga kesehatan dan memahami batasan di atas.</p>
+    </div>
+    <div class="pro-gate__card" id="pro-gate-declined" hidden>
+      <span class="pro-gate__mark" aria-hidden="true">ℹ️</span>
+      <h2 class="pro-gate__title">Informasi untuk pasien &amp; umum</h2>
+      <p class="pro-gate__desc">
+        Alat ini ditujukan untuk tenaga kesehatan dan dapat menyesatkan bila dipakai tanpa latar belakang
+        klinis. Untuk pertanyaan kesehatan, silakan berkonsultasi langsung dengan dokter Anda.<span id="pro-gate-patient"></span>
+      </p>
+      <div class="pro-gate__actions">
+        <button type="button" id="pro-gate-back" class="pro-gate__link">← Kembali</button>
+      </div>
+    </div>
+  </div>
 
   <header class="app-header">
     <div class="container app-header__inner">
