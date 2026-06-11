@@ -188,12 +188,108 @@ const REGIMENS = [
       { key: 'bev', name: 'Bevacizumab', kind: 'mgkg', dose: 15, min: 1, max: 15, step: 0.5, days: 'hari 1 (q3mgg)' },
     ],
   },
+
+  // ---- Serviks ----
+  {
+    id: 'cervix-cis-5fu', group: 'Serviks', name: 'Cisplatin–5-FU (kemoradiasi)',
+    schedule: 'Tiap 3–4 minggu selama radioterapi.',
+    note: 'Opsi kemoradiasi konkuren; cisplatin mingguan 40 mg/m² (lihat grup “Agen tunggal”) tetap paling lazim & kurang toksik. 5-FU sebagai infus kontinu hari 1–4.',
+    drugs: [
+      { key: 'cis', name: 'Cisplatin', kind: 'm2', dose: 75, days: 'hari 1' },
+      { key: 'fu', name: '5-Fluorourasil (infus kontinu)', kind: 'm2', dose: 1000, days: 'hari 1–4' },
+    ],
+  },
+  {
+    id: 'cervix-tp-bev', group: 'Serviks', name: 'Cisplatin–Paclitaxel ± Bevacizumab (GOG-240)',
+    schedule: 'Hari 1, tiap 3 minggu — penyakit persisten/rekuren/metastatik.',
+    note: 'GOG-240: penambahan bevacizumab memperbaiki OS. Hilangkan bevacizumab bila kontraindikasi (fistula, hipertensi tak terkontrol, riwayat tromboemboli/perforasi).',
+    drugs: [
+      { key: 'pac', name: 'Paclitaxel', kind: 'm2', dose: 175, min: 135, max: 175, range: true, hint: 'Interval 135–175 mg/m².', days: 'hari 1' },
+      { key: 'cis', name: 'Cisplatin', kind: 'm2', dose: 50, days: 'hari 1' },
+      { key: 'bev', name: 'Bevacizumab', kind: 'mgkg', dose: 15, min: 1, max: 15, step: 0.5, hint: '15 mg/kg (GOG-240).', days: 'hari 1' },
+    ],
+  },
+  {
+    id: 'cervix-carbo-pac-bev', group: 'Serviks', name: 'Carboplatin–Paclitaxel ± Bevacizumab (JCOG0505)',
+    schedule: 'Hari 1, tiap 3 minggu — penyakit persisten/rekuren/metastatik.',
+    note: 'Carboplatin–paclitaxel non-inferior terhadap cisplatin–paclitaxel (JCOG0505), terutama bila pasien sudah pernah cisplatin. Bevacizumab opsional (GOG-240).',
+    drugs: [
+      { key: 'pac', name: 'Paclitaxel', kind: 'm2', dose: 175, min: 135, max: 175, range: true, hint: 'Interval 135–175 mg/m².', days: 'hari 1' },
+      { key: 'carbo', name: 'Carboplatin', kind: 'auc', dose: 5, min: 1, max: 7, step: 0.5, hint: 'AUC 5.', days: 'hari 1' },
+      { key: 'bev', name: 'Bevacizumab', kind: 'mgkg', dose: 15, min: 1, max: 15, step: 0.5, hint: 'Opsional.', days: 'hari 1' },
+    ],
+  },
+  {
+    id: 'cervix-pembro', group: 'Serviks', name: 'Pembrolizumab + kemoterapi (KEYNOTE-826)',
+    schedule: 'Pembrolizumab + platinum–paclitaxel ± bevacizumab, tiap 3 minggu.',
+    note: 'KEYNOTE-826: persisten/rekuren/metastatik dengan PD-L1 CPS ≥ 1. Pembrolizumab 200 mg q3mgg atau 400 mg q6mgg; tulang punggung boleh cisplatin/carboplatin ± bevacizumab.',
+    drugs: [
+      { key: 'pembro', name: 'Pembrolizumab', kind: 'flat', dose: 200, unit: 'mg', freq: 'tiap 3 minggu', route: 'IV', days: 'hari 1', hint: '200 mg q3mgg atau 400 mg q6mgg.' },
+      { key: 'pac', name: 'Paclitaxel', kind: 'm2', dose: 175, min: 135, max: 175, range: true, hint: 'Interval 135–175 mg/m².', days: 'hari 1' },
+      { key: 'carbo', name: 'Carboplatin', kind: 'auc', dose: 5, min: 1, max: 7, step: 0.5, hint: 'AUC 5 (atau cisplatin 50 mg/m²).', days: 'hari 1' },
+      { key: 'bev', name: 'Bevacizumab', kind: 'mgkg', dose: 15, min: 1, max: 15, step: 0.5, hint: 'Opsional.', days: 'hari 1' },
+    ],
+  },
+
+  // ---- Trofoblas (GTN) ----
+  {
+    id: 'gtn-mtx-8day', group: 'Trofoblas (GTN)', name: 'Metotreksat–asam folinat 8 hari (risiko rendah)',
+    schedule: 'Siklus 14 hari: MTX hari 1, 3, 5, 7; asam folinat hari 2, 4, 6, 8.',
+    note: 'Lini pertama GTN risiko rendah (skor WHO/FIGO ≤ 6). Lanjutkan hingga ≥ 3× β-hCG normal berturut-turut. Tidak untuk PSTT/ETT.',
+    drugs: [
+      { key: 'mtx', name: 'Metotreksat', kind: 'mgkg', dose: 1, min: 0.1, max: 2, step: 0.1, hint: '1 mg/kg IM, hari 1, 3, 5, 7.', days: 'hari 1,3,5,7' },
+      { key: 'fol', name: 'Asam folinat (leucovorin)', kind: 'flat', dose: 15, unit: 'mg', freq: '1×/hari', route: 'PO/IM', days: 'hari 2,4,6,8', hint: '15 mg (atau 0,1 mg/kg), 24 jam setelah tiap dosis MTX.' },
+    ],
+  },
+  {
+    id: 'gtn-mtx-weekly', group: 'Trofoblas (GTN)', name: 'Metotreksat mingguan (risiko rendah)',
+    schedule: 'IM tiap minggu.',
+    note: 'Alternatif risiko rendah yang lebih sederhana; tingkat kegagalan/penggantian regimen lebih tinggi dibanding 8-hari. Eskalasi 30 → 50 mg/m² sesuai respons β-hCG.',
+    drugs: [
+      { key: 'mtx', name: 'Metotreksat', kind: 'm2', dose: 30, min: 30, max: 50, hint: '30–50 mg/m² IM mingguan.', days: 'mingguan' },
+    ],
+  },
+  {
+    id: 'gtn-actd-pulse', group: 'Trofoblas (GTN)', name: 'Aktinomisin-D pulsed (risiko rendah)',
+    schedule: 'IV tiap 2 minggu.',
+    note: 'Pilihan risiko rendah, khususnya bila MTX kontraindikasi (gangguan hepar/efusi) atau resistan. Regimen 5-hari (0,5 mg IV/hari × 5) adalah alternatif.',
+    drugs: [
+      { key: 'actd', name: 'Aktinomisin-D (daktinomisin)', kind: 'm2', dose: 1.25, cap: 2, capNote: 'Aktinomisin-D pulsed umumnya dibatasi 2 mg/pemberian', days: 'hari 1 (q2mgg)' },
+    ],
+  },
+  {
+    id: 'gtn-emaco', group: 'Trofoblas (GTN)', name: 'EMA-CO (risiko tinggi)',
+    schedule: 'Siklus 14 hari — EMA: hari 1–2; CO: hari 8. Ulang hari 15.',
+    note: 'Lini pertama GTN risiko tinggi (skor ≥ 7). Asam folinat dimulai 24 jam setelah awal MTX, 15 mg tiap 12 jam × 4 dosis. Lanjutkan ≥ 3 siklus setelah β-hCG normal. Tidak untuk PSTT/ETT.',
+    drugs: [
+      { key: 'etop', name: 'Etoposid', kind: 'm2', dose: 100, days: 'hari 1, 2' },
+      { key: 'actd', name: 'Aktinomisin-D', kind: 'flat', dose: 0.5, unit: 'mg', route: 'IV bolus', days: 'hari 1, 2', hint: '0,5 mg IV bolus.' },
+      { key: 'mtxb', name: 'Metotreksat (bolus)', kind: 'm2', dose: 100, days: 'hari 1' },
+      { key: 'mtxi', name: 'Metotreksat (infus 12 jam)', kind: 'm2', dose: 200, days: 'hari 1' },
+      { key: 'fol', name: 'Asam folinat (leucovorin)', kind: 'flat', dose: 15, unit: 'mg', freq: 'tiap 12 jam × 4', route: 'PO/IM', days: 'mulai hari 2', hint: 'Mulai 24 jam setelah awal MTX.' },
+      { key: 'cyclo', name: 'Siklofosfamid', kind: 'm2', dose: 600, days: 'hari 8' },
+      { key: 'vcr', name: 'Vinkristin', kind: 'm2', dose: 0.8, cap: 2, capNote: 'Vinkristin umumnya dibatasi 2 mg/pemberian', days: 'hari 8' },
+    ],
+  },
+  {
+    id: 'gtn-emaep', group: 'Trofoblas (GTN)', name: 'EMA-EP (salvage)',
+    schedule: 'Selang-seling mingguan — EMA (hari 1) & EP (hari 8).',
+    note: 'Salvage GTN risiko tinggi yang resistan EMA-CO atau ultra-risiko-tinggi; EP menggantikan CO. Dosis antarprotokol bervariasi (mis. etoposid EP 100–150 mg/m²) — verifikasi dengan protokol institusi.',
+    drugs: [
+      { key: 'etopa', name: 'Etoposid (EMA)', kind: 'm2', dose: 100, days: 'hari 1' },
+      { key: 'actd', name: 'Aktinomisin-D', kind: 'flat', dose: 0.5, unit: 'mg', route: 'IV bolus', days: 'hari 1', hint: '0,5 mg IV bolus.' },
+      { key: 'mtxi', name: 'Metotreksat (infus 12 jam)', kind: 'm2', dose: 300, days: 'hari 1' },
+      { key: 'fol', name: 'Asam folinat (leucovorin)', kind: 'flat', dose: 15, unit: 'mg', freq: 'tiap 12 jam × 4', route: 'PO/IM', days: 'mulai hari 2', hint: 'Mulai 24 jam setelah awal MTX.' },
+      { key: 'etopp', name: 'Etoposid (EP)', kind: 'm2', dose: 100, min: 100, max: 150, hint: '100–150 mg/m² antarprotokol.', days: 'hari 8' },
+      { key: 'cis', name: 'Cisplatin (EP)', kind: 'm2', dose: 75, days: 'hari 8' },
+    ],
+  },
 ];
 
 export default {
   id: 'chemo-dosing',
   name: 'Protokol & Dosis Kemoterapi',
-  short: 'Hitung BSA, carboplatin (Calvert/AUC), dosis m²/mg-kg, terapi target (bevacizumab, PARP, MEK, endokrin, anti-PD-1), dan regimen kombinasi ginekologi onkologi.',
+  short: 'Hitung BSA, carboplatin (Calvert/AUC), dosis m²/mg-kg, terapi target (bevacizumab, PARP, MEK, endokrin, anti-PD-1), serta regimen kombinasi ginekologi onkologi — termasuk serviks (GOG-240/JCOG0505/KEYNOTE-826) dan trofoblas/GTN (EMA-CO, EMA-EP, metotreksat–folinat).',
   category: 'Dosis kemoterapi',
   scope: 'Umum (lintas-kanker)',
   render(container) {

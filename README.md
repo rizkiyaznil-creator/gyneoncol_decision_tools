@@ -89,7 +89,7 @@ FIGO · NCCN · ESGO/ESMO/ESTRO/ESP · WHO Classification of Tumours (Female Gen
 ## 🛣️ Rencana pengembangan
 
 - Algoritma adjuvant untuk serviks (kriteria Sedlis/Peters), vulva, dan sarkoma.
-- Kalkulator regimen tambahan (mis. AUC paklitaksel, dosis EMA-CO).
+- ~~Regimen serviks (GOG-240/JCOG0505/KEYNOTE-826) & GTN (EMA-CO/EMA-EP, metotreksat–folinat)~~ → sudah ditambahkan ke kalkulator dosis. Berikutnya: AUC paklitaksel & dosis berbasis berat ideal/disesuaikan.
 - Mode dwibahasa & ekspor ringkasan keputusan (PDF/print).
 - Penautan referensi (DOI/PubMed) langsung di tiap pernyataan.
 

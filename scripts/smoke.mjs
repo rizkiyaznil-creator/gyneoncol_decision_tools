@@ -55,7 +55,19 @@ for (const t of tools) {
     const box = fresh();
     t.render(box);
     exercise(box);
-    ok(`${t.id}`);
+    // Kalkulator dosis: render & uji tiap regimen pada pemilih (menangkap error per-regimen).
+    const regimenSel = box.querySelector('#cx-regimen');
+    if (regimenSel) {
+      const opts = [...regimenSel.options];
+      for (const opt of opts) {
+        regimenSel.value = opt.value;
+        regimenSel.dispatchEvent(new dom.window.Event('change', { bubbles: true }));
+        exercise(box);
+      }
+      ok(`${t.id} (${opts.length} regimen)`);
+    } else {
+      ok(`${t.id}`);
+    }
   } catch (e) { fail(t.id, e); }
 }
 
