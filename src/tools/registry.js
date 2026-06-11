@@ -5,6 +5,7 @@ import chemoDosing from './chemoDosing.js';
 import ovarianAdjuvant from './ovarianAdjuvant.js';
 import cervicalAdjuvant from './cervicalAdjuvant.js';
 import vulvarAdjuvant from './vulvarAdjuvant.js';
+import uterineSarcomaAdjuvant from './uterineSarcomaAdjuvant.js';
 import endometrialMolecular from './endometrialMolecular.js';
 import gtnScore from './gtnScore.js';
 
@@ -13,6 +14,7 @@ export const tools = [
   ovarianAdjuvant,
   cervicalAdjuvant,
   vulvarAdjuvant,
+  uterineSarcomaAdjuvant,
   endometrialMolecular,
   gtnScore,
 ];

@@ -24,6 +24,7 @@
   | Algoritma adjuvant ovarium | Saran terapi berdasar stadium/histologi/BRCA-HRD |
   | Algoritma adjuvant serviks | Kriteria Peters (kemoradiasi) & Sedlis (radioterapi pelvis) pasca-histerektomi radikal |
   | Algoritma adjuvant vulva | Manajemen SLN (GROINSS-V II) & indikasi RT inguinopelvis (GOG-37) + lesi primer/margin |
+  | Algoritma adjuvant sarkoma uteri | Per subtipe (LMS, LG-ESS, HG-ESS/UUS, adenosarkoma); karsinosarkoma → jalur endometrium |
   | Kelas molekuler & risiko endometrium | Kerangka ESGO/ESMO/ESTRO/ESP 2020 |
   | Skor prognostik GTN (WHO/FIGO) | Risiko rendah vs tinggi → pemilihan regimen |
 
@@ -90,7 +91,7 @@ FIGO · NCCN · ESGO/ESMO/ESTRO/ESP · WHO Classification of Tumours (Female Gen
 
 ## 🛣️ Rencana pengembangan
 
-- ~~Algoritma adjuvant untuk serviks (Sedlis/Peters) & vulva (GROINSS-V II/GOG-37)~~ → selesai. Berikutnya: algoritma adjuvant sarkoma uteri.
+- ~~Algoritma adjuvant untuk serviks (Sedlis/Peters), vulva (GROINSS-V II/GOG-37), & sarkoma uteri~~ → selesai (Fase 1). Berikutnya: asisten staging FIGO interaktif (endometrium 2023 & serviks 2018).
 - ~~Regimen serviks (GOG-240/JCOG0505/KEYNOTE-826) & GTN (EMA-CO/EMA-EP, metotreksat–folinat)~~ → sudah ditambahkan ke kalkulator dosis. Berikutnya: AUC paklitaksel & dosis berbasis berat ideal/disesuaikan.
 - Mode dwibahasa & ekspor ringkasan keputusan (PDF/print).
 - Penautan referensi (DOI/PubMed) langsung di tiap pernyataan.
