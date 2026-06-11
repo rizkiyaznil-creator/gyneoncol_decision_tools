@@ -284,12 +284,68 @@ const REGIMENS = [
       { key: 'cis', name: 'Cisplatin (EP)', kind: 'm2', dose: 75, days: 'hari 8' },
     ],
   },
+
+  // ---- Melanoma (mukosa vulvovaginal) ----
+  {
+    id: 'nivolumab', group: 'Melanoma', name: 'Nivolumab (anti–PD-1)',
+    schedule: 'IV tiap 2 minggu (240 mg) atau tiap 4 minggu (480 mg).',
+    note: 'Imunoterapi tulang punggung — adjuvan (CheckMate-238) & lanjut/metastatik. Dosis flat (alternatif historis 3 mg/kg q2mgg).',
+    drugs: [{ key: 'nivo', name: 'Nivolumab', kind: 'flat', dose: 240, unit: 'mg', freq: 'tiap 2 minggu', route: 'IV', days: 'q2mgg', hint: '240 mg q2mgg atau 480 mg q4mgg.' }],
+  },
+  {
+    id: 'pembrolizumab-mel', group: 'Melanoma', name: 'Pembrolizumab (anti–PD-1)',
+    schedule: 'IV tiap 3 minggu (200 mg) atau tiap 6 minggu (400 mg).',
+    note: 'Imunoterapi tulang punggung — adjuvan (KEYNOTE-054) & lanjut/metastatik.',
+    drugs: [{ key: 'pembro', name: 'Pembrolizumab', kind: 'flat', dose: 200, unit: 'mg', freq: 'tiap 3 minggu', route: 'IV', days: 'q3mgg', hint: '200 mg q3mgg atau 400 mg q6mgg.' }],
+  },
+  {
+    id: 'nivo-ipi', group: 'Melanoma', name: 'Nivolumab + Ipilimumab (induksi)',
+    schedule: 'IV tiap 3 minggu × 4 dosis, lalu nivolumab rumatan (240 mg q2mgg / 480 mg q4mgg).',
+    note: 'Metastatik — respons lebih tinggi, toksisitas imun lebih besar (CheckMate-067). Respons melanoma mukosa umumnya lebih rendah dari kutaneus.',
+    drugs: [
+      { key: 'nivo', name: 'Nivolumab', kind: 'mgkg', dose: 1, min: 0.5, max: 3, step: 0.5, hint: '1 mg/kg (induksi kombinasi).', days: 'hari 1 (q3mgg ×4)' },
+      { key: 'ipi', name: 'Ipilimumab', kind: 'mgkg', dose: 3, min: 1, max: 10, step: 0.5, hint: '3 mg/kg (induksi).', days: 'hari 1 (q3mgg ×4)' },
+    ],
+  },
+  {
+    id: 'ipilimumab', group: 'Melanoma', name: 'Ipilimumab (anti–CTLA-4, monoterapi)',
+    schedule: 'IV tiap 3 minggu × 4 dosis.',
+    note: 'Pilihan bila anti–PD-1 tidak sesuai. Dosis adjuvan historis 10 mg/kg lebih toksik dan kini jarang dipakai.',
+    drugs: [{ key: 'ipi', name: 'Ipilimumab', kind: 'mgkg', dose: 3, min: 1, max: 10, step: 0.5, hint: '3 mg/kg q3mgg ×4.', days: 'hari 1 (q3mgg ×4)' }],
+  },
+  {
+    id: 'dab-tram', group: 'Melanoma', name: 'Dabrafenib + Trametinib (BRAF/MEK)',
+    schedule: 'Oral kontinu.',
+    note: 'HANYA untuk BRAF V600-mutan (COMBI-d/v). BRAF non-V600 — sering pada melanoma vulvovaginal — tidak responsif. Pantau demam, ruam, penurunan fraksi ejeksi.',
+    drugs: [
+      { key: 'dab', name: 'Dabrafenib', kind: 'flat', dose: 150, unit: 'mg', freq: '2×/hari', route: 'PO', days: 'kontinu', hint: '150 mg 2×/hari.' },
+      { key: 'tram', name: 'Trametinib', kind: 'flat', dose: 2, unit: 'mg', freq: '1×/hari', route: 'PO', days: 'kontinu', hint: '2 mg 1×/hari.' },
+    ],
+  },
+  {
+    id: 'imatinib', group: 'Melanoma', name: 'Imatinib (inhibitor KIT)',
+    schedule: 'Oral 1×/hari kontinu.',
+    note: 'Untuk melanoma KIT-mutan (VVM ~22%). Dapat dieskalasi (mis. 400 mg 2×/hari) sesuai respons & toleransi.',
+    drugs: [{ key: 'ima', name: 'Imatinib', kind: 'flat', dose: 400, unit: 'mg', freq: '1×/hari', route: 'PO', days: 'kontinu', hint: '400 mg 1×/hari (eskalasi hingga 400 mg 2×/hari).' }],
+  },
+  {
+    id: 'dacarbazine', group: 'Melanoma', name: 'Dakarbazin (DTIC)',
+    schedule: 'Tiap 3 minggu.',
+    note: 'Kemoterapi paliatif bila imunoterapi/terapi target tidak tersedia atau gagal; tingkat respons rendah.',
+    drugs: [{ key: 'dtic', name: 'Dakarbazin', kind: 'm2', dose: 1000, min: 850, max: 1000, hint: '850–1000 mg/m² q3mgg.', days: 'hari 1' }],
+  },
+  {
+    id: 'temozolomide', group: 'Melanoma', name: 'Temozolomid',
+    schedule: 'Hari 1–5, tiap 4 minggu.',
+    note: 'Alternatif oral terhadap dakarbazin (paliatif). Penetrasi SSP lebih baik.',
+    drugs: [{ key: 'tmz', name: 'Temozolomid', kind: 'm2', dose: 200, min: 150, max: 200, hint: '150–200 mg/m²/hari, hari 1–5.', days: 'hari 1–5' }],
+  },
 ];
 
 export default {
   id: 'chemo-dosing',
   name: 'Protokol & Dosis Kemoterapi',
-  short: 'Hitung BSA, carboplatin (Calvert/AUC), dosis m²/mg-kg, terapi target (bevacizumab, PARP, MEK, endokrin, anti-PD-1), serta regimen kombinasi ginekologi onkologi — termasuk serviks (GOG-240/JCOG0505/KEYNOTE-826) dan trofoblas/GTN (EMA-CO, EMA-EP, metotreksat–folinat).',
+  short: 'Hitung BSA, carboplatin (Calvert/AUC), dosis m²/mg-kg, terapi target & imunoterapi, serta regimen kombinasi ginekologi onkologi — termasuk serviks (GOG-240/JCOG0505/KEYNOTE-826), trofoblas/GTN (EMA-CO, EMA-EP, metotreksat–folinat), dan melanoma (nivolumab, nivo+ipi, dabrafenib+trametinib, imatinib).',
   category: 'Dosis kemoterapi',
   scope: 'Umum (lintas-kanker)',
   render(container) {
