@@ -120,3 +120,32 @@ window.addEventListener('hashchange', route);
 })();
 
 route();
+
+// Analytics kunjungan (GoatCounter) — privacy-first, cookieless, tanpa consent banner.
+// Hanya mengirim path rute (mis. /c/endometrium/alat/endometrial-staging) & referrer — TIDAK ada data pasien.
+// Aktifkan dengan mengisi kode situs GoatCounter Anda (mis. 'gynonco' → gynonco.goatcounter.com).
+const GOATCOUNTER_CODE = ''; // TODO: isi kode GoatCounter untuk mengaktifkan analytics.
+(function initAnalytics() {
+  if (!GOATCOUNTER_CODE) return;
+  // no_onload: hitung manual agar setiap rute hash (SPA) tercatat konsisten.
+  window.goatcounter = { no_onload: true };
+  const s = document.createElement('script');
+  s.async = true;
+  s.src = '//gc.zgo.at/count.js';
+  s.setAttribute('data-goatcounter', `https://${GOATCOUNTER_CODE}.goatcounter.com/count`);
+  document.head.appendChild(s);
+
+  const countView = () => {
+    const gc = window.goatcounter;
+    if (gc && typeof gc.count === 'function') {
+      gc.count({ path: location.hash.replace(/^#/, '') || '/' });
+    }
+  };
+  window.addEventListener('hashchange', countView);
+  // Hitung kunjungan awal setelah count.js siap (poll hingga ~5 dtk).
+  let tries = 25;
+  (function ready() {
+    if (window.goatcounter && typeof window.goatcounter.count === 'function') countView();
+    else if (tries-- > 0) setTimeout(ready, 200);
+  })();
+})();
