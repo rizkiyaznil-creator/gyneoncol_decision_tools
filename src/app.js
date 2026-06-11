@@ -124,7 +124,7 @@ route();
 // Analytics kunjungan (GoatCounter) — privacy-first, cookieless, tanpa consent banner.
 // Hanya mengirim path rute (mis. /c/endometrium/alat/endometrial-staging) & referrer — TIDAK ada data pasien.
 // Aktifkan dengan mengisi kode situs GoatCounter Anda (mis. 'gynonco' → gynonco.goatcounter.com).
-const GOATCOUNTER_CODE = ''; // TODO: isi kode GoatCounter untuk mengaktifkan analytics.
+const GOATCOUNTER_CODE = 'rizkiyaznil'; // Kode situs GoatCounter (rizkiyaznil.goatcounter.com).
 (function initAnalytics() {
   if (!GOATCOUNTER_CODE) return;
   // no_onload: hitung manual agar setiap rute hash (SPA) tercatat konsisten.

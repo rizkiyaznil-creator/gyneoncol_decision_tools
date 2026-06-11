@@ -43,7 +43,8 @@ export function renderAbout(root) {
 
     h('div', { class: 'panel' },
       h('h2', {}, 'Privasi & data'),
-      h('p', {}, 'Aplikasi berjalan sepenuhnya di peramban Anda. Tidak ada data pasien yang dikirim ke server atau disimpan, kecuali preferensi tampilan sederhana (mis. status banner) di perangkat Anda.')
+      h('p', {}, 'Aplikasi berjalan sepenuhnya di peramban Anda. Tidak ada data pasien yang dikirim ke server atau disimpan, kecuali preferensi tampilan sederhana (mis. status banner) di perangkat Anda.'),
+      h('p', {}, 'Untuk mengukur jumlah kunjungan, aplikasi memakai analytics yang menghormati privasi (GoatCounter): tanpa cookie, tanpa pelacakan lintas-situs, tanpa menyimpan alamat IP atau identitas, dan tanpa banner persetujuan. Hanya path rute (mis. /c/endometrium) dan sumber rujukan yang dicatat — tidak pernah masukan formulir atau data pasien.')
     ),
 
     h('div', { class: 'panel' },
