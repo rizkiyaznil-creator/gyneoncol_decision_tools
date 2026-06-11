@@ -70,6 +70,54 @@ export default {
     note:
       'Uji BRCA1/2 (germline & somatik) dan status HRD direkomendasikan untuk karsinoma epitelial non-musinosa guna memandu terapi rumatan (PARP inhibitor) sesuai NCCN/ESGO.',
   },
+  systemicTherapy: {
+    intro: 'Untuk karsinoma epitelial ovarium/tuba/peritoneum. Tumor non-epitelial (germ cell, sex-cord stromal) memakai regimen berbeda (mis. BEP).',
+    categories: [
+      {
+        label: 'Kemoterapi lini pertama',
+        rows: [
+          { regimen: 'Karboplatin–paklitaksel (TC) q3mgg ×6', indikasi: 'Tulang punggung lini-1 stadium lanjut & adjuvant dini', bukti: 'GOG-111/GOG-158' },
+          { regimen: 'Dose-dense TC (paklitaksel mingguan)', indikasi: 'Alternatif; manfaat OS terutama populasi Asia', bukti: 'JGOG-3016 (ICON8 tidak konfirmasi)' },
+          { regimen: 'TC + bevacizumab → rumatan', indikasi: 'Risiko tinggi: stadium IV, residual, stadium III suboptimal', bukti: 'GOG-218 / ICON7' },
+          { regimen: 'Karboplatin–PLD', indikasi: 'Alternatif (neuropati/alopesia jadi pertimbangan)', bukti: 'MITO-2' },
+        ],
+      },
+      {
+        label: 'Terapi rumatan (target)',
+        note: 'Diberikan setelah respons (CR/PR) terhadap platinum. Uji BRCA1/2 + HRD memandu pilihan.',
+        rows: [
+          { regimen: 'Olaparib (PARP) 2 tahun', indikasi: 'BRCA1/2 mutasi', bukti: 'SOLO-1 (PFS & OS)' },
+          { regimen: 'Olaparib + bevacizumab', indikasi: 'HRD-positif (termasuk BRCAm) + bevacizumab', bukti: 'PAOLA-1' },
+          { regimen: 'Niraparib', indikasi: 'Semua status biomarker (manfaat terbesar HRD+); tanpa bevacizumab', bukti: 'PRIMA / NOVA' },
+          { regimen: 'Rukaparib', indikasi: 'Monoterapi rumatan', bukti: 'ATHENA-MONO' },
+          { regimen: 'Bevacizumab', indikasi: 'Rumatan anti-VEGF (HR-proficient atau lanjutan front-line)', bukti: 'GOG-218 / ICON7' },
+        ],
+      },
+      {
+        label: 'Imunoterapi',
+        rows: [
+          { regimen: 'Pembrolizumab (anti–PD-1)', indikasi: 'Hanya bila dMMR/MSI-H atau TMB-tinggi (agnostik tumor)', bukti: 'KEYNOTE-158' },
+          { regimen: 'Checkpoint inhibitor lini-1 rutin', indikasi: 'TIDAK direkomendasikan (negatif)', bukti: 'IMagyn050, JAVELIN-100' },
+        ],
+      },
+      {
+        label: 'Terapi hormonal',
+        rows: [
+          { regimen: 'Inhibitor aromatase (letrozol/anastrozol)', indikasi: 'LGSC & endometrioid ER/PR-positif; rumatan/rekuren indolen', bukti: 'NCCN; seri retrospektif' },
+          { regimen: 'Tamoxifen', indikasi: 'Rekuren indolen ER/PR-positif', bukti: 'Seri/fase II' },
+        ],
+      },
+      {
+        label: 'Lini berikutnya (rekuren)',
+        rows: [
+          { regimen: 'Ulang platinum doublet ± bevacizumab', indikasi: 'Platinum-sensitif (interval bebas-platinum ≥ 6 bln)', bukti: 'CALYPSO, OCEANS, GOG-213' },
+          { regimen: 'Agen tunggal (PLD, paklitaksel mingguan, topotecan, gemsitabin) ± bevacizumab', indikasi: 'Platinum-resistan', bukti: 'AURELIA' },
+          { regimen: 'Mirvetuximab soravtansine (ADC, FRα)', indikasi: 'FRα-tinggi, platinum-resistan', bukti: 'MIRASOL / SORAYA' },
+          { regimen: 'Trametinib (MEK)', indikasi: 'LGSC rekuren', bukti: 'GOG-281 / LOGS' },
+        ],
+      },
+    ],
+  },
   tools: ['chemo-dosing', 'ovarian-adjuvant'],
   references: [
     'Prat J; FIGO Committee on Gynecologic Oncology. Staging classification for cancer of the ovary, fallopian tube, and peritoneum. Int J Gynaecol Obstet. 2014;124(1):1-5.',

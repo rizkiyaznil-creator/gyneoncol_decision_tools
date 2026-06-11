@@ -22,6 +22,12 @@ export function renderToolPage(root, { cancer, tool }) {
       )
     ),
     h('p', { class: 'muted', style: { maxWidth: '70ch' } }, tool.short),
+    cancer && cancer.systemicTherapy
+      ? h('p', { class: 'muted', style: { margin: '0 0 4px', fontSize: '.9rem' } },
+          '💊 ',
+          h('a', { href: route('c', cancer.id, 'tab', 'therapy'), style: { color: accent, fontWeight: '600' } },
+            `Pilihan terapi sistemik ${cancer.shortName} (lini-1/2, target, imuno, hormonal) →`))
+      : null,
     toolBody,
     h('p', {}, h('a', { class: 'back-link', href: cancer ? route('c', cancer.id) : '#/alat' },
       '← Kembali ke ', cancer ? cancer.shortName : 'daftar alat'))

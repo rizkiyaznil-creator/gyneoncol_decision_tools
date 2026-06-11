@@ -27,6 +27,8 @@ function route() {
     else if (seg[2] === 'alat' && seg[3]) {
       const tool = getTool(seg[3]);
       tool ? renderToolPage(content, { cancer, tool }) : renderNotFound(content);
+    } else if (seg[2] === 'tab' && seg[3]) {
+      renderCancerPage(content, cancer, seg[3]);
     } else {
       renderCancerPage(content, cancer);
     }

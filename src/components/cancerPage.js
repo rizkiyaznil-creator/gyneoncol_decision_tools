@@ -1,6 +1,6 @@
 import { h, mount, route } from '../utils/dom.js';
 import { getTool } from '../tools/registry.js';
-import { crumbs, iconBox, renderStaging, renderHistology, referencesList, tabStrip } from './common.js';
+import { crumbs, iconBox, renderStaging, renderHistology, referencesList, renderSystemicTherapy, tabStrip } from './common.js';
 
 function toolCard(cancer, tool) {
   return h('a', { class: 'card', href: route('c', cancer.id, 'alat', tool.id), style: { '--accent': cancer.accent } },
@@ -45,7 +45,7 @@ function toolsTab(cancer) {
   );
 }
 
-export function renderCancerPage(root, cancer) {
+export function renderCancerPage(root, cancer, initialTab) {
   mount(root,
     crumbs([{ label: 'Beranda', href: '#/' }, { label: cancer.shortName }]),
     h('div', { class: 'page-head' },
@@ -59,8 +59,11 @@ export function renderCancerPage(root, cancer) {
     tabStrip([
       { id: 'staging', label: 'Stadium FIGO/WHO', render: () => stagingTab(cancer) },
       { id: 'histo', label: 'Histologi & Catatan', render: () => h('div', { class: 'panel' }, renderHistology(cancer.histology)) },
+      cancer.systemicTherapy
+        ? { id: 'therapy', label: 'Terapi Sistemik', render: () => h('div', { class: 'panel' }, renderSystemicTherapy(cancer.systemicTherapy)) }
+        : null,
       { id: 'tools', label: 'Alat Bantu Keputusan', render: () => toolsTab(cancer) },
       { id: 'refs', label: 'Referensi', render: () => h('div', { class: 'panel' }, h('h2', {}, 'Referensi'), referencesList(cancer.references)) },
-    ])
+    ].filter(Boolean), initialTab)
   );
 }

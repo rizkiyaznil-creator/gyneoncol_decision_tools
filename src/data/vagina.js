@@ -35,6 +35,29 @@ export default {
       ['Tata laksana', 'Mayoritas dengan radioterapi/kemoradiasi berbasis cisplatin; bedah pada kasus terpilih (lesi kecil sepertiga atas).'],
     ],
   },
+  systemicTherapy: {
+    intro: 'Kanker vagina primer sangat langka; bukti sistemik diekstrapolasi dari serviks. Tata laksana utama radioterapi/kemoradiasi.',
+    categories: [
+      {
+        label: 'Kemoradiasi',
+        rows: [
+          { regimen: 'Cisplatin mingguan konkuren RT', indikasi: 'Standar untuk penyakit lokal lanjut (ekstrapolasi serviks)', bukti: 'Seri retrospektif besar' },
+        ],
+      },
+      {
+        label: 'Sistemik (metastatik)',
+        rows: [
+          { regimen: 'Cisplatin/karboplatin–paklitaksel ± bevacizumab', indikasi: 'Penyakit metastatik/rekuren (pola serviks)', bukti: 'Ekstrapolasi GOG-240' },
+        ],
+      },
+      {
+        label: 'Imunoterapi',
+        rows: [
+          { regimen: 'Pembrolizumab (anti–PD-1)', indikasi: 'PD-L1-positif atau dMMR/MSI-H/TMB-tinggi (agnostik)', bukti: 'KEYNOTE-158 (agnostik)' },
+        ],
+      },
+    ],
+  },
   tools: ['chemo-dosing'],
   references: [
     'FIGO Committee on Gynecologic Oncology. Current FIGO staging for cancer of the vagina, fallopian tube, ovary, and gestational trophoblastic neoplasia. Int J Gynaecol Obstet. 2009;105(1):3-4.',

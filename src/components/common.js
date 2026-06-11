@@ -78,8 +78,35 @@ export function referencesList(refs) {
   return h('div', { class: 'refs' }, h('ol', {}, ...refs.map((r) => h('li', {}, r))));
 }
 
-/** Simple tab strip. tabDefs: [{id,label,render:()=>Node}]. */
-export function tabStrip(tabDefs) {
+/** Evidence-based systemic therapy options, grouped by line/modality. */
+export function renderSystemicTherapy(st) {
+  if (!st) return h('p', { class: 'muted' }, 'Belum tersedia untuk modul ini.');
+  return h('div', {},
+    h('h2', { style: { marginTop: '0' } }, 'Pilihan terapi sistemik'),
+    st.intro ? h('div', { class: 'note' }, st.intro) : null,
+    ...st.categories.map((cat) =>
+      h('div', { style: { marginTop: '20px' } },
+        h('h3', { style: { margin: '0 0 6px' } }, cat.label),
+        cat.note ? h('p', { class: 'muted', style: { margin: '0 0 8px', fontSize: '.86rem' } }, cat.note) : null,
+        h('div', { class: 'table-scroll' },
+          h('table', { class: 'data-table' },
+            h('thead', {}, h('tr', {},
+              h('th', { style: { width: '30%' } }, 'Regimen / agen'),
+              h('th', {}, 'Indikasi & lini'),
+              h('th', { style: { width: '26%' } }, 'Dasar bukti'))),
+            h('tbody', {}, ...cat.rows.map((r) =>
+              h('tr', {},
+                h('td', {}, h('strong', {}, r.regimen)),
+                h('td', {}, r.indikasi),
+                h('td', { class: 'muted' }, r.bukti)))))))),
+    h('div', { class: 'note note--warn', style: { marginTop: '20px' } },
+      h('strong', {}, '⚠️ '),
+      'Daftar opsi berbasis bukti yang disederhanakan — bukan urutan wajib. Pemilihan bergantung pada biomarker (BRCA/HRD, dMMR/MSI-H, PD-L1, HER2, ER/PR), lini terapi, toksisitas, akses obat, komorbiditas, dan diskusi tumor board. Verifikasi terhadap guideline terbaru (NCCN/ESGO) dan label obat. Dosis tersedia di alat “Protokol & Dosis Kemoterapi”.')
+  );
+}
+
+/** Simple tab strip. tabDefs: [{id,label,render:()=>Node}]. initialId selects a starting tab. */
+export function tabStrip(tabDefs, initialId) {
   const panel = h('div', {});
   const buttons = [];
   function select(id) {
@@ -94,7 +121,7 @@ export function tabStrip(tabDefs) {
     })
   );
   const root = h('div', {}, bar, panel);
-  select(tabDefs[0].id);
+  select(tabDefs.some((t) => t.id === initialId) ? initialId : tabDefs[0].id);
   return root;
 }
 

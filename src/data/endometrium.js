@@ -121,6 +121,51 @@ export default {
     note:
       'Algoritma adjuvant ESGO/ESMO/ESTRO/ESP 2020 mengelompokkan risiko dengan menggabungkan stadium, derajat, histologi, LVSI, dan kelas molekuler. Lihat alat “Kelas Molekuler & Kelompok Risiko”.',
   },
+  systemicTherapy: {
+    intro: 'Untuk penyakit lanjut, metastatik, atau rekuren. Uji dMMR/MSI-H (dan HER2 pada serosa) wajib karena menentukan pilihan imunoterapi & target.',
+    categories: [
+      {
+        label: 'Kemoterapi lini pertama',
+        rows: [
+          { regimen: 'Karboplatin–paklitaksel', indikasi: 'Tulang punggung lanjut/rekuren & adjuvant', bukti: 'GOG-209 (non-inferior thd TAP)' },
+          { regimen: 'Kemoradiasi (sekuensial/sandwich)', indikasi: 'Risiko tinggi stadium III & histologi agresif/serosa', bukti: 'PORTEC-3, GOG-258' },
+        ],
+      },
+      {
+        label: 'Imunoterapi (lini pertama & rekuren)',
+        note: 'Penambahan checkpoint inhibitor ke kemoterapi lini-1 kini standar baru, terutama pada dMMR.',
+        rows: [
+          { regimen: 'Pembrolizumab + karbo–paklitaksel → rumatan', indikasi: 'Lanjut/rekuren; manfaat pada dMMR & pMMR', bukti: 'NRG-GY018' },
+          { regimen: 'Dostarlimab + karbo–paklitaksel → rumatan', indikasi: 'Lanjut/rekuren; manfaat besar pada dMMR', bukti: 'RUBY' },
+          { regimen: 'Pembrolizumab monoterapi', indikasi: 'dMMR/MSI-H rekuren pasca-platinum', bukti: 'KEYNOTE-158' },
+          { regimen: 'Dostarlimab monoterapi', indikasi: 'dMMR rekuren', bukti: 'GARNET' },
+        ],
+      },
+      {
+        label: 'Terapi target',
+        rows: [
+          { regimen: 'Pembrolizumab + lenvatinib', indikasi: 'Rekuren pasca-platinum, terutama pMMR/MMR-proficient', bukti: 'KEYNOTE-775 (OS & PFS)' },
+          { regimen: 'Trastuzumab + karbo–paklitaksel', indikasi: 'Karsinoma serosa uterus HER2-positif', bukti: 'Fader dkk. (fase II)' },
+        ],
+      },
+      {
+        label: 'Terapi hormonal',
+        note: 'Untuk endometrioid derajat rendah, ER/PR-positif, dan/atau penyakit indolen.',
+        rows: [
+          { regimen: 'Progestin (megestrol/MPA) ± tamoxifen bergantian', indikasi: 'Endometrioid derajat rendah ER/PR-positif', bukti: 'GOG-119/153' },
+          { regimen: 'Inhibitor aromatase (letrozol)', indikasi: 'ER/PR-positif', bukti: 'Seri/fase II' },
+          { regimen: 'Letrozol + everolimus, atau + CDK4/6 inhibitor', indikasi: 'ER/PR-positif (berkembang)', bukti: 'Fase II (mis. ribociclib)' },
+        ],
+      },
+      {
+        label: 'Lini berikutnya',
+        rows: [
+          { regimen: 'Pembrolizumab + lenvatinib (bila belum IO)', indikasi: 'pMMR rekuren pasca-platinum', bukti: 'KEYNOTE-775' },
+          { regimen: 'Agen tunggal (doksorubisin, paklitaksel mingguan)', indikasi: 'Salvage setelah opsi di atas', bukti: 'NCCN' },
+        ],
+      },
+    ],
+  },
   tools: ['endometrial-staging', 'endometrial-molecular', 'chemo-dosing'],
   references: [
     'Berek JS, Matias-Guiu X, Creutzberg C, dkk. FIGO staging of endometrial cancer: 2023. Int J Gynecol Obstet. 2023;162(2):383-394. doi:10.1002/ijgo.14923',

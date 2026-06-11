@@ -54,6 +54,37 @@ export default {
       ['Margin', 'Target margin bedah bebas tumor; margin dekat/positif meningkatkan risiko kekambuhan lokal.'],
     ],
   },
+  systemicTherapy: {
+    intro: 'Untuk karsinoma sel skuamosa vulva. Bukti sistemik terbatas (kanker langka); banyak diekstrapolasi dari serviks/anus. Melanoma vulva memakai algoritma melanoma.',
+    categories: [
+      {
+        label: 'Kemoradiasi',
+        rows: [
+          { regimen: 'Cisplatin mingguan konkuren RT', indikasi: 'Lokal lanjut/inoperabel atau KGB-positif', bukti: 'GOG-205; ekstrapolasi serviks/anal' },
+          { regimen: '5-FU + cisplatin atau mitomisin + RT', indikasi: 'Alternatif (regimen tipe kanal anal)', bukti: 'Seri retrospektif' },
+        ],
+      },
+      {
+        label: 'Sistemik (lanjut/metastatik)',
+        rows: [
+          { regimen: 'Cisplatin/karboplatin ± paklitaksel', indikasi: 'Penyakit metastatik (pilihan terbatas)', bukti: 'Fase II / seri kecil' },
+        ],
+      },
+      {
+        label: 'Imunoterapi',
+        rows: [
+          { regimen: 'Pembrolizumab (anti–PD-1)', indikasi: 'PD-L1-positif atau dMMR/TMB-tinggi', bukti: 'KEYNOTE-158/826 (ekstrapolasi)' },
+        ],
+      },
+      {
+        label: 'Terapi target (berkembang)',
+        rows: [
+          { regimen: 'Erlotinib (EGFR)', indikasi: 'Aktivitas terbatas pada KSS vulva', bukti: 'Fase II (Horowitz dkk.)' },
+          { regimen: 'Tisotumab vedotin', indikasi: 'Investigasi (ekstrapolasi serviks)', bukti: 'Berkembang' },
+        ],
+      },
+    ],
+  },
   tools: ['vulvar-adjuvant', 'chemo-dosing'],
   references: [
     'Olawaiye AB, Cuello MA, Rogers LJ. Cancer of the vulva: 2021 update. Int J Gynaecol Obstet. 2021;155(Suppl 1):7-18; staging Int J Gynaecol Obstet. 2021;155(1):43-47.',

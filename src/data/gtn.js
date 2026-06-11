@@ -31,6 +31,34 @@ export default {
     note:
       'Diagnosis GTN pasca-mola umumnya berdasarkan kriteria β-hCG (plateau ≥ 3 minggu, kenaikan ≥ 2 minggu, atau persistensi ≥ 6 bulan) atau histologi koriokarsinoma.',
   },
+  systemicTherapy: {
+    intro: 'GTN sangat kemosensitif & umumnya kuratif. Pilihan regimen ditentukan oleh skor prognostik WHO/FIGO. PSTT/ETT dikelola berbeda (relatif kemoresisten, andalkan bedah).',
+    categories: [
+      {
+        label: 'Risiko rendah (skor ≤ 6)',
+        rows: [
+          { regimen: 'Metotreksat ± asam folinat', indikasi: 'Agen tunggal lini-1; angka kuratif tinggi', bukti: 'Standar (Cochrane)' },
+          { regimen: 'Aktinomisin-D (pulsed/5-hari)', indikasi: 'Alternatif; bila MTX gagal/kontraindikasi', bukti: 'GOG-174 (lebih superior dari MTX mingguan)' },
+        ],
+      },
+      {
+        label: 'Risiko tinggi (skor ≥ 7)',
+        rows: [
+          { regimen: 'EMA-CO', indikasi: 'Multiagen lini-1 risiko tinggi', bukti: 'Standar; kuratif tinggi' },
+          { regimen: 'EMA-EP', indikasi: 'Salvage resistan EMA-CO atau metastasis luas', bukti: 'Charing Cross' },
+          { regimen: 'Induksi etoposid–cisplatin dosis rendah', indikasi: 'Ultra-risiko tinggi: cegah kematian dini/hemoragik', bukti: 'Seri Charing Cross' },
+        ],
+      },
+      {
+        label: 'Imunoterapi (refrakter)',
+        note: 'Trofoblas mengekspresikan PD-L1 tinggi → checkpoint inhibitor menjadi terobosan pada penyakit multidrug-resistan.',
+        rows: [
+          { regimen: 'Avelumab (anti–PD-L1)', indikasi: 'GTN resistan kemoterapi agen tunggal', bukti: 'TROPHIMMUN' },
+          { regimen: 'Pembrolizumab (anti–PD-1)', indikasi: 'GTN multidrug-resistan (termasuk PSTT/ETT)', bukti: 'Seri (Ghorani dkk.)' },
+        ],
+      },
+    ],
+  },
   tools: ['gtn-score', 'chemo-dosing'],
   references: [
     'FIGO Oncology Committee. FIGO staging for gestational trophoblastic neoplasia 2000. Int J Gynaecol Obstet. 2002;77(3):285-287.',

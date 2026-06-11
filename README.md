@@ -14,6 +14,7 @@
   - **Stadium FIGO/WHO** terkini (dengan label versi + referensi):
     FIGO 2014 (ovarium), 2018 (serviks), **2023 (endometrium)**, 2021 (vulva), 2009 (sarkoma), staging anatomik GTN, dll.
   - **Histologi & catatan klinis** (klasifikasi WHO, penanda molekuler).
+  - **Terapi sistemik berbasis bukti** (kemoterapi lini-1/2, terapi target, imunoterapi, hormonal) dengan rujukan studi/guideline.
   - **Alat bantu keputusan** yang relevan.
 - **Alat yang sudah berfungsi:**
   | Alat | Kegunaan |

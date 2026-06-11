@@ -75,6 +75,41 @@ export default {
       ['Karsinosarkoma (MMMT)', 'Kini dipandang karsinoma metaplastik agresif → di-staging & dikelola sebagai karsinoma endometrium agresif (memakai FIGO endometrium, bukan sistem sarkoma).'],
     ],
   },
+  systemicTherapy: {
+    intro: 'Pilihan ditentukan oleh subtipe. Karsinosarkoma memakai jalur karsinoma endometrium (lihat modul Endometrium).',
+    categories: [
+      {
+        label: 'Leiomiosarkoma (LMS) — lini pertama lanjut',
+        rows: [
+          { regimen: 'Doksorubisin ± dakarbazin', indikasi: 'Lini-1 metastatik/tidak terreseksi', bukti: 'EORTC; standar' },
+          { regimen: 'Gemsitabin–dosetaksel', indikasi: 'Lini-1 alternatif (setara doksorubisin)', bukti: 'GeDDiS' },
+        ],
+      },
+      {
+        label: 'LMS — lini berikutnya',
+        rows: [
+          { regimen: 'Trabektedin', indikasi: 'LMS rekuren pasca-antrasiklin', bukti: 'Fase III (vs dakarbazin)' },
+          { regimen: 'Pazopanib (TKI anti-angiogenik)', indikasi: 'Sarkoma jaringan lunak non-adiposit', bukti: 'PALETTE' },
+          { regimen: 'Eribulin / dakarbazin', indikasi: 'Salvage lanjutan', bukti: 'Fase III (eribulin pada subset)' },
+        ],
+      },
+      {
+        label: 'ESS derajat rendah (LG-ESS) — hormonal',
+        note: 'Estrogen-dependent; hindari estrogen (termasuk tamoxifen & HRT).',
+        rows: [
+          { regimen: 'Inhibitor aromatase (letrozol)', indikasi: 'Lini-1 LG-ESS lanjut/rekuren', bukti: 'Seri retrospektif' },
+          { regimen: 'Progestin (MPA/megestrol)', indikasi: 'Alternatif endokrin', bukti: 'Seri retrospektif' },
+        ],
+      },
+      {
+        label: 'HG-ESS / UUS & karsinosarkoma',
+        rows: [
+          { regimen: 'Doksorubisin atau gemsitabin–dosetaksel', indikasi: 'HG-ESS/UUS (agresif)', bukti: 'Ekstrapolasi sarkoma' },
+          { regimen: 'Karboplatin–paklitaksel', indikasi: 'Karsinosarkoma (→ jalur endometrium)', bukti: 'GOG-261' },
+        ],
+      },
+    ],
+  },
   tools: ['uterine-sarcoma-adjuvant', 'chemo-dosing'],
   references: [
     'Prat J. FIGO staging for uterine sarcomas. Int J Gynaecol Obstet. 2009;104(3):177-178.',

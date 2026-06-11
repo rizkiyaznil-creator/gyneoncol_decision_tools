@@ -13,7 +13,17 @@ for (const c of cancers) {
   if (!c.staging?.groups?.length) fail(`${c.id} staging.groups kosong`);
   if (getCancer(c.id) !== c) fail(`getCancer("${c.id}") tidak konsisten`);
   for (const tid of c.tools) if (!getTool(tid)) fail(`${c.id} merujuk alat tidak dikenal "${tid}"`);
-  ok(`${c.id} — ${c.name} (${c.staging.system}, ${c.tools.length} alat)`);
+  let stCats = 0;
+  if (c.systemicTherapy) {
+    const cats = c.systemicTherapy.categories;
+    if (!Array.isArray(cats) || !cats.length) fail(`${c.id} systemicTherapy.categories kosong`);
+    else for (const cat of cats) {
+      stCats++;
+      if (!cat.label || !Array.isArray(cat.rows) || !cat.rows.length) fail(`${c.id} kategori terapi "${cat.label || '?'}" tidak valid`);
+      else for (const r of cat.rows) if (!r.regimen || !r.indikasi || !r.bukti) fail(`${c.id} baris terapi tidak lengkap di "${cat.label}"`);
+    }
+  }
+  ok(`${c.id} — ${c.name} (${c.staging.system}, ${c.tools.length} alat, ${stCats} kategori terapi)`);
 }
 if (cancers.length !== 7) fail(`harus 7 kanker, ada ${cancers.length}`);
 

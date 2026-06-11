@@ -67,6 +67,48 @@ export default {
       ['Indikasi kemoradiasi', 'Kriteria Peters (margin positif, parametrium positif, atau KGB positif) → kemoradiasi berbasis cisplatin.'],
     ],
   },
+  systemicTherapy: {
+    intro: 'Kemoradiasi untuk penyakit lokal lanjut; terapi sistemik untuk penyakit persisten/rekuren/metastatik. Uji PD-L1 (CPS) memandu penambahan checkpoint inhibitor.',
+    categories: [
+      {
+        label: 'Kemoradiasi (lokal lanjut)',
+        rows: [
+          { regimen: 'Cisplatin mingguan 40 mg/m² konkuren RT', indikasi: 'Standar kemoradiasi definitif', bukti: 'Meta-analisis CCRT; GOG' },
+          { regimen: '+ Pembrolizumab (konkuren & rumatan)', indikasi: 'Lokal lanjut berisiko tinggi', bukti: 'KEYNOTE-A18 (ENGOT-cx11)' },
+          { regimen: 'Kemoterapi induksi (karbo–paklitaksel) sebelum CRT', indikasi: 'Memperbaiki kesintasan', bukti: 'INTERLACE' },
+        ],
+      },
+      {
+        label: 'Sistemik lini pertama (rekuren/metastatik)',
+        rows: [
+          { regimen: 'Cisplatin–paklitaksel + bevacizumab', indikasi: 'Lini-1 metastatik/rekuren', bukti: 'GOG-240 (OS)' },
+          { regimen: 'Karboplatin–paklitaksel + bevacizumab', indikasi: 'Non-inferior; terutama pasca-cisplatin', bukti: 'JCOG0505' },
+          { regimen: '+ Pembrolizumab', indikasi: 'PD-L1 CPS ≥ 1', bukti: 'KEYNOTE-826 (OS)' },
+        ],
+      },
+      {
+        label: 'Imunoterapi',
+        rows: [
+          { regimen: 'Pembrolizumab + kemo ± bevacizumab', indikasi: 'Lini-1, PD-L1 CPS ≥ 1', bukti: 'KEYNOTE-826' },
+          { regimen: 'Cemiplimab (anti–PD-1) monoterapi', indikasi: 'Lini-2 pasca-platinum (apa pun PD-L1)', bukti: 'EMPOWER-Cervical 1 (OS)' },
+          { regimen: 'Pembrolizumab monoterapi', indikasi: 'Lini-2, PD-L1 CPS ≥ 1', bukti: 'KEYNOTE-158' },
+        ],
+      },
+      {
+        label: 'Terapi target / ADC',
+        rows: [
+          { regimen: 'Tisotumab vedotin (ADC, tissue factor)', indikasi: 'Rekuren/metastatik pasca-lini-1', bukti: 'innovaTV 301 (OS)' },
+          { regimen: 'Bevacizumab (anti-VEGF)', indikasi: 'Ditambahkan pada doublet platinum', bukti: 'GOG-240' },
+        ],
+      },
+      {
+        label: 'Lini berikutnya',
+        rows: [
+          { regimen: 'Agen tunggal (topotecan, vinorelbin, gemsitabin, pemetreksed, irinotekan)', indikasi: 'Salvage setelah platinum & imunoterapi', bukti: 'NCCN' },
+        ],
+      },
+    ],
+  },
   tools: ['cervical-staging', 'cervical-adjuvant', 'chemo-dosing'],
   references: [
     'Bhatla N, Berek JS, Cuello Fredes M, dkk. Revised FIGO staging for carcinoma of the cervix uteri. Int J Gynaecol Obstet. 2019;145(1):129-135.',
