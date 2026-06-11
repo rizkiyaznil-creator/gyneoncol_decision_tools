@@ -53,6 +53,7 @@ export default {
       ['Sentinel node', 'Biopsi KGB sentinel sesuai untuk tumor unifokal < 4 cm dengan KGB klinis negatif.'],
       ['Margin', 'Target margin bedah bebas tumor; margin dekat/positif meningkatkan risiko kekambuhan lokal.'],
     ],
+    note: 'Melanoma vulva (keganasan vulva tersering ke-2) memiliki staging (AJCC, bukan FIGO) dan terapi tersendiri — lihat modul “Melanoma Ginekologi”.',
   },
   systemicTherapy: {
     intro: 'Untuk karsinoma sel skuamosa vulva. Bukti sistemik terbatas (kanker langka); banyak diekstrapolasi dari serviks/anus. Melanoma vulva memakai algoritma melanoma.',

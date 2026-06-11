@@ -8,8 +8,9 @@ import vulva from './vulva.js';
 import gtn from './gtn.js';
 import vagina from './vagina.js';
 import sarkoma from './sarkoma.js';
+import melanoma from './melanoma.js';
 
-export const cancers = [ovarium, serviks, endometrium, vulva, gtn, vagina, sarkoma];
+export const cancers = [ovarium, serviks, endometrium, vulva, gtn, vagina, sarkoma, melanoma];
 
 const byId = new Map(cancers.map((c) => [c.id, c]));
 

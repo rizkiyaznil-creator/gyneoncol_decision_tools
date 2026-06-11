@@ -25,7 +25,7 @@ for (const c of cancers) {
   }
   ok(`${c.id} — ${c.name} (${c.staging.system}, ${c.tools.length} alat, ${stCats} kategori terapi)`);
 }
-if (cancers.length !== 7) fail(`harus 7 kanker, ada ${cancers.length}`);
+if (cancers.length !== 8) fail(`harus 8 kanker, ada ${cancers.length}`);
 
 console.log('\n== Alat ==');
 for (const t of tools) {

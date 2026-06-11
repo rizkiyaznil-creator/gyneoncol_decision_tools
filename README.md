@@ -1,6 +1,6 @@
 # GynOnco Decision Tools
 
-> Alat bantu keputusan klinis untuk **spesialis ginekologi onkologi** — informasi stadium FIGO/WHO terkini dan perangkat pendukung keputusan (kalkulator dosis kemoterapi, algoritma terapi adjuvant) untuk tujuh keganasan ginekologi.
+> Alat bantu keputusan klinis untuk **spesialis ginekologi onkologi** — informasi stadium FIGO/WHO terkini dan perangkat pendukung keputusan (kalkulator dosis kemoterapi, algoritma terapi adjuvant) untuk delapan modul keganasan ginekologi.
 
 ⚠️ **Disclaimer:** Aplikasi ini adalah **alat bantu edukasi**, **bukan pengganti** penilaian klinis, pemeriksaan langsung, maupun diskusi tumor board. Verifikasi setiap keluaran terhadap guideline primer terbaru dan kondisi pasien.
 
@@ -8,7 +8,7 @@
 
 ## ✨ Fitur (v0.1.0 — kerangka awal)
 
-- **Landing page** dengan tujuh modul kanker ginekologi:
+- **Landing page** dengan delapan modul kanker ginekologi (termasuk melanoma mukosa vulvovaginal):
   ovarium, serviks, endometrium, vulva, penyakit trofoblas maligna (GTN), vagina, sarkoma uteri.
 - Tiap modul memuat:
   - **Stadium FIGO/WHO** terkini (dengan label versi + referensi):
@@ -22,6 +22,7 @@
   | Protokol & Dosis Kemoterapi | BSA, carboplatin (Calvert/AUC), m²/mg-kg, terapi target, 35 regimen lintas-kanker |
   | Asisten staging FIGO 2023 endometrium | Derivasi stadium + integrasi modifier molekuler (POLEmut/MMRd/NSMP/p53abn) |
   | Asisten staging FIGO 2018 serviks | Derivasi stadium termasuk status KGB (IIIC) & ekstensi lokal |
+  | Asisten staging AJCC melanoma | Breslow + ulserasi + KGB/metastasis → kategori T & stadium klinis AJCC 8 |
   | Algoritma adjuvant ovarium | Saran terapi berdasar stadium/histologi/BRCA-HRD |
   | Algoritma adjuvant serviks | Kriteria Peters (kemoradiasi) & Sedlis (radioterapi pelvis) pasca-histerektomi radikal |
   | Algoritma adjuvant vulva | Manajemen SLN (GROINSS-V II) & indikasi RT inguinopelvis (GOG-37) + lesi primer/margin |

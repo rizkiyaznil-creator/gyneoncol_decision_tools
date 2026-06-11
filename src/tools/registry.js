@@ -9,6 +9,7 @@ import vulvarAdjuvant from './vulvarAdjuvant.js';
 import uterineSarcomaAdjuvant from './uterineSarcomaAdjuvant.js';
 import endometrialMolecular from './endometrialMolecular.js';
 import endometrialStaging from './endometrialStaging.js';
+import melanomaStaging from './melanomaStaging.js';
 import gtnScore from './gtnScore.js';
 
 export const tools = [
@@ -20,6 +21,7 @@ export const tools = [
   uterineSarcomaAdjuvant,
   endometrialMolecular,
   endometrialStaging,
+  melanomaStaging,
   gtnScore,
 ];
 

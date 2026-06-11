@@ -34,6 +34,7 @@ export default {
       ['Tipe histologi', 'Karsinoma sel skuamosa (tersering, terkait HPV); adenokarsinoma; melanoma; jarang clear cell (riwayat paparan DES).'],
       ['Tata laksana', 'Mayoritas dengan radioterapi/kemoradiasi berbasis cisplatin; bedah pada kasus terpilih (lesi kecil sepertiga atas).'],
     ],
+    note: 'Melanoma vagina dikelola dengan algoritma melanoma (staging AJCC, imunoterapi) — lihat modul “Melanoma Ginekologi”.',
   },
   systemicTherapy: {
     intro: 'Kanker vagina primer sangat langka; bukti sistemik diekstrapolasi dari serviks. Tata laksana utama radioterapi/kemoradiasi.',
