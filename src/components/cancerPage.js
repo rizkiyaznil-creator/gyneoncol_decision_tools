@@ -15,8 +15,16 @@ function toolCard(cancer, tool) {
 }
 
 function stagingTab(cancer) {
+  // Tampilkan tombol ke asisten staging interaktif bila kanker punya alat kategori "Penentuan stadium".
+  const stager = cancer.tools.map((id) => getTool(id)).find((t) => t && t.category === 'Penentuan stadium');
   return h('div', { class: 'panel' },
     h('h2', {}, 'Stadium ' + cancer.staging.system.split(' ')[0]),
+    stager
+      ? h('div', { style: { display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: '12px', flexWrap: 'wrap', margin: '0 0 18px', padding: '12px 16px', background: cancer.accentSoft || 'var(--slate-50)', borderRadius: '12px' } },
+          h('span', { style: { fontSize: '.9rem', color: 'var(--slate-700)' } }, 'Tentukan stadium dari temuan pasien dengan kalkulator interaktif.'),
+          h('a', { class: 'btn btn--primary', href: route('c', cancer.id, 'alat', stager.id), style: { background: cancer.accent } },
+            '🧮 Buka asisten staging interaktif →'))
+      : null,
     renderStaging(cancer.staging, cancer.accent),
     cancer.stagingAlt
       ? h('div', { style: { marginTop: '22px', paddingTop: '6px', borderTop: '1px dashed var(--border)' } },
