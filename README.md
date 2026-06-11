@@ -18,9 +18,9 @@
 - **Alat yang sudah berfungsi:**
   | Alat | Kegunaan |
   |---|---|
-  | Kalkulator BSA | Mosteller & DuBois |
-  | Dosis Carboplatin (Calvert) | AUC × (GFR + 25), GFR via Cockcroft–Gault atau terukur |
-  | Dosis berbasis BSA (Cisplatin) | Praset mingguan/3-mingguan + cap dosis |
+  | Protokol & Dosis Kemoterapi | BSA, carboplatin (Calvert/AUC), m²/mg-kg, terapi target, 35 regimen lintas-kanker |
+  | Asisten staging FIGO 2023 endometrium | Derivasi stadium + integrasi modifier molekuler (POLEmut/MMRd/NSMP/p53abn) |
+  | Asisten staging FIGO 2018 serviks | Derivasi stadium termasuk status KGB (IIIC) & ekstensi lokal |
   | Algoritma adjuvant ovarium | Saran terapi berdasar stadium/histologi/BRCA-HRD |
   | Algoritma adjuvant serviks | Kriteria Peters (kemoradiasi) & Sedlis (radioterapi pelvis) pasca-histerektomi radikal |
   | Algoritma adjuvant vulva | Manajemen SLN (GROINSS-V II) & indikasi RT inguinopelvis (GOG-37) + lesi primer/margin |
@@ -91,7 +91,8 @@ FIGO · NCCN · ESGO/ESMO/ESTRO/ESP · WHO Classification of Tumours (Female Gen
 
 ## 🛣️ Rencana pengembangan
 
-- ~~Algoritma adjuvant untuk serviks (Sedlis/Peters), vulva (GROINSS-V II/GOG-37), & sarkoma uteri~~ → selesai (Fase 1). Berikutnya: asisten staging FIGO interaktif (endometrium 2023 & serviks 2018).
+- ~~Algoritma adjuvant untuk serviks (Sedlis/Peters), vulva (GROINSS-V II/GOG-37), & sarkoma uteri~~ → selesai (Fase 1).
+- ~~Asisten staging FIGO interaktif (endometrium 2023 dengan modifier molekuler & serviks 2018)~~ → selesai (Fase 2). Berikutnya: ekspor/cetak ringkasan keputusan & penautan referensi DOI/PubMed.
 - ~~Regimen serviks (GOG-240/JCOG0505/KEYNOTE-826) & GTN (EMA-CO/EMA-EP, metotreksat–folinat)~~ → sudah ditambahkan ke kalkulator dosis. Berikutnya: AUC paklitaksel & dosis berbasis berat ideal/disesuaikan.
 - Mode dwibahasa & ekspor ringkasan keputusan (PDF/print).
 - Penautan referensi (DOI/PubMed) langsung di tiap pernyataan.

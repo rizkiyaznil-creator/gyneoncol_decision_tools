@@ -67,7 +67,7 @@ export default {
       ['Indikasi kemoradiasi', 'Kriteria Peters (margin positif, parametrium positif, atau KGB positif) → kemoradiasi berbasis cisplatin.'],
     ],
   },
-  tools: ['cervical-adjuvant', 'chemo-dosing'],
+  tools: ['cervical-staging', 'cervical-adjuvant', 'chemo-dosing'],
   references: [
     'Bhatla N, Berek JS, Cuello Fredes M, dkk. Revised FIGO staging for carcinoma of the cervix uteri. Int J Gynaecol Obstet. 2019;145(1):129-135.',
     'Bhatla N, dkk. Cancer of the cervix uteri: 2025 update. Int J Gynecol Obstet. 2025 (menegaskan kembali FIGO 2018).',
