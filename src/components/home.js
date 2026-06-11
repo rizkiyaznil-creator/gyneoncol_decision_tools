@@ -23,7 +23,7 @@ export function renderHome(root) {
       h('span', { class: 'hero__eyebrow' }, 'Ginekologi Onkologi · Clinical Decision Support'),
       h('h1', {}, 'GynOnco ', h('span', { class: 'accent' }, 'Decision Tools')),
       h('p', { class: 'hero__lead' },
-        'Rujukan stadium FIGO/WHO terkini dan alat bantu keputusan klinis — kalkulator dosis kemoterapi serta algoritma terapi adjuvant — untuk tujuh keganasan ginekologi.')
+        'Rujukan stadium FIGO/WHO/AJCC terkini dan alat bantu keputusan klinis — kalkulator dosis kemoterapi serta algoritma terapi adjuvant — lintas keganasan ginekologi.')
     ),
 
     h('div', { class: 'section-head' },

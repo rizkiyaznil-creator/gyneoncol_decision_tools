@@ -1,7 +1,10 @@
 import { h, mount } from '../utils/dom.js';
 import { crumbs } from './common.js';
+import { cancers } from '../data/cancers.js';
 
 export function renderAbout(root) {
+  const sites = cancers.map((c) => c.shortName);
+  const siteList = sites.length > 1 ? sites.slice(0, -1).join(', ') + ', dan ' + sites[sites.length - 1] : sites[0];
   mount(root,
     crumbs([{ label: 'Beranda', href: '#/' }, { label: 'Tentang & Disclaimer' }]),
     h('h1', {}, 'Tentang & Disclaimer'),
@@ -14,7 +17,7 @@ export function renderAbout(root) {
 
     h('div', { class: 'panel' },
       h('h2', {}, 'Ruang lingkup'),
-      h('p', {}, 'Tujuh keganasan ginekologi: ovarium, serviks, endometrium, vulva, penyakit trofoblas maligna (GTN), vagina, dan sarkoma uteri.'),
+      h('p', {}, 'Keganasan ginekologi yang dicakup: ' + siteList + '.'),
       h('p', {}, 'Setiap modul memuat informasi stadium (FIGO/WHO) dan alat bantu keputusan yang relevan, seperti kalkulator dosis kemoterapi dan algoritma penentuan terapi adjuvant. Cakupan akan terus dikembangkan.')
     ),
 

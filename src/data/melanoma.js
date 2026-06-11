@@ -83,7 +83,7 @@ export default {
       },
     ],
   },
-  tools: ['melanoma-staging', 'chemo-dosing'],
+  tools: ['melanoma-staging', 'melanoma-management', 'chemo-dosing'],
   references: [
     'Hou JY, Baptiste C, Hombalegowda RB, dkk. Vulvar and vaginal melanoma: a unique subclass of mucosal melanoma based on a comprehensive molecular analysis of 51 cases. Cancer. 2017;123(8):1333-1344. doi:10.1002/cncr.30473',
     'Gershenwald JE, Scolyer RA, Hess KR, dkk. Melanoma staging: evidence-based changes in the AJCC 8th edition. CA Cancer J Clin. 2017;67(6):472-492. doi:10.3322/caac.21409',
