@@ -67,10 +67,12 @@ export default {
       ['Indikasi kemoradiasi', 'Kriteria Peters (margin positif, parametrium positif, atau KGB positif) → kemoradiasi berbasis cisplatin.'],
     ],
   },
-  tools: ['chemo-dosing'],
+  tools: ['cervical-adjuvant', 'chemo-dosing'],
   references: [
     'Bhatla N, Berek JS, Cuello Fredes M, dkk. Revised FIGO staging for carcinoma of the cervix uteri. Int J Gynaecol Obstet. 2019;145(1):129-135.',
     'Bhatla N, dkk. Cancer of the cervix uteri: 2025 update. Int J Gynecol Obstet. 2025 (menegaskan kembali FIGO 2018).',
+    'Sedlis A, dkk. A randomized trial of pelvic radiation therapy versus no further therapy in selected patients with stage IB carcinoma of the cervix after radical hysterectomy and pelvic lymphadenectomy: a GOG study. Gynecol Oncol. 1999;73(2):177-183.',
+    'Peters WA 3rd, dkk. Concurrent chemotherapy and pelvic radiation therapy compared with pelvic radiation therapy alone as adjuvant therapy after radical surgery in high-risk early-stage cancer of the cervix. J Clin Oncol. 2000;18(8):1606-1613.',
     'NCCN Clinical Practice Guidelines in Oncology: Cervical Cancer (versi terkini).',
     'Cibula D, dkk. ESGO/ESTRO/ESP guidelines for the management of patients with cervical cancer.',
     'WHO Classification of Tumours: Female Genital Tumours, 5th ed. (2020).',

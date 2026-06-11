@@ -22,6 +22,7 @@
   | Dosis Carboplatin (Calvert) | AUC × (GFR + 25), GFR via Cockcroft–Gault atau terukur |
   | Dosis berbasis BSA (Cisplatin) | Praset mingguan/3-mingguan + cap dosis |
   | Algoritma adjuvant ovarium | Saran terapi berdasar stadium/histologi/BRCA-HRD |
+  | Algoritma adjuvant serviks | Kriteria Peters (kemoradiasi) & Sedlis (radioterapi pelvis) pasca-histerektomi radikal |
   | Kelas molekuler & risiko endometrium | Kerangka ESGO/ESMO/ESTRO/ESP 2020 |
   | Skor prognostik GTN (WHO/FIGO) | Risiko rendah vs tinggi → pemilihan regimen |
 
@@ -88,7 +89,7 @@ FIGO · NCCN · ESGO/ESMO/ESTRO/ESP · WHO Classification of Tumours (Female Gen
 
 ## 🛣️ Rencana pengembangan
 
-- Algoritma adjuvant untuk serviks (kriteria Sedlis/Peters), vulva, dan sarkoma.
+- ~~Algoritma adjuvant untuk serviks (kriteria Sedlis/Peters)~~ → selesai. Berikutnya: algoritma adjuvant vulva dan sarkoma.
 - ~~Regimen serviks (GOG-240/JCOG0505/KEYNOTE-826) & GTN (EMA-CO/EMA-EP, metotreksat–folinat)~~ → sudah ditambahkan ke kalkulator dosis. Berikutnya: AUC paklitaksel & dosis berbasis berat ideal/disesuaikan.
 - Mode dwibahasa & ekspor ringkasan keputusan (PDF/print).
 - Penautan referensi (DOI/PubMed) langsung di tiap pernyataan.
