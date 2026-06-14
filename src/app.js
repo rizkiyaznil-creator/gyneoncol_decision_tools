@@ -15,6 +15,15 @@ function segments() {
   return location.hash.replace(/^#/, '').replace(/^\/+/, '').split('/').filter(Boolean);
 }
 
+// Sorot tab navigasi bawah sesuai rute aktif.
+function highlightBottomNav(seg) {
+  const key = seg[0] === 'tentang' ? 'about' : seg[0] === 'alat' ? 'tools' : 'home';
+  document.querySelectorAll('.bottom-nav a[data-nav]').forEach((a) => {
+    if (a.dataset.nav === key) a.setAttribute('aria-current', 'page');
+    else a.removeAttribute('aria-current');
+  });
+}
+
 function route() {
   const seg = segments();
   clear(content);
@@ -45,6 +54,7 @@ function route() {
     renderNotFound(content);
   }
 
+  highlightBottomNav(seg);
   window.scrollTo(0, 0);
   content.focus({ preventScroll: true });
 }

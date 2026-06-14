@@ -113,6 +113,31 @@ a:hover { text-decoration: underline; }
 }
 .app-nav a:hover { background: var(--slate-100); text-decoration: none; color: var(--slate-900); }
 
+/* ---------- Bottom navigation (HP) ---------- */
+.bottom-nav { display: none; }
+.bottom-nav a {
+  flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center;
+  gap: 3px; min-height: 56px; padding: 6px 4px;
+  color: var(--slate-500); font-size: .7rem; font-weight: 700; text-decoration: none;
+}
+.bottom-nav a:hover { text-decoration: none; color: var(--slate-700); }
+.bottom-nav__icon { font-size: 1.3rem; line-height: 1; }
+.bottom-nav a[aria-current="page"] { color: var(--teal-700); }
+
+@media (max-width: 720px) {
+  .app-nav { display: none; }
+  .bottom-nav {
+    display: flex;
+    position: fixed; left: 0; right: 0; bottom: 0; z-index: 60;
+    background: rgba(255, 255, 255, 0.97);
+    backdrop-filter: saturate(160%) blur(8px);
+    border-top: 1px solid var(--border);
+    box-shadow: 0 -2px 12px rgba(15, 23, 42, 0.07);
+    padding-bottom: env(safe-area-inset-bottom);
+  }
+  body { padding-bottom: calc(58px + env(safe-area-inset-bottom)); }
+}
+
 /* ---------- Disclaimer banner ---------- */
 .disclaimer-banner { background: var(--amber-50); border-bottom: 1px solid var(--amber-100); }
 .disclaimer-banner__inner {
@@ -341,7 +366,7 @@ body { display: flex; flex-direction: column; min-height: 100vh; }
 }
 
 @media print {
-  .app-header, .app-footer, .disclaimer-banner, .pro-gate, .app-nav, .btn-row, .tabs, .back-link, .skip-link { display: none !important; }
+  .app-header, .app-footer, .disclaimer-banner, .pro-gate, .app-nav, .bottom-nav, .btn-row, .tabs, .back-link, .skip-link { display: none !important; }
   body { background: #fff; }
   .panel, .card, .result { box-shadow: none; border-color: #ccc; }
 }
