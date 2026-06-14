@@ -2,6 +2,51 @@ import { h, mount } from '../utils/dom.js';
 import { crumbs } from './common.js';
 import { cancers } from '../data/cancers.js';
 
+// Panel "Pasang aplikasi" (PWA). Android/Chrome memakai prompt native (via window.GynOncoPWA);
+// iOS Safari & fallback menampilkan instruksi manual. Semua akses window/navigator dijaga aman.
+function installPanel() {
+  const ua = navigator.userAgent || '';
+  const isIOS = /iphone|ipad|ipod/i.test(ua) || (/Macintosh/.test(ua) && (navigator.maxTouchPoints || 0) > 1);
+  const standalone = (typeof window.matchMedia === 'function' && window.matchMedia('(display-mode: standalone)').matches) || navigator.standalone === true;
+
+  if (standalone) {
+    return h('div', { class: 'panel' },
+      h('h2', {}, 'Pasang sebagai aplikasi'),
+      h('p', { class: 'muted' }, '✓ Aplikasi sudah terpasang di perangkat ini.'));
+  }
+
+  const tips = h('div', { class: 'note', hidden: true });
+  const showTips = () => {
+    tips.hidden = false;
+    mount(tips,
+      h('p', { style: { margin: '0 0 6px' } }, h('strong', {}, 'Android (Chrome): '), 'buka menu ⋮ → “Pasang aplikasi” / “Tambahkan ke layar utama”.'),
+      h('p', { style: { margin: '0' } }, h('strong', {}, 'iPhone/iPad (Safari): '), 'ketuk tombol Bagikan → “Tambahkan ke Layar Utama”.'));
+  };
+
+  const btn = h('button', {
+    class: 'btn btn--primary', type: 'button',
+    onClick: async () => {
+      const pwa = window.GynOncoPWA;
+      if (pwa && pwa.canInstall && pwa.canInstall()) {
+        const ok = await pwa.install();
+        if (!ok) showTips();
+      } else {
+        showTips();
+      }
+    },
+  }, '📲 Pasang aplikasi');
+
+  return h('div', { class: 'panel' },
+    h('h2', {}, 'Pasang sebagai aplikasi'),
+    h('p', {}, 'Pasang GynOnco Decision Tools ke layar utama untuk akses cepat, tampilan layar penuh, dan penggunaan offline — gratis, tanpa app store.'),
+    h('div', { class: 'btn-row' }, btn),
+    isIOS
+      ? h('p', { class: 'muted', style: { fontSize: '.85rem', marginTop: '8px' } }, 'Di iPhone/iPad, pemasangan lewat Safari: tombol Bagikan → “Tambahkan ke Layar Utama”.')
+      : null,
+    tips
+  );
+}
+
 export function renderAbout(root) {
   const sites = cancers.map((c) => c.shortName);
   const siteList = sites.length > 1 ? sites.slice(0, -1).join(', ') + ', dan ' + sites[sites.length - 1] : sites[0];
@@ -20,6 +65,8 @@ export function renderAbout(root) {
       h('p', {}, 'Keganasan ginekologi yang dicakup: ' + siteList + '.'),
       h('p', {}, 'Setiap modul memuat informasi stadium (FIGO/WHO) dan alat bantu keputusan yang relevan, seperti kalkulator dosis kemoterapi dan algoritma penentuan terapi adjuvant. Cakupan akan terus dikembangkan.')
     ),
+
+    installPanel(),
 
     h('div', { class: 'panel' },
       h('h2', {}, 'Sumber guideline yang dirujuk'),
@@ -59,6 +106,9 @@ export function renderAbout(root) {
       )
     ),
 
-    h('p', { class: 'muted', style: { fontSize: '.82rem' } }, 'Versi aplikasi: v0.1.0 (kerangka awal). Umpan balik dari klinisi sangat membantu pengembangan berikutnya.')
+    h('div', { class: 'panel', style: { textAlign: 'center' } },
+      h('p', { style: { fontWeight: '700', margin: '0' } }, 'Didesain oleh Muhammad Rizki Yaznil'),
+      h('p', { class: 'muted', style: { fontSize: '.82rem', margin: '6px 0 0' } }, 'Umpan balik dari klinisi sangat membantu pengembangan berikutnya.')
+    )
   );
 }

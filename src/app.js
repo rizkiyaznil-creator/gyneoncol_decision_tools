@@ -149,3 +149,30 @@ const GOATCOUNTER_CODE = 'rizkiyaznil'; // Kode situs GoatCounter (rizkiyaznil.g
     else if (tries-- > 0) setTimeout(ready, 200);
   })();
 })();
+
+// PWA: service worker (network-first) + tangkap prompt install (Android/Chrome).
+(function initPWA() {
+  if ('serviceWorker' in navigator) {
+    window.addEventListener('load', () => {
+      navigator.serviceWorker.register('./sw.js').catch(() => { /* abaikan */ });
+    });
+  }
+  let deferred = null;
+  window.addEventListener('beforeinstallprompt', (e) => {
+    e.preventDefault();
+    deferred = e;
+    window.dispatchEvent(new Event('pwa-installable'));
+  });
+  window.addEventListener('appinstalled', () => { deferred = null; });
+  // API ringan dipakai halaman "Tentang" untuk memicu pemasangan.
+  window.GynOncoPWA = {
+    canInstall: () => !!deferred,
+    install: async () => {
+      if (!deferred) return false;
+      deferred.prompt();
+      const choice = await deferred.userChoice;
+      deferred = null;
+      return choice && choice.outcome === 'accepted';
+    },
+  };
+})();

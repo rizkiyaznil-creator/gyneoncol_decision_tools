@@ -6,6 +6,12 @@
   <meta name="description" content="GynOnco Decision Tools — alat bantu keputusan klinis untuk ginekologi onkologi: stadium FIGO/WHO terkini, kalkulator dosis kemoterapi, dan algoritma terapi adjuvant." />
   <meta name="theme-color" content="#0f766e" />
   <title>GynOnco Decision Tools</title>
+  <link rel="manifest" href="./manifest.webmanifest" />
+  <link rel="apple-touch-icon" href="./icons/apple-touch-icon.png" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+  <meta name="apple-mobile-web-app-title" content="GynOnco" />
   <script>
     /* Pra-render: sembunyikan gerbang tenaga kesehatan tanpa flash bagi yang sudah masuk. */
     try { if (localStorage.getItem('gynonco-pro-ack') === '1') document.documentElement.classList.add('pro-ack'); } catch (e) {}
