@@ -47,6 +47,46 @@ function installPanel() {
   );
 }
 
+// Panel "Bagikan aplikasi". Pakai Web Share API (share sheet native HP);
+// fallback: salin tautan ke clipboard, atau tampilkan tautan untuk disalin manual.
+function sharePanel() {
+  const url = window.location.origin + window.location.pathname; // URL dasar app (tanpa hash)
+  const shareData = {
+    title: 'GynOnco Decision Tools',
+    text: 'GynOnco Decision Tools — alat bantu keputusan klinis ginekologi onkologi (stadium FIGO/WHO/AJCC, dosis kemoterapi, algoritma terapi). Khusus tenaga kesehatan.',
+    url,
+  };
+  const status = h('span', { class: 'muted', style: { marginLeft: '10px', fontSize: '.9rem' }, hidden: true });
+  const linkBox = h('div', { class: 'note', hidden: true });
+  const flash = (msg) => { status.hidden = false; status.textContent = msg; };
+  const showLink = () => {
+    linkBox.hidden = false;
+    mount(linkBox,
+      h('p', { style: { margin: '0 0 6px' } }, 'Salin & bagikan tautan ini:'),
+      h('code', { style: { wordBreak: 'break-all' } }, url));
+  };
+
+  const btn = h('button', {
+    class: 'btn btn--primary', type: 'button',
+    onClick: async () => {
+      if (navigator.share) {
+        try { await navigator.share(shareData); } catch { /* dibatalkan pengguna */ }
+      } else if (navigator.clipboard && navigator.clipboard.writeText) {
+        try { await navigator.clipboard.writeText(url); flash('Tautan disalin ✓'); } catch { showLink(); }
+      } else {
+        showLink();
+      }
+    },
+  }, '📤 Bagikan aplikasi');
+
+  return h('div', { class: 'panel' },
+    h('h2', {}, 'Bagikan aplikasi'),
+    h('p', {}, 'Sebarkan GynOnco Decision Tools kepada sejawat atau tenaga kesehatan lain yang memerlukan.'),
+    h('div', { class: 'btn-row' }, btn, status),
+    linkBox
+  );
+}
+
 export function renderAbout(root) {
   const sites = cancers.map((c) => c.shortName);
   const siteList = sites.length > 1 ? sites.slice(0, -1).join(', ') + ', dan ' + sites[sites.length - 1] : sites[0];
@@ -67,6 +107,8 @@ export function renderAbout(root) {
     ),
 
     installPanel(),
+
+    sharePanel(),
 
     h('div', { class: 'panel' },
       h('h2', {}, 'Sumber guideline yang dirujuk'),
