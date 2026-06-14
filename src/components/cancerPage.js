@@ -8,7 +8,6 @@ function toolCard(cancer, tool) {
     h('p', { class: 'card__title' }, tool.name),
     h('p', { class: 'card__desc' }, tool.short),
     h('div', { class: 'card__meta' },
-      h('span', { class: 'tag tag--ready' }, 'Siap dipakai'),
       h('span', { class: 'tag' }, tool.category)
     )
   );

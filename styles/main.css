@@ -227,8 +227,6 @@ a.card:hover { text-decoration: none; transform: translateY(-2px); box-shadow: v
   display: inline-block; font-size: .7rem; font-weight: 700; letter-spacing: .02em;
   padding: 3px 8px; border-radius: 999px; background: var(--slate-100); color: var(--slate-600);
 }
-.tag--ready { background: var(--green-100); color: var(--green-700); }
-.tag--soon { background: var(--slate-100); color: var(--slate-500); }
 .tag--guide { background: var(--teal-50); color: var(--teal-700); border: 1px solid var(--teal-100); }
 
 /* ---------- Cancer page header ---------- */
