@@ -4,7 +4,7 @@ import { crumbs } from './common.js';
 // Ukuran font global (diingat per perangkat). Diterapkan ke font root agar seluruh
 // teks berbasis rem ikut menskala; nilai juga diterapkan dini di index.html (tanpa flash).
 const FONT_KEY = 'gynonco-font-scale';
-const FONT_MIN = 90, FONT_MAX = 160, FONT_STEP = 10, FONT_DEFAULT = 100;
+const FONT_MIN = 50, FONT_MAX = 160, FONT_STEP = 10, FONT_DEFAULT = 100;
 const clampFont = (v) => Math.min(FONT_MAX, Math.max(FONT_MIN, v));
 function getFontScale() {
   let v = FONT_DEFAULT;

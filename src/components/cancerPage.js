@@ -6,7 +6,6 @@ function toolCard(cancer, tool) {
   return h('a', { class: 'card', href: route('c', cancer.id, 'alat', tool.id), style: { '--accent': cancer.accent } },
     h('div', { class: 'card__accent' }),
     h('p', { class: 'card__title' }, tool.name),
-    h('p', { class: 'card__desc' }, tool.short),
     h('div', { class: 'card__meta' },
       h('span', { class: 'tag' }, tool.category)
     )

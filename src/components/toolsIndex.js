@@ -5,7 +5,6 @@ import { crumbs } from './common.js';
 function toolCard(tool) {
   return h('a', { class: 'card', href: `#/alat/${tool.id}` },
     h('p', { class: 'card__title' }, tool.name),
-    h('p', { class: 'card__desc' }, tool.short),
     h('div', { class: 'card__meta' },
       h('span', { class: 'tag' }, tool.scope || 'Umum')
     )
