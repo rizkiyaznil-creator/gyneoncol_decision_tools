@@ -1,7 +1,7 @@
 /* Service worker GynOnco Decision Tools.
    Strategi NETWORK-FIRST: selalu coba jaringan dulu (konten klinis tidak boleh basi),
    jatuh ke cache hanya saat offline. Cache diperbarui tiap pemuatan online. */
-const CACHE = 'gynonco-v2';
+const CACHE = 'gynonco-v3';
 const SHELL = [
   './', './index.html', './styles/main.css', './src/app.js',
   './manifest.webmanifest', './icons/icon-192.png', './icons/icon-512.png',
