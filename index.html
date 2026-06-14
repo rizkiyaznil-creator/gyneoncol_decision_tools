@@ -13,8 +13,12 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="default" />
   <meta name="apple-mobile-web-app-title" content="GynOnco" />
   <script>
-    /* Pra-render: sembunyikan gerbang tenaga kesehatan tanpa flash bagi yang sudah masuk. */
-    try { if (localStorage.getItem('gynonco-pro-ack') === '1') document.documentElement.classList.add('pro-ack'); } catch (e) {}
+    /* Pra-render: gerbang tenaga kesehatan & ukuran font tersimpan, tanpa flash. */
+    try {
+      if (localStorage.getItem('gynonco-pro-ack') === '1') document.documentElement.classList.add('pro-ack');
+      var fs = parseInt(localStorage.getItem('gynonco-font-scale'), 10);
+      if (fs >= 90 && fs <= 160) document.documentElement.style.fontSize = fs + '%';
+    } catch (e) {}
   </script>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="stylesheet" href="./styles/main.css" />
@@ -91,7 +95,6 @@
         <strong>GynOnco Decision Tools</strong> · Edukasi &amp; pendukung keputusan klinis.
         Konten mengacu FIGO, NCCN, ESGO/ESMO, dan WHO Classification — selalu cek versi terbaru.
       </p>
-      <p class="app-footer__meta">Tidak menyimpan data pasien · Berjalan sepenuhnya di perangkat Anda</p>
     </div>
   </footer>
 

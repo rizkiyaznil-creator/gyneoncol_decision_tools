@@ -1,6 +1,35 @@
 import { h, mount } from '../utils/dom.js';
 import { crumbs } from './common.js';
-import { cancers } from '../data/cancers.js';
+
+// Ukuran font global (diingat per perangkat). Diterapkan ke font root agar seluruh
+// teks berbasis rem ikut menskala; nilai juga diterapkan dini di index.html (tanpa flash).
+const FONT_KEY = 'gynonco-font-scale';
+const FONT_MIN = 90, FONT_MAX = 160, FONT_STEP = 10, FONT_DEFAULT = 100;
+const clampFont = (v) => Math.min(FONT_MAX, Math.max(FONT_MIN, v));
+function getFontScale() {
+  let v = FONT_DEFAULT;
+  try { v = parseInt(localStorage.getItem(FONT_KEY), 10) || FONT_DEFAULT; } catch { /* ignore */ }
+  return clampFont(v);
+}
+function applyFontScale(v) {
+  document.documentElement.style.fontSize = v + '%';
+  try { localStorage.setItem(FONT_KEY, String(v)); } catch { /* ignore */ }
+}
+
+// Panel "Ukuran teks" — perbesar/perkecil font seluruh aplikasi.
+function fontSizePanel() {
+  let v = getFontScale();
+  const label = h('strong', { style: { minWidth: '3.2em', textAlign: 'center', fontVariantNumeric: 'tabular-nums' } }, v + '%');
+  const update = (nv) => { v = clampFont(nv); applyFontScale(v); label.textContent = v + '%'; };
+  const dec = h('button', { class: 'btn btn--ghost', type: 'button', 'aria-label': 'Perkecil teks', style: { fontSize: '.85rem', minWidth: '48px' }, onClick: () => update(v - FONT_STEP) }, 'A−');
+  const inc = h('button', { class: 'btn btn--ghost', type: 'button', 'aria-label': 'Perbesar teks', style: { fontSize: '1.2rem', minWidth: '48px' }, onClick: () => update(v + FONT_STEP) }, 'A+');
+  const reset = h('button', { class: 'btn btn--ghost', type: 'button', onClick: () => update(FONT_DEFAULT) }, 'Reset');
+  return h('div', { class: 'panel' },
+    h('h2', {}, 'Ukuran teks'),
+    h('p', { class: 'muted', style: { marginTop: '0' } }, 'Perbesar atau perkecil ukuran huruf untuk seluruh aplikasi. Pengaturan diingat di perangkat ini.'),
+    h('div', { class: 'btn-row', style: { alignItems: 'center', gap: '10px' } }, dec, label, inc, reset)
+  );
+}
 
 // Panel "Pasang aplikasi" (PWA). Android/Chrome memakai prompt native (via window.GynOncoPWA);
 // iOS Safari & fallback menampilkan instruksi manual. Semua akses window/navigator dijaga aman.
@@ -88,8 +117,6 @@ function sharePanel() {
 }
 
 export function renderAbout(root) {
-  const sites = cancers.map((c) => c.shortName);
-  const siteList = sites.length > 1 ? sites.slice(0, -1).join(', ') + ', dan ' + sites[sites.length - 1] : sites[0];
   mount(root,
     crumbs([{ label: 'Beranda', href: '#/' }, { label: 'Tentang & Disclaimer' }]),
     h('h1', {}, 'Tentang & Disclaimer'),
@@ -100,11 +127,7 @@ export function renderAbout(root) {
       'Aplikasi ini tidak menggantikan penilaian klinis, pemeriksaan langsung, maupun diskusi tumor board. ' +
       'Verifikasi setiap keluaran terhadap guideline primer terbaru dan kondisi spesifik pasien.'),
 
-    h('div', { class: 'panel' },
-      h('h2', {}, 'Ruang lingkup'),
-      h('p', {}, 'Keganasan ginekologi yang dicakup: ' + siteList + '.'),
-      h('p', {}, 'Setiap modul memuat informasi stadium (FIGO/WHO) dan alat bantu keputusan yang relevan, seperti kalkulator dosis kemoterapi dan algoritma penentuan terapi adjuvant. Cakupan akan terus dikembangkan.')
-    ),
+    fontSizePanel(),
 
     installPanel(),
 

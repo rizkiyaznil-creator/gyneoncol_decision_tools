@@ -68,7 +68,7 @@ body {
   color: var(--text);
   background: var(--bg);
   line-height: 1.55;
-  font-size: 16px;
+  font-size: 1rem;
 }
 
 h1, h2, h3, h4 { line-height: 1.25; color: var(--slate-900); margin: 0 0 .4em; }
@@ -352,7 +352,6 @@ fieldset legend { font-weight: 700; font-size: .9rem; color: var(--slate-700); p
 .app-footer { border-top: 1px solid var(--border); background: #fff; margin-top: auto; }
 .app-footer__inner { padding: 24px 18px; }
 .app-footer p { font-size: .82rem; color: var(--muted); margin: 0 0 6px; }
-.app-footer__meta { font-size: .76rem !important; color: var(--slate-400) !important; }
 
 body { display: flex; flex-direction: column; min-height: 100vh; }
 
