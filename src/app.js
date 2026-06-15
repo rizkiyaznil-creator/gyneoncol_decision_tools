@@ -7,6 +7,7 @@ import { renderCancerPage } from './components/cancerPage.js';
 import { renderToolPage } from './components/toolPage.js';
 import { renderToolsIndex } from './components/toolsIndex.js';
 import { renderAbout } from './components/about.js';
+import { renderSearch } from './components/search.js';
 import { renderNotFound } from './components/common.js';
 
 const content = document.getElementById('content');
@@ -17,7 +18,7 @@ function segments() {
 
 // Sorot tab navigasi bawah sesuai rute aktif.
 function highlightBottomNav(seg) {
-  const key = seg[0] === 'tentang' ? 'about' : seg[0] === 'alat' ? 'tools' : 'home';
+  const key = seg[0] === 'tentang' ? 'about' : seg[0] === 'cari' ? 'search' : seg[0] === 'alat' ? 'tools' : 'home';
   document.querySelectorAll('.bottom-nav a[data-nav]').forEach((a) => {
     if (a.dataset.nav === key) a.setAttribute('aria-current', 'page');
     else a.removeAttribute('aria-current');
@@ -48,6 +49,8 @@ function route() {
     } else {
       renderToolsIndex(content);
     }
+  } else if (seg[0] === 'cari') {
+    renderSearch(content);
   } else if (seg[0] === 'tentang') {
     renderAbout(content);
   } else {

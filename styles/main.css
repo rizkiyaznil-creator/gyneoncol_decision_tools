@@ -179,27 +179,27 @@ html:not(.pro-ack) body { overflow: hidden; }
 .pro-gate__fine { font-size: .78rem; color: var(--muted); margin: 16px 0 0; }
 
 /* ---------- Main ---------- */
-#content { padding-top: 28px; padding-bottom: 56px; min-height: 60vh; outline: none; }
+#content { padding-top: 16px; padding-bottom: 40px; min-height: 60vh; outline: none; }
 
 /* ---------- Breadcrumbs ---------- */
-.crumbs { font-size: .82rem; color: var(--muted); margin-bottom: 16px; display: flex; flex-wrap: wrap; gap: 6px; align-items: center; }
+.crumbs { font-size: .82rem; color: var(--muted); margin-bottom: 12px; display: flex; flex-wrap: wrap; gap: 6px; align-items: center; }
 .crumbs a { color: var(--muted); font-weight: 600; }
 .crumbs span[aria-hidden] { opacity: .5; }
 .crumbs .crumbs__current { color: var(--slate-700); }
 
 /* ---------- Hero (home) ---------- */
-.hero { text-align: center; padding: 22px 0 30px; }
+.hero { text-align: center; padding: 8px 0 16px; }
 .hero__eyebrow {
   display: inline-block; font-size: .76rem; font-weight: 700; letter-spacing: .08em;
   text-transform: uppercase; color: var(--teal-700); background: var(--teal-50);
-  border: 1px solid var(--teal-100); padding: 5px 12px; border-radius: 999px; margin-bottom: 16px;
+  border: 1px solid var(--teal-100); padding: 5px 12px; border-radius: 999px; margin-bottom: 10px;
 }
 .hero h1 { font-size: clamp(1.7rem, 4.5vw, 2.6rem); letter-spacing: -.03em; }
 .hero h1 .accent { color: var(--teal-700); }
 .hero__lead { max-width: 640px; margin: 0 auto; color: var(--slate-600); font-size: 1.05rem; }
 
 /* ---------- Section headings ---------- */
-.section-head { margin: 34px 0 16px; }
+.section-head { margin: 22px 0 12px; }
 .section-head h2 { font-size: 1.25rem; letter-spacing: -.01em; }
 .section-head p { color: var(--muted); margin: .2em 0 0; font-size: .92rem; }
 
@@ -229,6 +229,19 @@ a.card:hover { text-decoration: none; transform: translateY(-2px); box-shadow: v
 }
 .tag--guide { background: var(--teal-50); color: var(--teal-700); border: 1px solid var(--teal-100); }
 
+/* ---------- Search page ---------- */
+.search-box { display: flex; align-items: center; gap: 8px; background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 0 12px; box-shadow: var(--shadow-sm); }
+.search-box:focus-within { border-color: var(--teal-500); box-shadow: 0 0 0 3px var(--teal-50); }
+.search-box__icon { font-size: 1.1rem; flex: none; }
+.search-box__input { flex: 1; min-width: 0; border: none; outline: none; background: transparent; font: inherit; font-size: 1rem; padding: 13px 4px; color: var(--text); }
+.search-results { margin-top: 10px; display: flex; flex-direction: column; gap: 4px; }
+.search-result { display: flex; align-items: center; gap: 12px; padding: 10px 12px; border-radius: 10px; border: 1px solid transparent; color: var(--text); }
+.search-result:hover, .search-result.is-active { background: var(--teal-50); border-color: var(--teal-100); text-decoration: none; }
+.search-result__type { flex: none; font-size: .64rem; font-weight: 700; text-transform: uppercase; letter-spacing: .04em; color: var(--teal-700); background: #fff; border: 1px solid var(--teal-100); padding: 3px 7px; border-radius: 999px; min-width: 58px; text-align: center; }
+.search-result__main { display: flex; flex-direction: column; min-width: 0; }
+.search-result__title { font-weight: 700; color: var(--slate-900); }
+.search-result__sub { font-size: .82rem; color: var(--muted); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+
 /* ---------- Cancer page header ---------- */
 .page-head { display: flex; gap: 16px; align-items: flex-start; margin-bottom: 8px; }
 .page-head__icon { font-size: 30px; width: 58px; height: 58px; flex: none; border-radius: 14px; display: grid; place-items: center;
@@ -237,7 +250,7 @@ a.card:hover { text-decoration: none; transform: translateY(-2px); box-shadow: v
 .page-head__sub { color: var(--muted); margin: 0; font-size: .95rem; }
 
 /* ---------- Generic surface / panel ---------- */
-.panel { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 20px; box-shadow: var(--shadow-sm); margin-bottom: 18px; }
+.panel { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 20px; box-shadow: var(--shadow-sm); margin-bottom: 14px; }
 .panel > :last-child { margin-bottom: 0; }
 .panel h2 { font-size: 1.15rem; }
 .panel h3 { font-size: 1rem; margin-top: 1.1em; }
