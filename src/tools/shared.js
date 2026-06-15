@@ -72,7 +72,6 @@ export function showResult(container, { headline, sub, stats = [], extra = [] } 
     ...extra
   );
   container.hidden = false;
-  container.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
 }
 
 /** Standard warning callout reused across tools. */
