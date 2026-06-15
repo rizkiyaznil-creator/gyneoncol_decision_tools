@@ -29,6 +29,9 @@
   | Algoritma adjuvant sarkoma uteri | Per subtipe (LMS, LG-ESS, HG-ESS/UUS, adenosarkoma); karsinosarkoma → jalur endometrium |
   | Kelas molekuler & risiko endometrium | Kerangka ESGO/ESMO/ESTRO/ESP 2020 |
   | Skor prognostik GTN (WHO/FIGO) | Risiko rendah vs tinggi → pemilihan regimen |
+  | Kalkulator Konversi Opioid | Rotasi opioid via setara morfin oral (OME) + toleransi-silang & breakthrough |
+
+- **Manajemen Nyeri** (topik lintas-kanker): nyeri kanker esensial gin-onk (tangga WHO, opioid, adjuvan, intervensi) + kalkulator konversi opioid.
 
 - **Bahasa Indonesia**, istilah medis dipertahankan.
 - **Tanpa build step**, tanpa dependensi runtime, jalan sepenuhnya di peramban. Tidak mengirim/menyimpan data pasien.

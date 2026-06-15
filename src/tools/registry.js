@@ -11,6 +11,7 @@ import endometrialMolecular from './endometrialMolecular.js';
 import endometrialStaging from './endometrialStaging.js';
 import melanomaStaging from './melanomaStaging.js';
 import melanomaManagement from './melanomaManagement.js';
+import opioidConversion from './opioidConversion.js';
 import gtnScore from './gtnScore.js';
 
 export const tools = [
@@ -24,6 +25,7 @@ export const tools = [
   endometrialStaging,
   melanomaStaging,
   melanomaManagement,
+  opioidConversion,
   gtnScore,
 ];
 

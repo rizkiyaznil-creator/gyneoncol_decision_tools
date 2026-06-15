@@ -8,6 +8,7 @@ import { renderToolPage } from './components/toolPage.js';
 import { renderToolsIndex } from './components/toolsIndex.js';
 import { renderAbout } from './components/about.js';
 import { renderSearch } from './components/search.js';
+import { renderPain } from './components/painPage.js';
 import { renderNotFound } from './components/common.js';
 
 const content = document.getElementById('content');
@@ -51,6 +52,8 @@ function route() {
     }
   } else if (seg[0] === 'cari') {
     renderSearch(content);
+  } else if (seg[0] === 'nyeri') {
+    renderPain(content);
   } else if (seg[0] === 'tentang') {
     renderAbout(content);
   } else {

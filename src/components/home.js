@@ -34,9 +34,14 @@ export function renderHome(root) {
 
     h('div', { class: 'section-head' },
       h('h2', {}, 'Mulai cepat'),
-      h('p', {}, 'Akses alat lintas-kanker atau pelajari ruang lingkup aplikasi.')
+      h('p', {}, 'Topik lintas-kanker, alat, dan info aplikasi.')
     ),
     h('div', { class: 'grid grid--tools' },
+      h('a', { class: 'card', href: '#/nyeri' },
+        h('p', { class: 'card__title' }, '💊 Manajemen Nyeri'),
+        h('p', { class: 'card__desc' }, 'Nyeri kanker (tangga WHO, opioid, adjuvan) & kalkulator konversi opioid — esensial gin-onk.'),
+        h('div', { class: 'card__meta' }, h('span', { class: 'card__cta' }, 'Buka →'))
+      ),
       h('a', { class: 'card', href: '#/alat' },
         h('p', { class: 'card__title' }, '🧮 Semua alat'),
         h('p', { class: 'card__desc' }, 'Kalkulator dosis, skor prognostik, dan algoritma terapi dalam satu daftar.'),

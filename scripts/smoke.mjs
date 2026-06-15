@@ -15,6 +15,7 @@ const { renderToolPage } = await import('../src/components/toolPage.js');
 const { renderToolsIndex } = await import('../src/components/toolsIndex.js');
 const { renderAbout } = await import('../src/components/about.js');
 const { renderSearch } = await import('../src/components/search.js');
+const { renderPain } = await import('../src/components/painPage.js');
 
 let errors = 0;
 const fail = (m, e) => { console.error('  ✗', m, '→', e?.message || e); errors++; };
@@ -38,6 +39,7 @@ try { renderHome(fresh()); const n = content.querySelectorAll('.card').length; i
 try { renderToolsIndex(fresh()); ok('daftar alat'); } catch (e) { fail('daftar alat', e); }
 try { renderAbout(fresh()); ok('tentang'); } catch (e) { fail('tentang', e); }
 try { const b = fresh(); renderSearch(b); const inp = b.querySelector('.search-box__input'); inp.value = 'serv'; inp.dispatchEvent(new dom.window.Event('input', { bubbles: true })); if (!b.querySelector('.search-result')) throw new Error('tak ada hasil untuk "serv"'); ok('cari'); } catch (e) { fail('cari', e); }
+try { const b = fresh(); renderPain(b); if (!b.querySelector('.data-table')) throw new Error('konten nyeri tak render'); ok('manajemen nyeri'); } catch (e) { fail('manajemen nyeri', e); }
 
 console.log('\n== Halaman kanker (semua tab) ==');
 for (const c of cancers) {

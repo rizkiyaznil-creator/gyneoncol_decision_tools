@@ -10,6 +10,7 @@ function buildIndex() {
   const e = [];
   e.push({ label: 'Beranda', sub: 'Halaman utama', type: 'Menu', href: '#/', text: 'beranda home utama awal' });
   e.push({ label: 'Semua alat', sub: 'Daftar alat bantu keputusan', type: 'Menu', href: '#/alat', text: 'alat tools daftar kalkulator algoritma' });
+  e.push({ label: 'Manajemen Nyeri', sub: 'Nyeri kanker, opioid, adjuvan, konversi opioid', type: 'Topik', href: '#/nyeri', text: 'nyeri pain manajemen paliatif opioid morfin fentanil konversi rotasi tangga who adjuvan neuropatik breakthrough' });
   e.push({ label: 'Tentang & Disclaimer', sub: 'Ruang lingkup, privasi, ukuran teks, bagikan', type: 'Menu', href: '#/tentang', text: 'tentang disclaimer privasi ukuran teks bagikan pasang aplikasi' });
   for (const c of cancers) {
     e.push({
