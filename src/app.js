@@ -27,6 +27,36 @@ function highlightBottomNav(seg) {
   });
 }
 
+// Hitung URL & label tujuan tombol kembali berdasarkan segmen rute.
+function getBackTarget(seg) {
+  if (seg.length === 0) return null;
+  if (seg[0] === 'c' && seg[1]) {
+    if ((seg[2] === 'alat' || seg[2] === 'tab') && seg[3]) {
+      const cancer = getCancer(seg[1]);
+      return { href: '#/c/' + seg[1], label: cancer ? cancer.name : 'Kembali' };
+    }
+    return { href: '#/', label: 'Beranda' };
+  }
+  if (seg[0] === 'alat' && seg[1]) return { href: '#/alat', label: 'Alat' };
+  if (seg[0] === 'nyeri') return { href: '#/', label: 'Beranda' };
+  return null;
+}
+
+function updateBackBtn(seg) {
+  const btn = document.getElementById('back-btn');
+  const lbl = document.getElementById('back-btn-label');
+  if (!btn || !lbl) return;
+  const target = getBackTarget(seg);
+  if (target) {
+    btn.hidden = false;
+    lbl.textContent = target.label;
+    btn.onclick = () => { location.href = target.href; };
+  } else {
+    btn.hidden = true;
+    btn.onclick = null;
+  }
+}
+
 function route() {
   const seg = segments();
   clear(content);
@@ -62,6 +92,7 @@ function route() {
   }
 
   highlightBottomNav(seg);
+  updateBackBtn(seg);
   window.scrollTo(0, 0);
   content.focus({ preventScroll: true });
 }
