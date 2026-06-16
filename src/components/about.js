@@ -1,5 +1,24 @@
 import { h, mount } from '../utils/dom.js';
 import { crumbs } from './common.js';
+import { THEME_KEY, getThemePref, applyTheme } from '../utils/theme.js';
+
+// Panel "Tema": terang / gelap / ikuti sistem. Diingat per perangkat.
+function themePanel() {
+  let pref = getThemePref();
+  const opts = [['light', 'Terang'], ['dark', 'Gelap'], ['system', 'Ikuti sistem']];
+  const btns = [];
+  const refresh = () => btns.forEach(({ b, v }) => b.setAttribute('aria-pressed', v === pref ? 'true' : 'false'));
+  opts.forEach(([v, label]) => {
+    const b = h('button', { class: 'btn btn--ghost theme-opt', type: 'button', onClick: () => { pref = v; applyTheme(v); refresh(); } }, label);
+    btns.push({ b, v });
+  });
+  refresh();
+  return h('div', { class: 'panel' },
+    h('h2', {}, 'Tema'),
+    h('p', { class: 'muted', style: { marginTop: '0' } }, 'Tampilan terang, gelap, atau ikuti pengaturan sistem perangkat. Diingat di perangkat ini.'),
+    h('div', { class: 'btn-row' }, ...btns.map(({ b }) => b))
+  );
+}
 
 // Ukuran font global (diingat per perangkat). Diterapkan ke font root agar seluruh
 // teks berbasis rem ikut menskala; nilai juga diterapkan dini di index.html (tanpa flash).
@@ -126,6 +145,8 @@ export function renderAbout(root) {
       'GynOnco Decision Tools adalah alat bantu edukasi dan pendukung keputusan untuk tenaga medis profesional. ' +
       'Aplikasi ini tidak menggantikan penilaian klinis, pemeriksaan langsung, maupun diskusi tumor board. ' +
       'Verifikasi setiap keluaran terhadap guideline primer terbaru dan kondisi spesifik pasien.'),
+
+    themePanel(),
 
     fontSizePanel(),
 

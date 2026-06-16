@@ -145,7 +145,7 @@ a:hover { text-decoration: underline; }
 }
 .disclaimer-banner p { margin: 0; font-size: .85rem; color: var(--amber-700); }
 .disclaimer-banner__close {
-  margin-left: auto; flex: none; border: 1px solid var(--amber-400); background: #fff;
+  margin-left: auto; flex: none; border: 1px solid var(--amber-400); background: var(--surface);
   color: var(--amber-700); padding: 6px 12px; border-radius: 8px; font-weight: 600;
   font-size: .82rem; cursor: pointer;
 }
@@ -237,7 +237,7 @@ a.card:hover { text-decoration: none; transform: translateY(-2px); box-shadow: v
 .search-results { margin-top: 10px; display: flex; flex-direction: column; gap: 4px; }
 .search-result { display: flex; align-items: center; gap: 12px; padding: 10px 12px; border-radius: 10px; border: 1px solid transparent; color: var(--text); }
 .search-result:hover, .search-result.is-active { background: var(--teal-50); border-color: var(--teal-100); text-decoration: none; }
-.search-result__type { flex: none; font-size: .64rem; font-weight: 700; text-transform: uppercase; letter-spacing: .04em; color: var(--teal-700); background: #fff; border: 1px solid var(--teal-100); padding: 3px 7px; border-radius: 999px; min-width: 58px; text-align: center; }
+.search-result__type { flex: none; font-size: .64rem; font-weight: 700; text-transform: uppercase; letter-spacing: .04em; color: var(--teal-700); background: var(--surface); border: 1px solid var(--teal-100); padding: 3px 7px; border-radius: 999px; min-width: 58px; text-align: center; }
 .search-result__main { display: flex; flex-direction: column; min-width: 0; }
 .search-result__title { font-weight: 700; color: var(--slate-900); }
 .search-result__sub { font-size: .82rem; color: var(--muted); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
@@ -307,7 +307,7 @@ a.card:hover { text-decoration: none; transform: translateY(-2px); box-shadow: v
 .field__hint { font-size: .76rem; color: var(--muted); }
 .field input, .field select {
   font: inherit; font-size: .95rem; padding: 10px 12px; border: 1px solid var(--slate-300);
-  border-radius: 10px; background: #fff; color: var(--slate-800); width: 100%;
+  border-radius: 10px; background: var(--surface); color: var(--text); width: 100%;
 }
 .field input:focus, .field select:focus { outline: 2px solid var(--teal-500); outline-offset: 1px; border-color: var(--teal-500); }
 .field--inline { flex-direction: row; align-items: center; gap: 10px; }
@@ -328,7 +328,7 @@ fieldset legend { font-weight: 700; font-size: .9rem; color: var(--slate-700); p
 }
 .btn--primary { background: var(--teal-700); color: #fff; }
 .btn--primary:hover { background: var(--teal-800); }
-.btn--ghost { background: #fff; border-color: var(--slate-300); color: var(--slate-700); }
+.btn--ghost { background: var(--surface); border-color: var(--slate-300); color: var(--slate-700); }
 .btn--ghost:hover { background: var(--slate-50); }
 .btn-row { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 4px; }
 
@@ -338,7 +338,7 @@ fieldset legend { font-weight: 700; font-size: .9rem; color: var(--slate-700); p
 .result__headline { font-size: 1.5rem; font-weight: 800; color: var(--teal-800); margin: 0 0 4px; }
 .result__sub { color: var(--slate-600); font-size: .9rem; margin: 0; }
 .result__grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 12px; margin-top: 14px; }
-.result__stat { background: #fff; border: 1px solid var(--teal-100); border-radius: 10px; padding: 12px 14px; }
+.result__stat { background: var(--surface); border: 1px solid var(--teal-100); border-radius: 10px; padding: 12px 14px; }
 .result__stat .v { font-size: 1.25rem; font-weight: 800; color: var(--teal-800); }
 .result__stat .k { font-size: .76rem; color: var(--muted); text-transform: uppercase; letter-spacing: .03em; }
 
@@ -362,7 +362,7 @@ fieldset legend { font-weight: 700; font-size: .9rem; color: var(--slate-700); p
 .empty { text-align: center; color: var(--muted); padding: 40px 16px; }
 
 /* ---------- Footer ---------- */
-.app-footer { border-top: 1px solid var(--border); background: #fff; margin-top: auto; }
+.app-footer { border-top: 1px solid var(--border); background: var(--surface); margin-top: auto; }
 .app-footer__inner { padding: 24px 18px; }
 .app-footer p { font-size: .82rem; color: var(--muted); margin: 0 0 6px; }
 
@@ -376,7 +376,55 @@ body { display: flex; flex-direction: column; min-height: 100vh; }
 }
 
 @media print {
-  .app-header, .app-footer, .disclaimer-banner, .pro-gate, .app-nav, .bottom-nav, .btn-row, .tabs, .back-link, .skip-link { display: none !important; }
+  .app-header, .app-footer, .disclaimer-banner, .pro-gate, .install-popup, .app-nav, .bottom-nav, .btn-row, .tabs, .back-link, .skip-link { display: none !important; }
   body { background: #fff; }
   .panel, .card, .result { box-shadow: none; border-color: #ccc; }
+}
+
+/* ---------- Kartu alat unggulan ---------- */
+.card--featured { border: 1.5px solid var(--teal-300); background: var(--teal-50); }
+.card__badge { align-self: flex-start; font-size: .66rem; font-weight: 800; text-transform: uppercase; letter-spacing: .05em; color: var(--teal-700); background: var(--surface); border: 1px solid var(--teal-200); padding: 3px 9px; border-radius: 999px; }
+
+/* ---------- Pemilih tema ---------- */
+.theme-opt[aria-pressed="true"] { background: var(--teal-700); border-color: var(--teal-700); color: #fff; }
+
+/* ---------- Popup install ---------- */
+.install-popup { position: fixed; inset: 0; z-index: 150; display: grid; place-items: end center; padding: 16px; background: rgba(15, 23, 42, .5); -webkit-backdrop-filter: blur(2px); backdrop-filter: blur(2px); }
+.install-popup[hidden] { display: none; }
+@media (min-width: 560px) { .install-popup { place-items: center; } }
+.install-popup__card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); box-shadow: var(--shadow-lg); padding: 22px; max-width: 420px; width: 100%; text-align: center; }
+.install-popup__icon { font-size: 2rem; }
+.install-popup__title { font-size: 1.12rem; margin: 8px 0 6px; }
+.install-popup__desc { color: var(--muted); font-size: .9rem; margin: 0 0 14px; }
+.install-popup__actions { display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; }
+
+/* ---------- Tema gelap (hanya layar; cetak tetap terang) ---------- */
+@media screen {
+  [data-theme="dark"] {
+    --slate-50: #0f172a; --slate-100: #1e293b; --slate-200: #334155; --slate-300: #475569;
+    --slate-400: #64748b; --slate-500: #94a3b8; --slate-600: #cbd5e1; --slate-700: #e2e8f0;
+    --slate-800: #f1f5f9; --slate-900: #f8fafc;
+    --teal-50: #0c2e2a; --teal-100: #134e4a; --teal-200: #1f5f57;
+    --amber-50: #2e2206; --amber-100: #3d2e08;
+    --red-50: #2e1212; --red-100: #3d1818;
+    --green-50: #0c2a16; --green-100: #143d1f;
+    --bg: #0b1220; --surface: #111a2e; --text: #e7ecf3; --muted: #9aa7bd; --border: #2a3650;
+    color-scheme: dark;
+  }
+  [data-theme="dark"] a,
+  [data-theme="dark"] .hero__eyebrow,
+  [data-theme="dark"] .tag--guide,
+  [data-theme="dark"] .search-result__type,
+  [data-theme="dark"] .card__cta,
+  [data-theme="dark"] .card__badge,
+  [data-theme="dark"] .brand__title span,
+  [data-theme="dark"] .tabs button[aria-selected="true"] { color: #5eead4; }
+  [data-theme="dark"] .risk-low { color: #86efac; }
+  [data-theme="dark"] .risk-int { color: #fcd34d; }
+  [data-theme="dark"] .risk-high { color: #fca5a5; }
+  [data-theme="dark"] .note--warn, [data-theme="dark"] .note--warn strong,
+  [data-theme="dark"] .disclaimer-banner p, [data-theme="dark"] .disclaimer-banner__close { color: #fcd34d; }
+  [data-theme="dark"] .app-header { background: rgba(13, 20, 36, .82); }
+  [data-theme="dark"] .bottom-nav { background: rgba(13, 20, 36, .92); }
+  [data-theme="dark"] .card__icon, [data-theme="dark"] .page-head__icon { background: rgba(255, 255, 255, .06); }
 }

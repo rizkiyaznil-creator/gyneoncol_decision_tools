@@ -13,11 +13,15 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="default" />
   <meta name="apple-mobile-web-app-title" content="GynOnco" />
   <script>
-    /* Pra-render: gerbang tenaga kesehatan & ukuran font tersimpan, tanpa flash. */
+    /* Pra-render: gerbang tenaga kesehatan, ukuran font & tema tersimpan, tanpa flash. */
     try {
       if (localStorage.getItem('gynonco-pro-ack') === '1') document.documentElement.classList.add('pro-ack');
       var fs = parseInt(localStorage.getItem('gynonco-font-scale'), 10);
       if (fs >= 50 && fs <= 160) document.documentElement.style.fontSize = fs + '%';
+      var tp = localStorage.getItem('gynonco-theme') || 'system';
+      var dark = tp === 'dark' || (tp === 'system' && window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches);
+      document.documentElement.dataset.theme = dark ? 'dark' : 'light';
+      var mc = document.querySelector('meta[name="theme-color"]'); if (mc) mc.setAttribute('content', dark ? '#0b1220' : '#0f766e');
     } catch (e) {}
   </script>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -54,6 +58,20 @@
       </p>
       <div class="pro-gate__actions">
         <button type="button" id="pro-gate-back" class="pro-gate__link">← Kembali</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Popup ajakan install (browser, belum terpasang). Dikelola di app.js. -->
+  <div id="install-popup" class="install-popup" hidden role="dialog" aria-modal="true" aria-labelledby="install-popup-title">
+    <div class="install-popup__card">
+      <span class="install-popup__icon" aria-hidden="true">📲</span>
+      <h2 id="install-popup-title" class="install-popup__title">Install aplikasi untuk akses lebih cepat</h2>
+      <p class="install-popup__desc">Tambahkan ke layar utama — tampilan layar penuh, bisa dipakai offline, tanpa app store.</p>
+      <div id="install-popup-tips" class="note" hidden></div>
+      <div class="install-popup__actions">
+        <button type="button" id="install-popup-go" class="btn btn--primary">📲 Pasang aplikasi</button>
+        <button type="button" id="install-popup-later" class="btn btn--ghost">Nanti</button>
       </div>
     </div>
   </div>

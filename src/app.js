@@ -10,6 +10,7 @@ import { renderAbout } from './components/about.js';
 import { renderSearch } from './components/search.js';
 import { renderPain } from './components/painPage.js';
 import { renderNotFound } from './components/common.js';
+import { initSystemThemeListener } from './utils/theme.js';
 
 const content = document.getElementById('content');
 
@@ -67,6 +68,9 @@ function route() {
 
 window.addEventListener('hashchange', route);
 
+// Tema "ikuti sistem" → ikut berubah saat tema OS berubah (preferensi diterapkan dini di index.html).
+initSystemThemeListener();
+
 // Disclaimer banner (dismissible, remembered per device).
 (function initDisclaimer() {
   const banner = document.getElementById('disclaimer-banner');
@@ -116,6 +120,7 @@ window.addEventListener('hashchange', route);
     const banner = document.getElementById('disclaimer-banner');
     if (banner) banner.hidden = true;
     content.focus({ preventScroll: true });
+    window.dispatchEvent(new Event('gynonco-pro-acked'));
   });
 
   decline.addEventListener('click', () => { mainCard.hidden = true; declinedCard.hidden = false; back.focus(); });
@@ -191,4 +196,48 @@ const GOATCOUNTER_CODE = 'rizkiyaznil'; // Kode situs GoatCounter (rizkiyaznil.g
       return choice && choice.outcome === 'accepted';
     },
   };
+})();
+
+// Popup ajakan install (saat dibuka di browser & belum terpasang) — muncul setelah gerbang tenaga kesehatan.
+(function initInstallPopup() {
+  const popup = document.getElementById('install-popup');
+  if (!popup) return;
+  const KEY = 'gynonco-install-dismissed';
+  const standalone = (typeof window.matchMedia === 'function' && window.matchMedia('(display-mode: standalone)').matches) || navigator.standalone === true;
+  let dismissed = false;
+  try { dismissed = localStorage.getItem(KEY) === '1'; } catch { /* ignore */ }
+  if (standalone || dismissed) return;
+
+  const ua = navigator.userAgent || '';
+  const isIOS = /iphone|ipad|ipod/i.test(ua) || (/Macintosh/.test(ua) && (navigator.maxTouchPoints || 0) > 1);
+  const goBtn = document.getElementById('install-popup-go');
+  const laterBtn = document.getElementById('install-popup-later');
+  const tips = document.getElementById('install-popup-tips');
+
+  const close = (remember) => {
+    popup.hidden = true;
+    if (remember) { try { localStorage.setItem(KEY, '1'); } catch { /* ignore */ } }
+  };
+  const showTips = () => {
+    tips.textContent = isIOS
+      ? 'iPhone/iPad (Safari): ketuk tombol Bagikan, lalu pilih “Tambahkan ke Layar Utama”.'
+      : 'Buka menu browser (⋮), lalu pilih “Pasang aplikasi” / “Tambahkan ke layar utama”.';
+    tips.hidden = false;
+  };
+
+  goBtn.addEventListener('click', async () => {
+    const pwa = window.GynOncoPWA;
+    if (pwa && pwa.canInstall && pwa.canInstall()) {
+      const ok = await pwa.install();
+      if (ok) close(true); else showTips();
+    } else {
+      showTips();
+    }
+  });
+  laterBtn.addEventListener('click', () => close(true));
+  popup.addEventListener('click', (e) => { if (e.target === popup) close(true); });
+
+  const show = () => { if (popup.hidden) popup.hidden = false; };
+  if (document.documentElement.classList.contains('pro-ack')) setTimeout(show, 700);
+  else window.addEventListener('gynonco-pro-acked', () => setTimeout(show, 400));
 })();
