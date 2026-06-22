@@ -1,5 +1,5 @@
 import { h, mount } from '../utils/dom.js';
-import { num, round, field, selectField, stat, showResult, disclaimerNote } from './shared.js';
+import { num, round, field, selectField, stat, showResult, disclaimerNote, criteriaBox, formula } from './shared.js';
 
 // Regimen & dosis kemoterapi terpadu (menggantikan kalkulator BSA, Carboplatin, dan Cisplatin terpisah).
 //
@@ -605,6 +605,21 @@ export default {
       el.addEventListener('input', calc));
     scrUnit.input.addEventListener('change', calc);
 
+    const criteria = criteriaBox(
+      h('p', { style: { margin: '0 0 4px', fontWeight: '700' } }, 'Luas permukaan tubuh (BSA)'),
+      formula('Mosteller (dipakai): √(TB × BB / 3600)\nDuBois: 0,007184 × TB^0,725 × BB^0,425'),
+      h('p', { style: { margin: '12px 0 4px', fontWeight: '700' } }, 'Klirens kreatinin (Cockcroft–Gault)'),
+      formula('GFR = ((140 − usia) × BB × 0,85) / (72 × SCr[mg/dL])'),
+      h('p', { class: 'muted', style: { margin: '0', fontSize: '.82rem' } }, 'Kreatinin µmol/L → mg/dL: dibagi 88,4. Opsi membatasi GFR ≤ 125 mL/min mencegah overdosis pada estimasi CrCl tinggi.'),
+      h('p', { style: { margin: '12px 0 4px', fontWeight: '700' } }, 'Carboplatin (formula Calvert)'),
+      formula('Dosis (mg) = AUC × (GFR + 25)  →  dibulatkan ke 10 mg terdekat'),
+      h('p', { style: { margin: '12px 0 4px', fontWeight: '700' } }, 'Dosis per luas permukaan / berat badan'),
+      formula('Total = dosis (mg/m²) × BSA\nTotal = dosis (mg/kg) × BB'),
+      h('p', { class: 'muted', style: { margin: '0', fontSize: '.82rem' } }, 'Batas per pemberian: cisplatin mingguan ≤ 70 mg · vinkristin ≤ 2 mg · aktinomisin-D pulsed ≤ 2 mg.'),
+      h('p', { style: { margin: '12px 0 4px', fontWeight: '700' } }, 'Niraparib — dosis awal individualized (PRIMA)'),
+      h('p', { style: { margin: '0', fontSize: '.86rem' } }, '200 mg/hari bila BB < 77 kg atau trombosit < 150 ×10³/µL; selain itu 300 mg/hari.')
+    );
+
     container.appendChild(
       h('div', { class: 'stack' },
         h('p', { class: 'muted' }, 'Pilih regimen atau mode, lalu masukkan data pasien. Semua dosis praset dapat disesuaikan; hasil diperbarui otomatis.'),
@@ -614,6 +629,7 @@ export default {
         gfrBlock,
         doseWrap,
         result,
+        criteria,
         disclaimerNote('Kalkulator pendukung — bukan resep. Sesuaikan dengan fungsi ginjal, antiemetik, modifikasi/penundaan dosis, batas kumulatif, dan kebijakan institusi. Verifikasi setiap dosis dengan apoteker onkologi.')
       )
     );

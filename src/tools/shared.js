@@ -81,3 +81,24 @@ export function disclaimerNote(text) {
     text
   );
 }
+
+/** Blok rumus monospace untuk dipakai di dalam disclosure kriteria. */
+export function formula(text) {
+  return h('div', { class: 'criteria__formula' }, text);
+}
+
+/**
+ * Disclosure "Tampilkan kriteria & rumus" yang dapat dibuka-tutup (native <details>).
+ * Memperlihatkan dasar perhitungan/kriteria agar hasil alat transparan & dapat diverifikasi.
+ */
+export function criteriaBox(...children) {
+  return h('details', { class: 'criteria' },
+    h('summary', { class: 'criteria__summary' },
+      h('span', { class: 'criteria__chev', 'aria-hidden': 'true' }),
+      h('span', { class: 'criteria__verb criteria__verb--show' }, 'Tampilkan '),
+      h('span', { class: 'criteria__verb criteria__verb--hide' }, 'Sembunyikan '),
+      h('span', {}, 'kriteria & rumus')
+    ),
+    h('div', { class: 'criteria__body' }, ...children.filter(Boolean))
+  );
+}

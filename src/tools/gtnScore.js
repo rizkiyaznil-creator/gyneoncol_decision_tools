@@ -1,5 +1,5 @@
 import { h } from '../utils/dom.js';
-import { selectField, showResult, disclaimerNote } from './shared.js';
+import { selectField, showResult, disclaimerNote, criteriaBox } from './shared.js';
 
 // Faktor & skor sistem prognostik WHO/FIGO yang dimodifikasi (FIGO 2000).
 const FACTORS = [
@@ -52,11 +52,31 @@ export default {
 
     fields.forEach((f) => f.input.addEventListener('change', calc));
 
+    // Tabel skor lengkap (disusun dari FACTORS agar selalu sinkron dengan perhitungan).
+    const SCORE_COLS = [0, 1, 2, 4];
+    const scoreTable = h('div', { class: 'table-scroll' },
+      h('table', { class: 'data-table' },
+        h('thead', {}, h('tr', {}, h('th', {}, 'Faktor prognostik'), ...SCORE_COLS.map((s) => h('th', {}, String(s))))),
+        h('tbody', {}, ...FACTORS.map((f) =>
+          h('tr', {}, h('td', {}, f.label), ...SCORE_COLS.map((s) => {
+            const opt = f.options.find(([, sc]) => sc === s);
+            return h('td', {}, opt ? opt[0] : '—');
+          }))))
+      )
+    );
+    const criteria = criteriaBox(
+      h('p', { class: 'muted', style: { margin: '0 0 8px', fontSize: '.82rem' } }, 'Sistem skor prognostik WHO yang dimodifikasi (FIGO 2000). Skor tiap faktor (kolom 0/1/2/4) dijumlahkan.'),
+      scoreTable,
+      h('p', { style: { margin: '12px 0 0', fontSize: '.86rem' } },
+        h('strong', {}, 'Ambang: '), 'total ≤ 6 → risiko rendah (kemoterapi agen tunggal); total ≥ 7 → risiko tinggi (multiagen, mis. EMA-CO). Tidak berlaku untuk PSTT/ETT.')
+    );
+
     container.appendChild(
       h('div', { class: 'stack' },
         h('p', { class: 'muted' }, 'Pilih kategori tiap faktor (angka dalam kurung = skor). Total dihitung otomatis. Tidak berlaku untuk PSTT/ETT.'),
         h('div', { class: 'form-grid' }, ...fields.map((f) => f.el)),
         result,
+        criteria,
         disclaimerNote('Skor ini tidak diterapkan pada PSTT/ETT (dikelola berbeda). Konfirmasi diagnosis GTN dan kategori metastasis sebelum memutuskan regimen.')
       )
     );

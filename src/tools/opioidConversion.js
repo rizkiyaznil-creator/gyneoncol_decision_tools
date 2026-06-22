@@ -1,5 +1,5 @@
 import { h } from '../utils/dom.js';
-import { num, round, field, selectField, stat, showResult, disclaimerNote } from './shared.js';
+import { num, round, field, selectField, stat, showResult, disclaimerNote, criteriaBox, formula } from './shared.js';
 
 // Kalkulator konversi/rotasi opioid berbasis setara morfin oral (OME).
 // Faktor dikonfirmasi pengguna (gin-onk): oksikodon ×1,5; hidromorfon ×5; kodein/tramadol ×0,1;
@@ -119,11 +119,33 @@ export default {
     [toDrug.input, reduction.input].forEach((el) => el.addEventListener('change', calc));
     [doseDaily.input, patch.input].forEach((el) => el.addEventListener('input', calc));
 
+    // Tabel faktor OME (disusun dari DRUGS agar sinkron dengan perhitungan).
+    const omeRows = DRUGS.map((d) => d.fentanyl
+      ? ['Fentanil transdermal', '25 mcg/jam ≈ 60 mg OME/hari']
+      : [d.label, '× ' + String(d.f).replace('.', ',')]);
+    const omeTable = h('div', { class: 'table-scroll' },
+      h('table', { class: 'data-table' },
+        h('thead', {}, h('tr', {}, h('th', {}, 'Opioid'), h('th', {}, 'Faktor ke OME'))),
+        h('tbody', {}, ...omeRows.map(([a, b]) => h('tr', {}, h('td', {}, a), h('td', {}, b))))
+      )
+    );
+    const criteria = criteriaBox(
+      h('p', { style: { margin: '0 0 4px', fontWeight: '700' } }, 'Setara morfin oral (OME)'),
+      omeTable,
+      h('p', { style: { margin: '12px 0 4px', fontWeight: '700' } }, 'Langkah konversi'),
+      formula('1) OME/hari = dosis harian × faktor asal\n   (fentanil: mcg/jam × 2,4)\n2) Sesuaikan: OME × (1 − reduksi%)\n3) Dosis tujuan = OME ÷ faktor tujuan\n   (fentanil: OME ÷ 2,4 → patch terdekat)'),
+      h('p', { class: 'muted', style: { margin: '8px 0 0', fontSize: '.82rem' } }, 'Patch fentanil tersedia: 12 · 25 · 50 · 75 · 100 mcg/jam. Breakthrough ≈ 1/6 dosis harian tujuan, PRN.'),
+      h('p', { style: { margin: '12px 0 4px', fontWeight: '700' } }, 'Pengurangan toleransi-silang'),
+      h('p', { style: { margin: '0', fontSize: '.86rem' } }, '0% bila rute sama (molekul sama) · 25–33% bila ganti jenis (disarankan 33%) · 50% pada dosis tinggi / lansia / frail.'),
+      h('p', { class: 'muted', style: { margin: '10px 0 0', fontSize: '.82rem' } }, 'Metadon & buprenorfin dikecualikan (perlu konversi khusus).')
+    );
+
     container.appendChild(
       h('div', { class: 'stack' },
         h('p', { class: 'muted' }, 'Konversi antar-opioid melalui setara morfin oral. Masukkan total dosis harian opioid asal, pilih opioid tujuan, lalu sesuaikan pengurangan toleransi-silang.'),
         h('div', { class: 'form-grid' }, fromDrug.el, doseDaily.el, patch.el, toDrug.el, reduction.el),
         result,
+        criteria,
         disclaimerNote('Kalkulator pendukung — BUKAN resep. Konversi opioid berisiko tinggi & rasio antar-sumber bervariasi. Selalu mulai konservatif, sediakan dosis breakthrough, pantau sedasi/depresi napas, dan verifikasi dengan apoteker/layanan nyeri. Metadon & buprenorfin memerlukan konversi khusus (rujuk spesialis) dan tidak dihitung di sini. Hati-hati pada gangguan ginjal/hati & lansia.')
       )
     );
