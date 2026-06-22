@@ -118,7 +118,7 @@ export default {
       },
     ],
   },
-  tools: ['chemo-dosing', 'ovarian-adjuvant'],
+  tools: ['adnexal-triage', 'ovarian-adjuvant', 'chemo-dosing'],
   references: [
     'Prat J; FIGO Committee on Gynecologic Oncology. Staging classification for cancer of the ovary, fallopian tube, and peritoneum. Int J Gynaecol Obstet. 2014;124(1):1-5.',
     'NCCN Clinical Practice Guidelines in Oncology: Ovarian Cancer (versi terkini).',

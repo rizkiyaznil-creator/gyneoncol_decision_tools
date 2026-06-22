@@ -7,6 +7,7 @@
 import chemoDosing from './chemoDosing.js';
 import endometrialMolecular from './endometrialMolecular.js';
 import endometrialStaging from './endometrialStaging.js';
+import adnexalTriage from './adnexalTriage.js';
 import ovarianAdjuvant from './ovarianAdjuvant.js';
 import cervicalAdjuvant from './cervicalAdjuvant.js';
 import cervicalStaging from './cervicalStaging.js';
@@ -21,6 +22,7 @@ export const tools = [
   chemoDosing,
   endometrialMolecular,
   endometrialStaging,
+  adnexalTriage,
   ovarianAdjuvant,
   cervicalAdjuvant,
   cervicalStaging,
