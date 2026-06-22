@@ -27,6 +27,22 @@ const SR_M = [
   { id: 'm5', label: 'M5 — Aliran darah sangat kuat (color score 4)' },
 ];
 
+// Koefisien model ADNEX (Van Calster dkk., BMJ 2014;349:g5920, Appendix D — model DENGAN CA-125,
+// dilatih ulang pada data gabungan). Prediktor: A usia (thn); B CA-125 (U/mL, →log2); C diameter lesi
+// maks (mm, →log2); p = proporsi solid (D/C); E >10 lokulus; F papiler (0–4); G bayangan akustik;
+// H asites; I senter onkologi. Urutan koef: [b0, A, log2B, log2C, p, p², E, F, G, H, I].
+const ADNEX_COEF = {
+  borderline: [-7.577663, 0.004506, 0.111642, 0.372046, 6.967853, -5.65588, 1.375079, 0.604238, -2.04157, 0.971061, 0.953043],
+  stage1:     [-12.276041, 0.017260, 0.197249, 0.873530, 9.583053, -5.83319, 0.791873, 0.400369, -1.87763, 0.452731, 0.452484],
+  stage24:    [-14.915830, 0.051239, 0.765456, 0.430477, 10.37696, -5.70975, 0.273692, 0.389874, -2.35516, 1.348408, 0.459021],
+  metastatic: [-11.909267, 0.033601, 0.276166, 0.449025, 6.644939, -2.30330, 0.899980, 0.215645, -2.49845, 1.636407, 0.808887],
+};
+const ADNEX_CATS = [
+  ['benign', 'Jinak'], ['borderline', 'Borderline'], ['stage1', 'Invasif stadium I'],
+  ['stage24', 'Invasif stadium II–IV'], ['metastatic', 'Metastasis sekunder'],
+];
+const log2 = (x) => Math.log(x) / Math.LN2;
+
 // Kelompok checkbox sederhana → { el, inputs:{id→input} }.
 function checkGroup(prefix, items) {
   const inputs = {};
@@ -52,7 +68,7 @@ const section = (title, items) =>
 export default {
   id: 'adnexal-triage',
   name: 'Triase Massa Adneksa Pra-operasi',
-  short: 'Penilaian risiko keganasan massa adneksa sebelum operasi: RMI (1/2/3), IOTA Simple Rules, ROMA (HE4+CA-125), dan input model IOTA ADNEX — untuk memutuskan rujukan ke ginekologi onkologi.',
+  short: 'Penilaian risiko keganasan massa adneksa sebelum operasi: RMI (1/2/3), IOTA Simple Rules, ROMA (HE4+CA-125), dan IOTA ADNEX (probabilitas 5 kategori subtipe) — untuk memutuskan rujukan ke ginekologi onkologi.',
   category: 'Triase pra-operasi',
   scope: 'Ovarium / adneksa',
   render(container) {
@@ -62,7 +78,7 @@ export default {
         { value: 'rmi', label: 'RMI — Risk of Malignancy Index' },
         { value: 'sr', label: 'IOTA Simple Rules' },
         { value: 'roma', label: 'ROMA — HE4 + CA-125' },
-        { value: 'adnex', label: 'IOTA ADNEX (input + kalkulator resmi)' },
+        { value: 'adnex', label: 'IOTA ADNEX (probabilitas 5 kategori)' },
       ], value: 'rmi',
     });
 
@@ -166,11 +182,11 @@ export default {
     }
     function adnexCriteria() {
       return criteriaBox(
-        h('p', { style: { margin: '0 0 6px', fontWeight: '700' } }, '9 prediktor ADNEX'),
-        h('p', { class: 'muted', style: { margin: '0', fontSize: '.84rem' } }, 'Usia · CA-125 (opsional) · tipe senter · diameter lesi maks · proporsi jaringan solid (solid maks ÷ lesi maks) · > 10 lokulus · jumlah proyeksi papiler (0/1/2/3/>3) · bayangan akustik · asites.'),
-        h('p', { style: { margin: '10px 0 4px', fontWeight: '700' } }, 'Keluaran model'),
-        h('p', { class: 'muted', style: { margin: '0', fontSize: '.84rem' } }, 'Probabilitas 5 kategori: jinak · borderline · invasif stadium I · invasif stadium II–IV · metastasis sekunder. Ambang rujukan yang lazim: risiko keganasan total ≥ 10%.'),
-        h('p', { class: 'muted', style: { margin: '10px 0 0', fontSize: '.82rem' } }, 'Alat ini TIDAK menghitung % ADNEX sendiri: regresi multinomialnya memakai suku polinomial & interaksi yang koefisiennya harus persis. Untuk menjamin akurasi, gunakan kalkulator IOTA resmi (tertaut di atas).')
+        h('p', { style: { margin: '0 0 6px', fontWeight: '700' } }, '9 prediktor (model dengan CA-125)'),
+        h('p', { class: 'muted', style: { margin: '0', fontSize: '.84rem' } }, 'A usia · B CA-125 (U/mL) · C diameter lesi maks (mm) · D komponen solid maks (mm) · p = proporsi solid (D/C) · E >10 lokulus · F papiler (0–4) · G bayangan akustik · H asites · I senter onkologi.'),
+        formula('zk = b0 + b1·A + b2·log2(B) + b3·log2(C)\n     + b4·p + b5·p² + b6·E + b7·F\n     + b8·G + b9·H + b10·I'),
+        formula('P(jinak)    = 1 / (1 + Σ e^zk)\nP(kategori) = e^zk / (1 + Σ e^zk)\nk = borderline, stadium I, II–IV, metastasis'),
+        h('p', { class: 'muted', style: { margin: '10px 0 0', fontSize: '.82rem' } }, 'Koefisien: Van Calster dkk., BMJ 2014;349:g5920, Appendix D (model dilatih ulang pada data gabungan, dengan CA-125). Risiko keganasan total = 1 − P(jinak); ambang rujukan lazim ≥ 10% (institusional).')
       );
     }
 
@@ -236,31 +252,59 @@ export default {
       });
     }
     function calcADNEX() {
-      const lesion = num(adxLesion.input.value);
-      const solid = num(adxSolid.input.value);
-      const prop = lesion > 0 && solid >= 0 && !Number.isNaN(solid) ? Math.min(solid / lesion, 1) : NaN;
-      const caV = num(ca125.input.value);
-      const rows = [
-        ['Usia', num(adxAge.input.value) > 0 ? `${round(num(adxAge.input.value), 0)} thn` : '—'],
-        ['CA-125', caV > 0 ? `${round(caV, 0)} U/mL` : 'tidak dipakai'],
-        ['Tipe senter', adxCenter.input.value === 'onco' ? 'Onkologi' : 'Umum'],
-        ['Diameter lesi maks', lesion > 0 ? `${round(lesion, 0)} mm` : '—'],
-        ['Komponen solid maks', !Number.isNaN(solid) ? `${round(solid, 0)} mm` : '—'],
-        ['Proporsi jaringan solid', Number.isFinite(prop) ? `${round(prop * 100, 0)}%` : '—'],
-        ['> 10 lokulus', adxLoc.input.value === 'yes' ? 'Ya' : 'Tidak'],
-        ['Proyeksi papiler', adxPap.input.value === '4' ? '> 3' : adxPap.input.value],
-        ['Bayangan akustik', adxShadow.input.value === 'yes' ? 'Ya' : 'Tidak'],
-        ['Asites', adxAsc.input.value === 'yes' ? 'Ya' : 'Tidak'],
-      ];
+      const A = num(adxAge.input.value);
+      const B = num(ca125.input.value);
+      const C = num(adxLesion.input.value);
+      const D = num(adxSolid.input.value);
+      const p = C > 0 && D >= 0 && !Number.isNaN(D) ? Math.min(D / C, 1) : NaN;
+
+      // Model dengan CA-125 (satu-satunya set koefisien yang dimuat) → butuh usia, CA-125, diameter lesi.
+      if (!(A > 0) || !(B > 0) || !(C > 0) || !Number.isFinite(p)) {
+        showResult(result, {
+          headline: 'ADNEX — lengkapi input',
+          sub: 'Perlu usia, CA-125, diameter lesi & komponen solid (isi 0 bila tak ada). Untuk varian tanpa CA-125, gunakan kalkulator resmi.',
+          extra: [
+            h('p', { style: { margin: '12px 0 0' } }, h('a', { class: 'btn btn--ghost', href: 'https://www.evidencio.com/models/show/945', target: '_blank', rel: 'noopener' }, 'Kalkulator ADNEX resmi (Evidencio) →')),
+            adnexCriteria(),
+          ],
+        });
+        return;
+      }
+
+      const E = adxLoc.input.value === 'yes' ? 1 : 0;
+      const F = Number(adxPap.input.value);
+      const G = adxShadow.input.value === 'yes' ? 1 : 0;
+      const H = adxAsc.input.value === 'yes' ? 1 : 0;
+      const I = adxCenter.input.value === 'onco' ? 1 : 0;
+      const vars = [1, A, log2(B), log2(C), p, p * p, E, F, G, H, I];
+
+      let denom = 1;
+      const ez = {};
+      for (const key of ['borderline', 'stage1', 'stage24', 'metastatic']) {
+        ez[key] = Math.exp(ADNEX_COEF[key].reduce((s, b, i) => s + b * vars[i], 0));
+        denom += ez[key];
+      }
+      const P = { benign: 1 / denom, borderline: ez.borderline / denom, stage1: ez.stage1 / denom, stage24: ez.stage24 / denom, metastatic: ez.metastatic / denom };
+      const malig = 1 - P.benign;
+      const pct = (x) => `${round(x * 100, 1)}%`;
+      const high = malig >= 0.10;
+
       showResult(result, {
-        headline: 'ADNEX — lanjut ke kalkulator resmi',
-        sub: 'Prediktor lengkap di bawah; probabilitas dihitung oleh kalkulator IOTA tervalidasi agar koefisien akurat.',
+        headline: `Risiko ganas ${pct(malig)}`,
+        sub: `Proporsi solid ${round(p * 100, 0)}% · CA-125 ${round(B, 0)} U/mL · papiler ${F === 4 ? '>3' : F} · ${I ? 'senter onkologi' : 'RS umum'}`,
         extra: [
+          pill(high ? 'risk-high' : 'risk-low', high ? 'Risiko ganas ≥ 10%' : 'Risiko ganas < 10%'),
           h('div', { class: 'table-scroll', style: { marginTop: '12px' } },
             h('table', { class: 'data-table' },
-              h('tbody', {}, ...rows.map(([k, v]) => h('tr', {}, h('td', {}, k), h('td', {}, h('strong', {}, v))))))),
-          h('p', { style: { margin: '14px 0 0' } },
-            h('a', { class: 'btn btn--primary', href: 'https://www.evidencio.com/models/show/945', target: '_blank', rel: 'noopener' }, 'Buka kalkulator ADNEX resmi (Evidencio) →')),
+              h('thead', {}, h('tr', {}, h('th', {}, 'Kategori tumor'), h('th', {}, 'Probabilitas'))),
+              h('tbody', {}, ...ADNEX_CATS.map(([k, lab]) => h('tr', {}, h('td', {}, lab), h('td', {}, h('strong', {}, pct(P[k]))))))) ),
+          section('Interpretasi', [
+            high
+              ? `Total risiko keganasan ${pct(malig)} (≥ 10%) → pertimbangkan rujukan ginekologi onkologi / penanganan di senter rujukan; lihat distribusi subtipe di atas.`
+              : `Total risiko keganasan ${pct(malig)} (< 10%) → risiko rendah; kelola sesuai protokol & korelasi klinis.`,
+            'Ambang rujukan/operasi bersifat institusional — 10% lazim dipakai; sebagian memakai 15–20% untuk keputusan operatif.',
+          ]),
+          h('p', { style: { margin: '12px 0 0' } }, h('a', { class: 'btn btn--ghost', href: 'https://www.evidencio.com/models/show/945', target: '_blank', rel: 'noopener' }, 'Verifikasi di kalkulator ADNEX resmi →')),
           adnexCriteria(),
         ],
       });
@@ -286,7 +330,7 @@ export default {
         srBlock,
         adnexBlock,
         result,
-        disclaimerNote('Alat triase pendukung, bukan pengganti penilaian klinis/ahli USG. RMI/Simple Rules/ROMA disederhanakan; ambang & performa bervariasi antarpopulasi. ROMA bergantung jenis assay. ADNEX dihitung oleh kalkulator IOTA resmi. Keputusan operasi/rujukan mempertimbangkan keseluruhan konteks pasien.')
+        disclaimerNote('Alat triase pendukung, bukan pengganti penilaian klinis/ahli USG. RMI/Simple Rules/ROMA disederhanakan; ambang & performa bervariasi antarpopulasi. ROMA bergantung jenis assay. ADNEX memakai koefisien resmi BMJ 2014 (model dengan CA-125); cross-check di kalkulator IOTA bila perlu. Keputusan operasi/rujukan mempertimbangkan keseluruhan konteks pasien.')
       )
     );
 
