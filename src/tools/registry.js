@@ -17,6 +17,7 @@ import melanomaStaging from './melanomaStaging.js';
 import melanomaManagement from './melanomaManagement.js';
 import opioidConversion from './opioidConversion.js';
 import gtnScore from './gtnScore.js';
+import chemoSupport from './chemoSupport.js';
 
 export const tools = [
   chemoDosing,
@@ -32,6 +33,7 @@ export const tools = [
   melanomaManagement,
   opioidConversion,
   gtnScore,
+  chemoSupport,
 ];
 
 const byId = new Map(tools.map((t) => [t.id, t]));
