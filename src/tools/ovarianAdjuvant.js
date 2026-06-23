@@ -1,5 +1,5 @@
 import { h } from '../utils/dom.js';
-import { selectField, showResult, disclaimerNote } from './shared.js';
+import { selectField, showResult, disclaimerNote, criteriaBox } from './shared.js';
 
 const HISTO_LABEL = {
   lowgrade: 'endometrioid G1',
@@ -239,6 +239,41 @@ function recommendSCST(i) {
   };
 }
 
+// Disclosure kriteria/logika keputusan, menyesuaikan tipe tumor.
+function ovarianCriteria(ttype) {
+  if (ttype === 'germcell') {
+    return criteriaBox(
+      h('p', { style: { margin: '0 0 4px', fontWeight: '700' } }, 'Surveilans vs kemoterapi (tumor germ cell)'),
+      h('ul', { style: { margin: '0', paddingLeft: '1.2em', fontSize: '.86rem' } },
+        h('li', {}, 'Surveilans (tanpa adjuvant): disgerminoma stadium IA; teratoma imatur stadium IA grade 1.'),
+        h('li', {}, 'Selebihnya → BEP: 3 siklus (stadium I reseksi lengkap) atau 3–4 siklus (lanjut / reseksi tak lengkap).'),
+        h('li', {}, 'Yolk sac / embrional / campuran → hampir selalu BEP berapa pun stadium.')),
+      h('p', { class: 'muted', style: { margin: '10px 0 0', fontSize: '.82rem' } }, 'Bedah fertility-sparing adalah standar. Penanda: AFP (yolk sac/embrional), β-hCG (koriokarsinoma/embrional), LDH (disgerminoma). Rujukan: NCCN — Germ Cell; GOG-78/90; regimen BEP (Williams).')
+    );
+  }
+  if (ttype === 'scst') {
+    return criteriaBox(
+      h('p', { style: { margin: '0 0 4px', fontWeight: '700' } }, 'Observasi vs kemoterapi (sex-cord stromal)'),
+      h('ul', { style: { margin: '0', paddingLeft: '1.2em', fontSize: '.86rem' } },
+        h('li', {}, 'Stadium IA–IB tanpa fitur risiko → observasi.'),
+        h('li', {}, 'Stadium IC atau fitur risiko (ruptur, indeks mitotik tinggi, ukuran besar) → observasi vs kemo platinum (individual).'),
+        h('li', {}, 'Stadium II–IV → kemoterapi berbasis platinum (BEP atau karbo–paklitaksel).'),
+        h('li', {}, 'Sertoli–Leydig diferensiasi buruk / elemen heterolog → pertimbangkan kemo bahkan stadium I.')),
+      h('p', { class: 'muted', style: { margin: '10px 0 0', fontSize: '.82rem' } }, 'Penanda: inhibin B & AMH. Bukti sebagian besar retrospektif. Rujukan: NCCN — Sex Cord-Stromal Tumors.')
+    );
+  }
+  return criteriaBox(
+    h('p', { style: { margin: '0 0 4px', fontWeight: '700' } }, 'Logika keputusan (karsinoma epitelial)'),
+    h('ul', { style: { margin: '0', paddingLeft: '1.2em', fontSize: '.86rem' } },
+      h('li', {}, 'IA–IB derajat rendah + staging komprehensif → observasi dapat diterima; high-grade / clear cell → kemo platinum.'),
+      h('li', {}, 'IC / II / III–IV → karboplatin–paklitaksel (≥ 6 siklus pada penyakit lanjut).'),
+      h('li', {}, 'Rumatan PARP terutama HGSC lanjut setelah respons platinum: BRCAm → olaparib (SOLO-1); HRD+ → +bevacizumab (PAOLA-1) atau niraparib (PRIMA).'),
+      h('li', {}, 'Bevacizumab front-line pada risiko tinggi (stadium IV, residual, III suboptimal).'),
+      h('li', {}, 'Histologi-spesifik: LGSC → endokrin / MEK (trametinib); musinosa → singkirkan GI; clear cell → cek dMMR/MSI.')),
+    h('p', { class: 'muted', style: { margin: '10px 0 0', fontSize: '.82rem' } }, 'Pilihan rumatan bergantung respons platinum, status BRCA/HRD, & bevacizumab. Selaras NCCN Ovarian.')
+  );
+}
+
 export default {
   id: 'ovarian-adjuvant',
   name: 'Algoritma Adjuvant Kanker Ovarium',
@@ -429,6 +464,7 @@ export default {
         extra: [
           ...res.sections.map(([title, items]) => section(title, items)),
           refsNote(res.refs),
+          ovarianCriteria(t),
         ],
       });
     }

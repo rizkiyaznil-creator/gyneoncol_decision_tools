@@ -1,5 +1,5 @@
 import { h } from '../utils/dom.js';
-import { selectField, showResult, disclaimerNote } from './shared.js';
+import { selectField, showResult, disclaimerNote, criteriaBox } from './shared.js';
 
 // Algoritma tata laksana melanoma mukosa vulvovaginal.
 // Sumbu: luas penyakit (lokal/regional/lanjut) + faktor risiko + biomarker (BRAF V600 vs non-V600, KIT).
@@ -11,6 +11,24 @@ const SETTING_LABEL = {
   unresectable: 'lokoregional tidak terreseksi',
   metastatic: 'metastatik (stadium IV)',
 };
+
+// Disclosure kriteria: sumbu luas penyakit × biomarker.
+function mmCriteria() {
+  return criteriaBox(
+    h('p', { style: { margin: '0 0 4px', fontWeight: '700' } }, 'Luas penyakit → terapi sistemik/adjuvan'),
+    h('ul', { style: { margin: '0', paddingLeft: '1.2em', fontSize: '.86rem' } },
+      h('li', {}, 'Lokal IA–IB tipis tanpa ulserasi → eksisi luas + observasi.'),
+      h('li', {}, 'Lokal IIB–IIC (tebal dan/atau ulserasi) → pertimbangkan anti–PD-1 adjuvan.'),
+      h('li', {}, 'Stadium III terreseksi → anti–PD-1 adjuvan (nivolumab CheckMate-238 / pembrolizumab KEYNOTE-054).'),
+      h('li', {}, 'Tidak terreseksi / metastatik → imunoterapi lini-1 (anti–PD-1 atau nivolumab + ipilimumab).')),
+    h('p', { style: { margin: '10px 0 4px', fontWeight: '700' } }, 'Terapi target — hanya bila mutasi relevan'),
+    h('ul', { style: { margin: '0', paddingLeft: '1.2em', fontSize: '.84rem' } },
+      h('li', {}, 'BRAF V600-mutan → dabrafenib + trametinib (opsi).'),
+      h('li', {}, 'KIT-mutan → imatinib (sering pada melanoma mukosa).'),
+      h('li', {}, 'BRAF non-V600 → tidak responsif inhibitor BRAF → andalkan imunoterapi.')),
+    h('p', { class: 'muted', style: { margin: '10px 0 0', fontSize: '.82rem' } }, 'Imunoterapi adalah tulang punggung; respons melanoma mukosa lebih rendah daripada kutaneus. Sebagian bukti diekstrapolasi dari kutaneus. Selaras NCCN Melanoma.')
+  );
+}
 
 export default {
   id: 'melanoma-management',
@@ -136,6 +154,7 @@ export default {
           section('Terapi sistemik / adjuvan', systemic),
           section('Catatan', notes),
           refsNote(),
+          mmCriteria(),
         ],
       });
     }

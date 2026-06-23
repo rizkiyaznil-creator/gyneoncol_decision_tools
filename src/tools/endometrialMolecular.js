@@ -1,5 +1,5 @@
 import { h } from '../utils/dom.js';
-import { selectField, showResult, disclaimerNote } from './shared.js';
+import { selectField, showResult, disclaimerNote, criteriaBox } from './shared.js';
 
 const GROUPS = {
   low: { label: 'Risiko Rendah', pill: 'risk-low', adj: 'Tanpa terapi adjuvant.' },
@@ -106,6 +106,21 @@ function molBadge({ label, tone }) {
     class: `risk-pill ${toneCls}`.trim(),
     style: toneCls ? null : { background: 'var(--slate-100)', color: 'var(--slate-700)' },
   }, label);
+}
+
+// Disclosure kriteria: algoritma ProMisE + pemetaan risiko ESGO.
+function emCriteria() {
+  return criteriaBox(
+    h('p', { style: { margin: '0 0 4px', fontWeight: '700' } }, 'Algoritma ProMisE / TCGA (sekuensial)'),
+    h('p', { style: { margin: '0', fontSize: '.86rem' } }, 'POLE → MMR → p53 → NSMP. Multiple classifier diselesaikan dengan hierarki: POLEmut > MMRd > p53abn.'),
+    h('ul', { style: { margin: '8px 0 0', paddingLeft: '1.2em', fontSize: '.84rem' } },
+      h('li', {}, 'POLEmut (mutasi domain eksonuklease patogenik) → prognosis sangat baik.'),
+      h('li', {}, 'MMRd (IHC hilang / MSI-H) → skrining sindrom Lynch.'),
+      h('li', {}, 'p53abn (mutant-pattern) → prognosis buruk.'),
+      h('li', {}, 'NSMP → hanya bila POLE wild-type, MMR proficient, dan p53 wild-type.')),
+    h('p', { style: { margin: '10px 0 4px', fontWeight: '700' } }, 'Kelompok risiko ESGO/ESTRO/ESP 2020 → adjuvant'),
+    h('p', { class: 'muted', style: { margin: '0', fontSize: '.82rem' } }, 'Menggabungkan stadium, derajat, histologi, LVSI, dan kelas molekuler. POLEmut stadium I–II → risiko rendah (de-eskalasi); p53abn dengan invasi miometrium → risiko tinggi (kemoterapi). Tabel disederhanakan — verifikasi dokumen asli & tumor board.')
+  );
 }
 
 export default {
@@ -222,6 +237,7 @@ export default {
               : null),
           h('p', { style: { margin: '14px 0 0', fontWeight: '600' } }, 'Saran adjuvant:'),
           h('p', { style: { margin: '4px 0 0' } }, g.adj),
+          emCriteria(),
         ],
       });
     }
