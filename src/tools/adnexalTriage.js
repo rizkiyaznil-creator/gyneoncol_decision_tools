@@ -1,5 +1,5 @@
 import { h } from '../utils/dom.js';
-import { num, round, field, selectField, showResult, disclaimerNote, criteriaBox, formula } from './shared.js';
+import { num, round, field, selectField, showResult, disclaimerNote, criteriaBox, formula, resultSection } from './shared.js';
 
 // Triase massa adneksa pra-operasi — empat model penilaian risiko keganasan.
 //   RMI 1/2/3 (Jacobs/Tingulstad) · IOTA Simple Rules · ROMA (HE4+CA-125) · IOTA ADNEX (input + kalkulator resmi).
@@ -60,10 +60,7 @@ const fieldset = (legend, ...body) =>
 const pill = (cls, label) =>
   h('div', { style: { marginTop: '10px' } }, h('span', { class: `risk-pill ${cls}` }, label));
 
-const section = (title, items) =>
-  h('div', { style: { marginTop: '14px' } },
-    h('p', { style: { fontWeight: '600', margin: '0 0 4px' } }, title),
-    h('ul', { style: { margin: '0', paddingLeft: '1.2em' } }, ...items.map((t) => h('li', { style: { marginBottom: '6px' } }, t))));
+const section = resultSection;
 
 export default {
   id: 'adnexal-triage',

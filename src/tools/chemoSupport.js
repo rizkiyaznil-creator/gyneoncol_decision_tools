@@ -1,5 +1,5 @@
 import { h } from '../utils/dom.js';
-import { num, round, field, selectField, showResult, disclaimerNote, criteriaBox, formula } from './shared.js';
+import { num, round, field, selectField, showResult, disclaimerNote, criteriaBox, formula, resultSection } from './shared.js';
 
 // Profilaksis & modifikasi dosis kemoterapi — pendamping kalkulator dosis.
 //   1) Antiemetik berdasar emetogenisitas (NCCN Antiemesis / ASCO / MASCC).
@@ -129,9 +129,7 @@ function doseMod(drug, crcl, bili) {
 }
 
 const pill = (cls, label) => h('div', { style: { marginTop: '10px' } }, h('span', { class: `risk-pill ${cls}` }, label));
-const lines = (title, items) => h('div', { style: { marginTop: '14px' } },
-  h('p', { style: { fontWeight: '600', margin: '0 0 4px' } }, title),
-  h('ul', { style: { margin: '0', paddingLeft: '1.2em' } }, ...items.map((t) => h('li', { style: { marginBottom: '6px' } }, t))));
+const lines = resultSection;
 
 function checkGroup(prefix, items) {
   const inputs = {};

@@ -1,5 +1,5 @@
 import { h, mount } from '../utils/dom.js';
-import { selectField, showResult, disclaimerNote, flowDisclosure } from './shared.js';
+import { selectField, showResult, disclaimerNote, flowDisclosure, resultSection } from './shared.js';
 
 // Algoritma adjuvant pasca-bedah kanker vulva (karsinoma sel skuamosa).
 // Dua sumbu keputusan yang relatif independen:
@@ -204,13 +204,7 @@ export default {
       return { headline, pill, pillLabel, groin, adjuvant, notes };
     }
 
-    function section(title, items) {
-      if (!items.length) return null;
-      return h('div', { style: { marginTop: '14px' } },
-        h('p', { style: { fontWeight: '600', margin: '0 0 4px' } }, title),
-        h('ul', { style: { margin: '0', paddingLeft: '1.2em' } },
-          ...items.map((t) => h('li', { style: { marginBottom: '6px' } }, t))));
-    }
+    const section = resultSection;
 
     function refsNote() {
       return h('p', { class: 'muted', style: { fontSize: '.82rem', margin: '14px 0 0' } },

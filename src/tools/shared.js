@@ -111,6 +111,17 @@ export function criteriaBox(...children) {
 }
 
 /**
+ * Seksi hasil: judul ber-aksen + daftar butir (kelas ber-gaya, mudah dibaca).
+ * Menggantikan helper `section(title, items)` inline yang tersebar di alat.
+ */
+export function resultSection(title, items, opts = {}) {
+  if (!items || !items.length) return null;
+  return h('div', { class: 'result-section' },
+    h('p', { class: 'result-section__title' }, opts.icon ? `${opts.icon} ${title}` : title),
+    h('ul', { class: 'result-section__list' }, ...items.map((t) => h('li', {}, t))));
+}
+
+/**
  * Render node diagram alur dinamis.
  * steps: [{ kind:'decision', q, branches:[{t,on}] } | { kind:'outcome', label, tone:'low'|'int'|'high' }]
  * Cabang aktif (on:true) disorot; alternatif tampil redup.
@@ -128,6 +139,8 @@ export function renderFlow(steps) {
       nodes.push(h('div', { class: `flow__node flow__outcome flow__outcome--${s.tone}` }, `✓ ${s.label}`));
     }
   });
+  nodes.push(h('p', { class: 'flow__legend' },
+    'Kotak teal = pilihan sesuai input. Hasil: hijau (risiko rendah) · amber (menengah) · merah (tinggi).'));
   return h('div', { class: 'flow' }, ...nodes);
 }
 
