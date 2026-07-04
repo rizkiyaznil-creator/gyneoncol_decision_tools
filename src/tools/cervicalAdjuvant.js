@@ -1,5 +1,5 @@
 import { h, mount } from '../utils/dom.js';
-import { selectField, showResult, disclaimerNote } from './shared.js';
+import { selectField, showResult, disclaimerNote, flowDisclosure } from './shared.js';
 
 // Algoritma adjuvant pasca-histerektomi radikal pada kanker serviks stadium awal.
 //   Kriteria Peters (GOG-109) — faktor risiko TINGGI → kemoradiasi konkuren berbasis cisplatin.
@@ -49,6 +49,28 @@ function sedlisReason(i) {
 }
 
 const listText = (arr) => arr.length > 1 ? arr.slice(0, -1).join(', ') + ' dan ' + arr[arr.length - 1] : arr[0];
+
+// Diagram alur: Peters (risiko tinggi) → Sedlis (risiko menengah) → observasi.
+function flowCervical(i) {
+  const peters = petersFactors(i);
+  const reason = sedlisReason(i);
+  const steps = [{
+    kind: 'decision', q: 'Faktor risiko tinggi (Peters)?',
+    branches: [{ t: 'Ada (margin / parametrium / KGB+)', on: peters.length > 0 }, { t: 'Tidak ada', on: peters.length === 0 }],
+  }];
+  if (peters.length) {
+    steps.push({ kind: 'outcome', label: 'Kemoradiasi konkuren berbasis cisplatin', tone: 'high' });
+  } else {
+    steps.push({
+      kind: 'decision', q: 'Kriteria risiko menengah (Sedlis)?',
+      branches: [{ t: 'Terpenuhi', on: !!reason }, { t: 'Tidak', on: !reason }],
+    });
+    steps.push(reason
+      ? { kind: 'outcome', label: 'Radioterapi pelvis adjuvant (EBRT)', tone: 'int' }
+      : { kind: 'outcome', label: 'Observasi — tanpa terapi adjuvant', tone: 'low' });
+  }
+  return steps;
+}
 
 export default {
   id: 'cervical-adjuvant',
@@ -200,6 +222,7 @@ export default {
         sub: `${HISTO_LABEL[inp.histo]} · pasca-histerektomi radikal`,
         extra: [
           h('div', { style: { marginTop: '10px' } }, h('span', { class: `risk-pill ${pill}` }, pillLabel)),
+          flowDisclosure(flowCervical(inp)),
           section('Tata laksana', main),
           section('Catatan', notes),
           refsNote(),

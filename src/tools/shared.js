@@ -109,3 +109,31 @@ export function disclosure(label, ...children) {
 export function criteriaBox(...children) {
   return disclosure('kriteria & rumus', ...children);
 }
+
+/**
+ * Render node diagram alur dinamis.
+ * steps: [{ kind:'decision', q, branches:[{t,on}] } | { kind:'outcome', label, tone:'low'|'int'|'high' }]
+ * Cabang aktif (on:true) disorot; alternatif tampil redup.
+ */
+export function renderFlow(steps) {
+  const nodes = [];
+  steps.forEach((s, idx) => {
+    if (idx > 0) nodes.push(h('div', { class: 'flow__arrow', 'aria-hidden': 'true' }, '↓'));
+    if (s.kind === 'decision') {
+      nodes.push(h('div', { class: 'flow__node flow__node--decision' },
+        h('p', { class: 'flow__q' }, s.q),
+        h('div', { class: 'flow__branches' }, ...s.branches.map((b) =>
+          h('span', { class: 'flow__branch' + (b.on ? ' flow__branch--active' : '') }, b.t)))));
+    } else {
+      nodes.push(h('div', { class: `flow__node flow__outcome flow__outcome--${s.tone}` }, `✓ ${s.label}`));
+    }
+  });
+  return h('div', { class: 'flow' }, ...nodes);
+}
+
+/** Disclosure "diagram alur" — terbuka secara default. */
+export function flowDisclosure(steps) {
+  const d = disclosure('diagram alur', renderFlow(steps));
+  d.open = true;
+  return d;
+}

@@ -1,5 +1,5 @@
 import { h, mount } from '../utils/dom.js';
-import { selectField, showResult, disclaimerNote } from './shared.js';
+import { selectField, showResult, disclaimerNote, flowDisclosure } from './shared.js';
 
 // Algoritma adjuvant sarkoma uteri. Keputusan terutama digerakkan oleh SUBTIPE:
 //   LMS              → observasi (stadium I); kemoterapi dipertimbangkan bila lanjut/terreseksi.
@@ -16,6 +16,48 @@ const SUBTYPE_LABEL = {
   adenosarcoma: 'adenosarkoma',
   carcinosarcoma: 'karsinosarkoma',
 };
+
+// Diagram alur berbasis subtipe sarkoma uteri.
+function flowSarcoma(i) {
+  const steps = [{
+    kind: 'decision', q: 'Subtipe histologi',
+    branches: [
+      { t: 'LMS', on: i.subtype === 'lms' },
+      { t: 'LG-ESS', on: i.subtype === 'lgess' },
+      { t: 'HG-ESS / UUS', on: i.subtype === 'hgess' },
+      { t: 'Adenosarkoma', on: i.subtype === 'adenosarcoma' },
+      { t: 'Karsinosarkoma', on: i.subtype === 'carcinosarcoma' },
+    ],
+  }];
+  if (i.subtype === 'carcinosarcoma') {
+    steps.push({ kind: 'outcome', label: 'Jalur karsinoma endometrium (karbo–paklitaksel ± RT)', tone: 'high' });
+  } else if (i.subtype === 'lms') {
+    steps.push({ kind: 'decision', q: 'Stadium', branches: [
+      { t: 'I', on: i.stage === 'I' }, { t: 'II–III', on: i.stage === 'II-III' }, { t: 'IV', on: i.stage === 'IV' },
+    ] });
+    steps.push(i.stage === 'I'
+      ? { kind: 'outcome', label: 'Observasi (surveilans)', tone: 'low' }
+      : i.stage === 'II-III'
+        ? { kind: 'outcome', label: 'Pertimbangkan kemoterapi sistemik ± RT', tone: 'int' }
+        : { kind: 'outcome', label: 'Terapi sistemik (penyakit lanjut)', tone: 'high' });
+  } else if (i.subtype === 'lgess') {
+    steps.push({ kind: 'decision', q: 'Stadium', branches: [
+      { t: 'I', on: i.stage === 'I' }, { t: 'Lanjut (II–IV)', on: i.stage !== 'I' },
+    ] });
+    steps.push({ kind: 'outcome', label: i.stage === 'I' ? 'Observasi atau terapi endokrin' : 'Terapi endokrin (anti-estrogen)', tone: 'int' });
+  } else if (i.subtype === 'hgess') {
+    steps.push({ kind: 'outcome', label: 'Kemoterapi sistemik ± RT (agresif)', tone: 'high' });
+  } else {
+    const aggressive = i.overgrowth === 'yes' || i.stage === 'IV';
+    steps.push({ kind: 'decision', q: 'Sarcomatous overgrowth / stadium lanjut?', branches: [
+      { t: 'Tidak', on: !aggressive }, { t: 'Ya', on: aggressive },
+    ] });
+    steps.push(aggressive
+      ? { kind: 'outcome', label: 'Pertimbangkan kemoterapi ± RT', tone: 'high' }
+      : { kind: 'outcome', label: 'Observasi (surveilans)', tone: 'low' });
+  }
+  return steps;
+}
 
 export default {
   id: 'uterine-sarcoma-adjuvant',
@@ -194,6 +236,7 @@ export default {
         sub: `${SUBTYPE_LABEL[inp.subtype]} · pasca-bedah sarkoma uteri`,
         extra: [
           h('div', { style: { marginTop: '10px' } }, h('span', { class: `risk-pill ${pill}` }, pillLabel)),
+          flowDisclosure(flowSarcoma(inp)),
           section('Prinsip bedah', surgery),
           section('Terapi adjuvan / sistemik', main),
           section('Catatan', notes),

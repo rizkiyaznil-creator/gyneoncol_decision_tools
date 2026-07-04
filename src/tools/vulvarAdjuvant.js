@@ -1,5 +1,5 @@
 import { h, mount } from '../utils/dom.js';
-import { selectField, showResult, disclaimerNote } from './shared.js';
+import { selectField, showResult, disclaimerNote, flowDisclosure } from './shared.js';
 
 // Algoritma adjuvant pasca-bedah kanker vulva (karsinoma sel skuamosa).
 // Dua sumbu keputusan yang relatif independen:
@@ -12,6 +12,54 @@ const HISTO_LABEL = {
   scc: 'karsinoma sel skuamosa',
   other: 'histologi non-skuamosa',
 };
+
+// Diagram alur sumbu KGB inguinofemoral (SLN GROINSS-V II / limfadenektomi GOG-37).
+function flowVulvar(i) {
+  const steps = [{
+    kind: 'decision', q: 'Penilaian KGB inguinofemoral',
+    branches: [
+      { t: 'Belum (cN0)', on: i.nodeMethod === 'belum' },
+      { t: 'SLN', on: i.nodeMethod === 'sln' },
+      { t: 'Limfadenektomi', on: i.nodeMethod === 'ifl' },
+    ],
+  }];
+  if (i.nodeMethod === 'belum') {
+    steps.push({ kind: 'decision', q: 'Ukuran & fokalitas', branches: [
+      { t: 'Unifokal < 4 cm', on: i.focality === 'small' }, { t: '≥ 4 cm / multifokal', on: i.focality !== 'small' },
+    ] });
+    steps.push(i.focality === 'small'
+      ? { kind: 'outcome', label: 'Biopsi KGB sentinel (SLN)', tone: 'int' }
+      : { kind: 'outcome', label: 'Limfadenektomi inguinofemoral', tone: 'int' });
+  } else if (i.nodeMethod === 'sln') {
+    steps.push({ kind: 'decision', q: 'Hasil SLN', branches: [
+      { t: 'Negatif', on: i.slnResult === 'neg' },
+      { t: 'Positif ≤ 2 mm', on: i.slnResult === 'pos' && i.slnSize === 'le2' },
+      { t: 'Positif > 2 mm', on: i.slnResult === 'pos' && i.slnSize === 'gt2' },
+    ] });
+    steps.push(i.slnResult === 'neg'
+      ? { kind: 'outcome', label: 'Observasi groin (tanpa terapi lanjutan)', tone: 'low' }
+      : i.slnSize === 'le2'
+        ? { kind: 'outcome', label: 'RT inguinal adjuvan (GROINSS-V II)', tone: 'int' }
+        : { kind: 'outcome', label: 'Limfadenektomi inguinofemoral komplet', tone: 'high' });
+  } else {
+    steps.push({ kind: 'decision', q: 'Jumlah KGB positif', branches: [
+      { t: '0', on: i.iflNodes === '0' }, { t: '1', on: i.iflNodes === '1' }, { t: '≥ 2', on: i.iflNodes === '2+' },
+    ] });
+    if (i.iflNodes === '0') {
+      steps.push({ kind: 'outcome', label: 'Tanpa radioterapi nodal', tone: 'low' });
+    } else if (i.iflNodes === '1') {
+      steps.push({ kind: 'decision', q: 'Ekstensi ekstrakapsular (ECE)?', branches: [
+        { t: 'Tidak', on: i.ece === 'no' }, { t: 'Ada', on: i.ece === 'yes' },
+      ] });
+      steps.push(i.ece === 'yes'
+        ? { kind: 'outcome', label: 'RT inguinopelvis adjuvan', tone: 'high' }
+        : { kind: 'outcome', label: 'Individualisasi: observasi atau RT inguinal', tone: 'int' });
+    } else {
+      steps.push({ kind: 'outcome', label: 'RT inguinopelvis ± kemoterapi', tone: 'high' });
+    }
+  }
+  return steps;
+}
 
 export default {
   id: 'vulvar-adjuvant',
@@ -230,6 +278,7 @@ export default {
         sub: `${HISTO_LABEL[inp.histo]} · pasca-bedah vulva`,
         extra: [
           h('div', { style: { marginTop: '10px' } }, h('span', { class: `risk-pill ${pill}` }, pillLabel)),
+          flowDisclosure(flowVulvar(inp)),
           section('Manajemen KGB inguinofemoral', groin),
           section('Terapi adjuvan', adjuvant),
           section('Catatan', notes),

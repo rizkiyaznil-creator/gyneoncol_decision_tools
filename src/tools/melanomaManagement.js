@@ -1,5 +1,5 @@
 import { h } from '../utils/dom.js';
-import { selectField, showResult, disclaimerNote, criteriaBox } from './shared.js';
+import { selectField, showResult, disclaimerNote, criteriaBox, flowDisclosure } from './shared.js';
 
 // Algoritma tata laksana melanoma mukosa vulvovaginal.
 // Sumbu: luas penyakit (lokal/regional/lanjut) + faktor risiko + biomarker (BRAF V600 vs non-V600, KIT).
@@ -28,6 +28,40 @@ function mmCriteria() {
       h('li', {}, 'BRAF non-V600 → tidak responsif inhibitor BRAF → andalkan imunoterapi.')),
     h('p', { class: 'muted', style: { margin: '10px 0 0', fontSize: '.82rem' } }, 'Imunoterapi adalah tulang punggung; respons melanoma mukosa lebih rendah daripada kutaneus. Sebagian bukti diekstrapolasi dari kutaneus. Selaras NCCN Melanoma.')
   );
+}
+
+// Diagram alur: luas penyakit → (risiko primer / biomarker) → terapi.
+function flowMelanoma(i) {
+  const steps = [{
+    kind: 'decision', q: 'Luas penyakit',
+    branches: [
+      { t: 'Lokal (I–II)', on: i.setting === 'localized' },
+      { t: 'KGB regional (III)', on: i.setting === 'nodal' },
+      { t: 'Tak terreseksi', on: i.setting === 'unresectable' },
+      { t: 'Metastatik (IV)', on: i.setting === 'metastatic' },
+    ],
+  }];
+  if (i.setting === 'localized') {
+    steps.push({ kind: 'decision', q: 'Faktor risiko primer', branches: [
+      { t: 'Tipis tanpa ulserasi', on: i.risk === 'low' }, { t: 'Tebal / ulserasi', on: i.risk === 'high' },
+    ] });
+    steps.push(i.risk === 'high'
+      ? { kind: 'outcome', label: 'Eksisi luas + pertimbangkan anti–PD-1 adjuvan', tone: 'int' }
+      : { kind: 'outcome', label: 'Eksisi luas + observasi', tone: 'low' });
+  } else if (i.setting === 'nodal') {
+    steps.push({ kind: 'outcome', label: 'Anti–PD-1 adjuvan pasca-reseksi (stadium III)', tone: 'high' });
+  } else {
+    steps.push({ kind: 'decision', q: 'Biomarker', branches: [
+      { t: 'BRAF V600', on: i.biomarker === 'braf_v600' },
+      { t: 'KIT-mutan', on: i.biomarker === 'kit' },
+      { t: 'Lainnya / non-V600', on: !['braf_v600', 'kit'].includes(i.biomarker) },
+    ] });
+    const label = i.biomarker === 'braf_v600' ? 'Imunoterapi (anti–PD-1 / nivo+ipi); opsi dabrafenib+trametinib'
+      : i.biomarker === 'kit' ? 'Imunoterapi; opsi imatinib (inhibitor KIT)'
+      : 'Imunoterapi lini-1 (anti–PD-1 atau nivo+ipi)';
+    steps.push({ kind: 'outcome', label, tone: 'high' });
+  }
+  return steps;
 }
 
 export default {
@@ -150,6 +184,7 @@ export default {
         sub: `Melanoma vulvovaginal · ${SETTING_LABEL[inp.setting]}`,
         extra: [
           h('div', { style: { marginTop: '10px' } }, h('span', { class: `risk-pill ${pill}` }, pillLabel)),
+          flowDisclosure(flowMelanoma(inp)),
           section('Bedah & lokal', surgery),
           section('Terapi sistemik / adjuvan', systemic),
           section('Catatan', notes),

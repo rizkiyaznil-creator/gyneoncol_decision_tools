@@ -1,5 +1,5 @@
 import { h } from '../utils/dom.js';
-import { selectField, showResult, disclaimerNote, criteriaBox, disclosure } from './shared.js';
+import { selectField, showResult, disclaimerNote, criteriaBox, flowDisclosure } from './shared.js';
 
 const HISTO_LABEL = {
   lowgrade: 'endometrioid G1',
@@ -370,21 +370,6 @@ function flowFor(ttype, i) {
   if (ttype === 'scst') return flowSCST(i);
   return flowEpithelial(i);
 }
-function renderFlow(steps) {
-  const nodes = [];
-  steps.forEach((s, idx) => {
-    if (idx > 0) nodes.push(h('div', { class: 'flow__arrow', 'aria-hidden': 'true' }, '↓'));
-    if (s.kind === 'decision') {
-      nodes.push(h('div', { class: 'flow__node flow__node--decision' },
-        h('p', { class: 'flow__q' }, s.q),
-        h('div', { class: 'flow__branches' }, ...s.branches.map((b) =>
-          h('span', { class: 'flow__branch' + (b.on ? ' flow__branch--active' : '') }, b.t)))));
-    } else {
-      nodes.push(h('div', { class: `flow__node flow__outcome flow__outcome--${s.tone}` }, `✓ ${s.label}`));
-    }
-  });
-  return h('div', { class: 'flow' }, ...nodes);
-}
 
 export default {
   id: 'ovarian-adjuvant',
@@ -577,7 +562,7 @@ export default {
         headline: res.headline,
         sub: res.sub,
         extra: [
-          disclosure('diagram alur', renderFlow(flowFor(t, inp))),
+          flowDisclosure(flowFor(t, inp)),
           ...res.sections.map(([title, items]) => section(title, items)),
           refsNote(res.refs),
           ovarianCriteria(t),

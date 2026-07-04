@@ -1,5 +1,5 @@
 import { h } from '../utils/dom.js';
-import { selectField, showResult, disclaimerNote, criteriaBox } from './shared.js';
+import { selectField, showResult, disclaimerNote, criteriaBox, flowDisclosure } from './shared.js';
 
 const GROUPS = {
   low: { label: 'Risiko Rendah', pill: 'risk-low', adj: 'Tanpa terapi adjuvant.' },
@@ -123,6 +123,34 @@ function emCriteria() {
   );
 }
 
+// Diagram alur: ladder ProMisE (POLE→MMR→p53→NSMP) → kelompok risiko ESGO.
+function flowEndoMol(mol, g) {
+  const cls = mol.cls;
+  const tone = g.pill === 'risk-low' ? 'low' : g.pill === 'risk-high' ? 'high' : 'int';
+  const steps = [{
+    kind: 'decision', q: 'ProMisE 1 — POLE bermutasi?',
+    branches: [{ t: 'Ya → POLEmut', on: cls === 'POLEmut' }, { t: 'Tidak / lanjut', on: cls !== 'POLEmut' }],
+  }];
+  if (cls !== 'POLEmut') {
+    steps.push({
+      kind: 'decision', q: 'ProMisE 2 — MMR defisien?',
+      branches: [{ t: 'Ya → MMRd', on: cls === 'MMRd' }, { t: 'Tidak / lanjut', on: cls !== 'MMRd' }],
+    });
+    if (cls !== 'MMRd') {
+      steps.push({
+        kind: 'decision', q: 'ProMisE 3 — p53',
+        branches: [
+          { t: 'Abnormal → p53abn', on: cls === 'p53abn' },
+          { t: 'Wild-type → NSMP', on: cls === 'NSMP' },
+          { t: 'Belum lengkap', on: cls === 'unknown' },
+        ],
+      });
+    }
+  }
+  steps.push({ kind: 'outcome', label: `Kelompok risiko: ${g.label}`, tone });
+  return steps;
+}
+
 export default {
   id: 'endometrial-molecular',
   name: 'Kelas Molekuler & Kelompok Risiko Endometrium',
@@ -225,6 +253,7 @@ export default {
       const g = classify(inp);
       showResult(result, {
         extra: [
+          flowDisclosure(flowEndoMol(mol, g)),
           sectionLabel('Subtipe molekuler — algoritma ProMisE/TCGA'),
           molBadge(mol),
           mol.note ? h('p', { class: 'muted', style: { margin: '8px 0 0', fontSize: '.84rem' } }, mol.note) : null,
