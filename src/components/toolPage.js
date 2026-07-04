@@ -13,7 +13,7 @@ export function renderToolPage(root, { cancer, tool }) {
 
   mount(root,
     crumbs(trail),
-    h('div', { class: 'page-head' },
+    h('div', { class: 'page-head', style: { '--accent': accent, '--accent-soft': cancer ? cancer.accentSoft : '#f0fdfa' } },
       h('div', { class: 'page-head__icon', style: { '--accent': accent, '--accent-soft': cancer ? cancer.accentSoft : '#f0fdfa' } },
         h('span', { style: { fontSize: '1.3rem' } }, '🧮')),
       h('div', {},

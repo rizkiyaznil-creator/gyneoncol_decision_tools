@@ -46,7 +46,7 @@ function toolsTab(cancer) {
 export function renderCancerPage(root, cancer, initialTab) {
   mount(root,
     crumbs([{ label: 'Beranda', href: '#/' }, { label: cancer.shortName }]),
-    h('div', { class: 'page-head' },
+    h('div', { class: 'page-head', style: { '--accent': cancer.accent, '--accent-soft': cancer.accentSoft } },
       iconBox(cancer, 'page'),
       h('div', {},
         h('h1', {}, cancer.name),

@@ -281,10 +281,14 @@ a.card--cancer:hover { border-color: var(--accent, var(--coral-200)); }
 .search-result__title { font-weight: 700; color: var(--slate-900); }
 .search-result__sub { font-size: .82rem; color: var(--muted); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 
-/* ---------- Cancer page header ---------- */
-.page-head { display: flex; gap: 16px; align-items: flex-start; margin-bottom: 8px; }
-.page-head__icon { font-size: 30px; width: 58px; height: 58px; flex: none; border-radius: 14px; display: grid; place-items: center;
-  background: var(--accent-soft, var(--teal-50)); color: var(--accent, var(--teal-700)); }
+/* ---------- Cancer / tool page header (banner ber-tint aksen) ---------- */
+.page-head {
+  display: flex; gap: 16px; align-items: center; margin-bottom: 16px;
+  padding: 16px 18px; border-radius: 18px; border: 1px solid var(--border);
+  background: linear-gradient(135deg, var(--accent-soft, var(--teal-50)), var(--surface) 78%);
+}
+.page-head__icon { font-size: 30px; width: 58px; height: 58px; flex: none; border-radius: 16px; display: grid; place-items: center;
+  background: var(--surface); color: var(--accent, var(--teal-700)); box-shadow: var(--shadow-sm); border: 1px solid var(--border); }
 .page-head h1 { font-size: clamp(1.4rem, 3.5vw, 1.9rem); margin-bottom: 2px; }
 .page-head__sub { color: var(--muted); margin: 0; font-size: .95rem; }
 
@@ -305,7 +309,7 @@ a.card--cancer:hover { border-color: var(--accent, var(--coral-200)); }
 }
 .stage-badge {
   flex: none; font-weight: 800; font-size: .95rem; color: #fff; background: var(--accent, var(--teal-700));
-  padding: 3px 11px; border-radius: 8px; letter-spacing: .01em; min-width: 42px; text-align: center;
+  padding: 3px 11px; border-radius: 9px; letter-spacing: .01em; min-width: 42px; text-align: center;
 }
 .stage-group__title { font-weight: 600; color: var(--slate-700); font-size: .92rem; }
 .stage-sub { display: flex; gap: 12px; padding: 11px 16px; border-top: 1px dashed var(--border); }
@@ -331,13 +335,14 @@ a.card--cancer:hover { border-color: var(--accent, var(--coral-200)); }
 .refs li { margin-bottom: .35em; }
 
 /* ---------- Tabs ---------- */
-.tabs { display: flex; gap: 6px; flex-wrap: wrap; border-bottom: 1px solid var(--border); margin-bottom: 20px; }
+.tabs { display: flex; gap: 4px; flex-wrap: wrap; border-bottom: 1px solid var(--border); margin-bottom: 20px; }
 .tabs button {
   border: none; background: none; padding: 10px 14px; font-size: .92rem; font-weight: 600; color: var(--slate-500);
-  border-bottom: 2px solid transparent; cursor: pointer; border-radius: 8px 8px 0 0;
+  border-bottom: 2.5px solid transparent; cursor: pointer; border-radius: 10px 10px 0 0;
+  transition: background .12s ease, color .12s ease;
 }
 .tabs button:hover { color: var(--slate-800); background: var(--slate-50); }
-.tabs button[aria-selected="true"] { color: var(--teal-700); border-bottom-color: var(--teal-600); }
+.tabs button[aria-selected="true"] { color: var(--teal-700); border-bottom-color: var(--teal-600); background: var(--teal-50); }
 
 /* ---------- Forms / calculators ---------- */
 .form-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 16px; }
@@ -519,4 +524,5 @@ body { display: flex; flex-direction: column; min-height: 100vh; }
   [data-theme="dark"] .back-btn { color: #5eead4; }
   [data-theme="dark"] .back-btn:hover { color: #99f6e4; }
   [data-theme="dark"] .card__icon, [data-theme="dark"] .page-head__icon { background: rgba(255, 255, 255, .06); }
+  [data-theme="dark"] .page-head { background: linear-gradient(135deg, rgba(255, 255, 255, .05), var(--surface) 78%); }
 }
