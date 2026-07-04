@@ -1,5 +1,5 @@
 import { h } from '../utils/dom.js';
-import { selectField, showResult, disclaimerNote, criteriaBox } from './shared.js';
+import { selectField, showResult, disclaimerNote, criteriaBox, disclosure } from './shared.js';
 
 const HISTO_LABEL = {
   lowgrade: 'endometrioid G1',
@@ -274,6 +274,118 @@ function ovarianCriteria(ttype) {
   );
 }
 
+// ---------- Diagram alur (dinamis, jalur aktif disorot) ----------
+// Tiap builder mengembalikan urutan node; cabang aktif ditandai on:true.
+function flowEpithelial(i) {
+  const steps = [];
+  const advanced = i.stage === 'III' || i.stage === 'IV';
+  const indolent = i.histo === 'lowgrade' || i.histo === 'lgsc' || i.histo === 'mucinous';
+  steps.push({ kind: 'decision', q: 'Stadium FIGO', branches: [
+    { t: 'IA–IB', on: i.stage === 'IA-IB' }, { t: 'IC', on: i.stage === 'IC' },
+    { t: 'II', on: i.stage === 'II' }, { t: 'III–IV', on: advanced },
+  ] });
+  if (i.stage === 'IA-IB') {
+    steps.push({ kind: 'decision', q: 'Histologi / derajat', branches: [
+      { t: 'Derajat rendah (indolen)', on: indolent }, { t: 'High-grade / clear cell', on: !indolent },
+    ] });
+    if (indolent) {
+      steps.push({ kind: 'decision', q: 'Surgical staging komprehensif?', branches: [
+        { t: 'Ya', on: i.staged === 'complete' }, { t: 'Tidak / ragu', on: i.staged !== 'complete' },
+      ] });
+      steps.push(i.staged === 'complete'
+        ? { kind: 'outcome', label: 'Observasi — tanpa kemoterapi adjuvant', tone: 'low' }
+        : { kind: 'outcome', label: 'Restaging bedah / pertimbangkan kemo platinum', tone: 'int' });
+    } else {
+      steps.push({ kind: 'outcome', label: 'Kemoterapi platinum (karbo–paklitaksel)', tone: 'int' });
+    }
+  } else if (i.stage === 'IC') {
+    steps.push({ kind: 'outcome', label: 'Kemo platinum 3–6 siklus', tone: 'int' });
+  } else if (i.stage === 'II') {
+    steps.push({ kind: 'outcome', label: 'Kemo platinum 6 siklus', tone: 'int' });
+  } else {
+    steps.push({ kind: 'outcome', label: 'Kemo ≥ 6 siklus (karbo–paklitaksel)', tone: 'high' });
+    steps.push({ kind: 'decision', q: 'Histologi high-grade serosa (HGSC)?', branches: [
+      { t: 'HGSC', on: i.histo === 'highgrade' }, { t: 'Non-HGSC', on: i.histo !== 'highgrade' },
+    ] });
+    if (i.histo === 'highgrade') {
+      steps.push({ kind: 'decision', q: 'Status BRCA / HRD', branches: [
+        { t: 'BRCAm', on: i.brca === 'brca' }, { t: 'HRD+', on: i.brca === 'hrd' },
+        { t: 'HR-proficient', on: i.brca === 'neg' }, { t: 'Belum diperiksa', on: i.brca === 'unknown' },
+      ] });
+      const maint = i.brca === 'brca' ? 'Rumatan olaparib (SOLO-1) ± bevacizumab'
+        : i.brca === 'hrd' ? 'Rumatan olaparib+bevacizumab (PAOLA-1) atau niraparib (PRIMA)'
+        : i.brca === 'neg' ? 'Rumatan bevacizumab; PARP manfaat terbatas'
+        : 'Tentukan rumatan setelah hasil BRCA/HRD';
+      steps.push({ kind: 'outcome', label: maint, tone: 'high' });
+    } else {
+      steps.push({ kind: 'outcome', label: 'Rumatan PARP umumnya tak berperan; ikuti terapi histologi-spesifik', tone: 'int' });
+    }
+  }
+  return steps;
+}
+function flowGermCell(i) {
+  const steps = [];
+  steps.push({ kind: 'decision', q: 'Subtipe germ cell', branches: [
+    { t: 'Disgerminoma', on: i.histo === 'dysgerminoma' }, { t: 'Teratoma imatur', on: i.histo === 'immature' },
+    { t: 'Yolk sac / embrional', on: i.histo === 'yolksac' }, { t: 'Campuran', on: i.histo === 'mixed' },
+  ] });
+  steps.push({ kind: 'decision', q: 'Stadium', branches: [
+    { t: 'IA', on: i.stage === 'IA' }, { t: 'IB–IC', on: i.stage === 'IB-IC' }, { t: 'II–IV', on: i.stage === 'II-IV' },
+  ] });
+  if (i.histo === 'immature' && i.stage === 'IA') {
+    steps.push({ kind: 'decision', q: 'Grade teratoma imatur', branches: [
+      { t: 'Grade 1', on: i.grade === 'G1' }, { t: 'Grade 2–3', on: i.grade !== 'G1' },
+    ] });
+  }
+  const surveil = (i.histo === 'dysgerminoma' && i.stage === 'IA') || (i.histo === 'immature' && i.stage === 'IA' && i.grade === 'G1');
+  steps.push(surveil
+    ? { kind: 'outcome', label: 'Surveilans — tanpa kemoterapi adjuvant', tone: 'low' }
+    : { kind: 'outcome', label: i.stage === 'II-IV' ? 'Kemoterapi BEP 3–4 siklus' : 'Kemoterapi BEP 3 siklus', tone: 'high' });
+  return steps;
+}
+function flowSCST(i) {
+  const steps = [];
+  const slPoor = i.histo === 'sertoli-leydig' && i.diff === 'poor';
+  const highRisk = i.risk === 'present' || slPoor;
+  steps.push({ kind: 'decision', q: 'Subtipe sex-cord stromal', branches: [
+    { t: 'Granulosa dewasa', on: i.histo === 'adult-granulosa' }, { t: 'Granulosa juvenil', on: i.histo === 'juvenile-granulosa' },
+    { t: 'Sertoli–Leydig', on: i.histo === 'sertoli-leydig' }, { t: 'Lainnya', on: i.histo === 'other' },
+  ] });
+  steps.push({ kind: 'decision', q: 'Stadium', branches: [
+    { t: 'IA–IB', on: i.stage === 'IA-IB' }, { t: 'IC', on: i.stage === 'IC' }, { t: 'II–IV', on: i.stage === 'II-IV' },
+  ] });
+  if (i.stage !== 'II-IV') {
+    steps.push({ kind: 'decision', q: 'Fitur risiko tinggi?', branches: [
+      { t: 'Tidak', on: !highRisk }, { t: 'Ya (ruptur / mitotik / diff buruk)', on: highRisk },
+    ] });
+  }
+  const out = i.stage === 'II-IV' ? { label: 'Kemoterapi platinum (BEP / karbo–paklitaksel)', tone: 'high' }
+    : (i.stage === 'IA-IB' && !highRisk) ? { label: 'Observasi — tanpa adjuvant', tone: 'low' }
+    : { label: 'Observasi vs kemo platinum (individual)', tone: 'int' };
+  steps.push({ kind: 'outcome', ...out });
+  return steps;
+}
+function flowFor(ttype, i) {
+  if (ttype === 'germcell') return flowGermCell(i);
+  if (ttype === 'scst') return flowSCST(i);
+  return flowEpithelial(i);
+}
+function renderFlow(steps) {
+  const nodes = [];
+  steps.forEach((s, idx) => {
+    if (idx > 0) nodes.push(h('div', { class: 'flow__arrow', 'aria-hidden': 'true' }, '↓'));
+    if (s.kind === 'decision') {
+      nodes.push(h('div', { class: 'flow__node flow__node--decision' },
+        h('p', { class: 'flow__q' }, s.q),
+        h('div', { class: 'flow__branches' }, ...s.branches.map((b) =>
+          h('span', { class: 'flow__branch' + (b.on ? ' flow__branch--active' : '') }, b.t)))));
+    } else {
+      nodes.push(h('div', { class: `flow__node flow__outcome flow__outcome--${s.tone}` }, `✓ ${s.label}`));
+    }
+  });
+  return h('div', { class: 'flow' }, ...nodes);
+}
+
 export default {
   id: 'ovarian-adjuvant',
   name: 'Algoritma Adjuvant Kanker Ovarium',
@@ -447,21 +559,25 @@ export default {
 
     function calc() {
       const t = ttype.input.value;
-      let res;
+      let res, inp;
       if (t === 'germcell') {
-        res = recommendGermCell({ histo: gcHisto.input.value, stage: gcStage.input.value, grade: gcGrade.input.value });
+        inp = { histo: gcHisto.input.value, stage: gcStage.input.value, grade: gcGrade.input.value };
+        res = recommendGermCell(inp);
       } else if (t === 'scst') {
-        res = recommendSCST({ histo: scHisto.input.value, stage: scStage.input.value, diff: scDiff.input.value, risk: scRisk.input.value });
+        inp = { histo: scHisto.input.value, stage: scStage.input.value, diff: scDiff.input.value, risk: scRisk.input.value };
+        res = recommendSCST(inp);
       } else {
-        res = recommendEpithelial({
+        inp = {
           stage: stage.input.value, histo: histo.input.value, staged: staged.input.value,
           brca: brca.input.value, bev: bev.input.value, residual: residual.input.value,
-        });
+        };
+        res = recommendEpithelial(inp);
       }
       showResult(result, {
         headline: res.headline,
         sub: res.sub,
         extra: [
+          disclosure('diagram alur', renderFlow(flowFor(t, inp))),
           ...res.sections.map(([title, items]) => section(title, items)),
           refsNote(res.refs),
           ovarianCriteria(t),
