@@ -446,6 +446,7 @@ fieldset legend { font-weight: 700; font-size: .9rem; color: var(--slate-700); p
 .app-footer { border-top: 1px solid var(--border); background: var(--surface); margin-top: auto; }
 .app-footer__inner { padding: 24px 18px; }
 .app-footer p { font-size: .82rem; color: var(--muted); margin: 0 0 6px; }
+.app-footer__credit { font-size: .78rem; opacity: .85; margin: 2px 0 0; }
 
 body { display: flex; flex-direction: column; min-height: 100vh; }
 
