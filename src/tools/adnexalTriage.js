@@ -37,6 +37,16 @@ const ADNEX_COEF = {
   stage24:    [-14.915830, 0.051239, 0.765456, 0.430477, 10.37696, -5.70975, 0.273692, 0.389874, -2.35516, 1.348408, 0.459021],
   metastatic: [-11.909267, 0.033601, 0.276166, 0.449025, 6.644939, -2.30330, 0.899980, 0.215645, -2.49845, 1.636407, 0.808887],
 };
+// Model ADNEX TANPA CA-125 (refit terpisah; Van Calster dkk., BMJ 2020;370:m2614, Practical guidance,
+// appendix). Tata letak koefisien sama (slot log2B = 0 agar rumus & vars identik). Divalidasi terhadap
+// contoh resmi BMJ 2014: pasien yang sama tanpa CA-125 → jinak 19,2% · borderline 25,2% · stad I 8,3%
+// · stad II–IV 35,8% · metastasis 11,5% (reproduksi tepat).
+const ADNEX_COEF_NOCA = {
+  borderline: [-7.412534, 0.003489, 0, 0.430701, 7.117925, -5.74135, 1.343699, 0.607211, -2.11885, 1.167767, 0.983227],
+  stage1:     [-12.201607, 0.017607, 0, 0.987280, 10.07145, -6.17742, 0.763081, 0.410449, -1.98073, 0.770540, 0.543677],
+  stage24:    [-12.826207, 0.045172, 0, 0.759002, 11.83296, -6.64336, 0.316444, 0.390959, -2.94082, 2.691276, 0.929483],
+  metastatic: [-11.424379, 0.033407, 0, 0.560396, 7.264105, -2.77392, 0.983394, 0.199164, -2.63702, 2.185574, 0.906249],
+};
 const ADNEX_CATS = [
   ['benign', 'Jinak'], ['borderline', 'Borderline'], ['stage1', 'Invasif stadium I'],
   ['stage24', 'Invasif stadium II–IV'], ['metastatic', 'Metastasis sekunder'],
@@ -123,7 +133,9 @@ export default {
     });
     const adxShadow = selectField({ id: 'adx-shadow', label: 'Bayangan akustik?', options: [{ value: 'no', label: 'Tidak' }, { value: 'yes', label: 'Ya' }], value: 'no' });
     const adxAsc = selectField({ id: 'adx-asc', label: 'Asites?', options: [{ value: 'no', label: 'Tidak' }, { value: 'yes', label: 'Ya' }], value: 'no' });
-    const adnexBlock = h('div', { class: 'form-grid' }, adxAge.el, adxCenter.el, adxLesion.el, adxSolid.el, adxLoc.el, adxPap.el, adxShadow.el, adxAsc.el);
+    const adnexHint = h('p', { class: 'muted', style: { gridColumn: '1 / -1', margin: '0', fontSize: '.82rem' } },
+      '🔬 CA-125 (kolom di atas) opsional untuk ADNEX — kosongkan untuk memakai model tanpa CA-125.');
+    const adnexBlock = h('div', { class: 'form-grid' }, adnexHint, adxAge.el, adxCenter.el, adxLesion.el, adxSolid.el, adxLoc.el, adxPap.el, adxShadow.el, adxAsc.el);
 
     const result = h('div', { class: 'result', role: 'status', 'aria-live': 'polite', hidden: true });
 
@@ -179,11 +191,11 @@ export default {
     }
     function adnexCriteria() {
       return criteriaBox(
-        h('p', { style: { margin: '0 0 6px', fontWeight: '700' } }, '9 prediktor (model dengan CA-125)'),
-        h('p', { class: 'muted', style: { margin: '0', fontSize: '.84rem' } }, 'A usia · B CA-125 (U/mL) · C diameter lesi maks (mm) · D komponen solid maks (mm) · p = proporsi solid (D/C) · E >10 lokulus · F papiler (0–4) · G bayangan akustik · H asites · I senter onkologi.'),
-        formula('zk = b0 + b1·A + b2·log2(B) + b3·log2(C)\n     + b4·p + b5·p² + b6·E + b7·F\n     + b8·G + b9·H + b10·I'),
+        h('p', { style: { margin: '0 0 6px', fontWeight: '700' } }, 'Prediktor (CA-125 opsional)'),
+        h('p', { class: 'muted', style: { margin: '0', fontSize: '.84rem' } }, 'A usia · B CA-125 (U/mL, opsional) · C diameter lesi maks (mm) · D komponen solid maks (mm) · p = proporsi solid (D/C) · E >10 lokulus · F papiler (0–4) · G bayangan akustik · H asites · I senter onkologi.'),
+        formula('zk = b0 + b1·A + b2·log2(B) + b3·log2(C)\n     + b4·p + b5·p² + b6·E + b7·F\n     + b8·G + b9·H + b10·I\n(tanpa CA-125: suku b2·log2(B) dihilangkan)'),
         formula('P(jinak)    = 1 / (1 + Σ e^zk)\nP(kategori) = e^zk / (1 + Σ e^zk)\nk = borderline, stadium I, II–IV, metastasis'),
-        h('p', { class: 'muted', style: { margin: '10px 0 0', fontSize: '.82rem' } }, 'Koefisien: Van Calster dkk., BMJ 2014;349:g5920, Appendix D (model dilatih ulang pada data gabungan, dengan CA-125). Risiko keganasan total = 1 − P(jinak); ambang rujukan lazim ≥ 10% (institusional).')
+        h('p', { class: 'muted', style: { margin: '10px 0 0', fontSize: '.82rem' } }, 'Dua set koefisien resmi IOTA: dengan CA-125 — Van Calster dkk., BMJ 2014;349:g5920 (data gabungan); tanpa CA-125 — BMJ 2020;370:m2614. Keduanya divalidasi terhadap contoh resmi BMJ. Risiko keganasan total = 1 − P(jinak); ambang rujukan lazim ≥ 10% (institusional).')
       );
     }
 
@@ -255,11 +267,12 @@ export default {
       const D = num(adxSolid.input.value);
       const p = C > 0 && D >= 0 && !Number.isNaN(D) ? Math.min(D / C, 1) : NaN;
 
-      // Model dengan CA-125 (satu-satunya set koefisien yang dimuat) → butuh usia, CA-125, diameter lesi.
-      if (!(A > 0) || !(B > 0) || !(C > 0) || !Number.isFinite(p)) {
+      const hasCA = B > 0;
+      // CA-125 OPSIONAL → bila dikosongkan dipakai model ADNEX tanpa CA-125 (BMJ 2020). Butuh usia, diameter lesi & solid.
+      if (!(A > 0) || !(C > 0) || !Number.isFinite(p)) {
         showResult(result, {
           headline: 'ADNEX — lengkapi input',
-          sub: 'Perlu usia, CA-125, diameter lesi & komponen solid (isi 0 bila tak ada). Untuk varian tanpa CA-125, gunakan kalkulator resmi.',
+          sub: 'Perlu usia, diameter lesi & komponen solid (isi 0 bila tak ada). CA-125 opsional: bila dikosongkan, dipakai model ADNEX tanpa CA-125.',
           extra: [
             h('p', { style: { margin: '12px 0 0' } }, h('a', { class: 'btn btn--ghost', href: 'https://www.evidencio.com/models/show/945', target: '_blank', rel: 'noopener' }, 'Kalkulator ADNEX resmi (Evidencio) →')),
             adnexCriteria(),
@@ -273,12 +286,14 @@ export default {
       const G = adxShadow.input.value === 'yes' ? 1 : 0;
       const H = adxAsc.input.value === 'yes' ? 1 : 0;
       const I = adxCenter.input.value === 'onco' ? 1 : 0;
-      const vars = [1, A, log2(B), log2(C), p, p * p, E, F, G, H, I];
+      const coef = hasCA ? ADNEX_COEF : ADNEX_COEF_NOCA;
+      // Slot log2(CA-125) = 0 pada model tanpa-CA (koef 0) → aman meski CA-125 kosong.
+      const vars = [1, A, hasCA ? log2(B) : 0, log2(C), p, p * p, E, F, G, H, I];
 
       let denom = 1;
       const ez = {};
       for (const key of ['borderline', 'stage1', 'stage24', 'metastatic']) {
-        ez[key] = Math.exp(ADNEX_COEF[key].reduce((s, b, i) => s + b * vars[i], 0));
+        ez[key] = Math.exp(coef[key].reduce((s, b, i) => s + b * vars[i], 0));
         denom += ez[key];
       }
       const P = { benign: 1 / denom, borderline: ez.borderline / denom, stage1: ez.stage1 / denom, stage24: ez.stage24 / denom, metastatic: ez.metastatic / denom };
@@ -288,9 +303,10 @@ export default {
 
       showResult(result, {
         headline: `Risiko ganas ${pct(malig)}`,
-        sub: `Proporsi solid ${round(p * 100, 0)}% · CA-125 ${round(B, 0)} U/mL · papiler ${F === 4 ? '>3' : F} · ${I ? 'senter onkologi' : 'RS umum'}`,
+        sub: `Model ${hasCA ? 'dengan' : 'tanpa'} CA-125 · proporsi solid ${round(p * 100, 0)}% · ${hasCA ? `CA-125 ${round(B, 0)} U/mL` : 'tanpa CA-125'} · papiler ${F === 4 ? '>3' : F} · ${I ? 'senter onkologi' : 'RS umum'}`,
         extra: [
           pill(high ? 'risk-high' : 'risk-low', high ? 'Risiko ganas ≥ 10%' : 'Risiko ganas < 10%'),
+          !hasCA ? h('p', { class: 'muted', style: { margin: '10px 0 0', fontSize: '.82rem' } }, 'ℹ️ CA-125 kosong → model ADNEX tanpa CA-125 (BMJ 2020). Menambahkan CA-125 umumnya mempertajam pembedaan, terutama stadium II–IV.') : null,
           h('div', { class: 'table-scroll', style: { marginTop: '12px' } },
             h('table', { class: 'data-table' },
               h('thead', {}, h('tr', {}, h('th', {}, 'Kategori tumor'), h('th', {}, 'Probabilitas'))),
@@ -327,7 +343,7 @@ export default {
         srBlock,
         adnexBlock,
         result,
-        disclaimerNote('Alat triase pendukung, bukan pengganti penilaian klinis/ahli USG. RMI/Simple Rules/ROMA disederhanakan; ambang & performa bervariasi antarpopulasi. ROMA bergantung jenis assay. ADNEX memakai koefisien resmi BMJ 2014 (model dengan CA-125); cross-check di kalkulator IOTA bila perlu. Keputusan operasi/rujukan mempertimbangkan keseluruhan konteks pasien.')
+        disclaimerNote('Alat triase pendukung, bukan pengganti penilaian klinis/ahli USG. RMI/Simple Rules/ROMA disederhanakan; ambang & performa bervariasi antarpopulasi. ROMA bergantung jenis assay. ADNEX memakai koefisien resmi IOTA (dengan CA-125: BMJ 2014; tanpa CA-125: BMJ 2020) — CA-125 opsional; cross-check di kalkulator IOTA bila perlu. Keputusan operasi/rujukan mempertimbangkan keseluruhan konteks pasien.')
       )
     );
 

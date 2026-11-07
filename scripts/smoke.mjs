@@ -105,5 +105,26 @@ for (const c of cancers) {
 }
 ok('semua kombinasi kanker × alat dirender');
 
+console.log('\n== ADNEX (validasi numerik contoh resmi BMJ) ==');
+try {
+  const box = fresh();
+  getTool('adnexal-triage').render(box);
+  const setN = (id, v) => { const e = box.querySelector('#' + id); e.value = v; e.dispatchEvent(new dom.window.Event('input', { bubbles: true })); };
+  const setS = (id, v) => { const e = box.querySelector('#' + id); e.value = v; e.dispatchEvent(new dom.window.Event('change', { bubbles: true })); };
+  const msel = [...box.querySelectorAll('select')].find((s) => [...s.options].some((o) => o.value === 'adnex'));
+  msel.value = 'adnex'; msel.dispatchEvent(new dom.window.Event('change', { bubbles: true }));
+  // Contoh resmi BMJ 2014: usia 55, lesi 120 mm, solid 20 mm, >10 lokulus, 0 papiler, tanpa bayangan, asites, senter onkologi.
+  setN('adx-age', '55'); setN('adx-lesion', '120'); setN('adx-solid', '20');
+  setS('adx-loc', 'yes'); setS('adx-pap', '0'); setS('adx-shadow', 'no'); setS('adx-asc', 'yes'); setS('adx-center', 'onco');
+  const txt = () => box.querySelector('.result').textContent.replace(/\s+/g, ' ');
+  setN('adx-ca125', '42');
+  const w = txt();
+  if (!(w.includes('67.6%') && w.includes('37.4%') && w.includes('8.4%') && w.includes('dengan CA-125'))) throw new Error('dengan CA-125 ≠ contoh BMJ: ' + w.slice(0, 160));
+  setN('adx-ca125', '');
+  const wo = txt();
+  if (!(wo.includes('80.9%') && wo.includes('25.2%') && wo.includes('35.8%') && wo.includes('tanpa CA-125'))) throw new Error('tanpa CA-125 ≠ contoh BMJ: ' + wo.slice(0, 160));
+  ok('ADNEX dengan & tanpa CA-125 cocok contoh resmi BMJ (67,6% / 80,9%)');
+} catch (e) { fail('ADNEX validasi numerik', e); }
+
 console.log(`\n${errors ? '❌ ' + errors + ' masalah' : '✅ Smoke test lolos'}\n`);
 process.exit(errors ? 1 : 0);
