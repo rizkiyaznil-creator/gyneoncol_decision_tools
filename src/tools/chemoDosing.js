@@ -232,6 +232,18 @@ const REGIMENS = [
     ],
   },
 
+  // ---- Endometrium ----
+  {
+    id: 'duoe', group: 'Endometrium', name: 'DUO-E (Durvalumab + Karbo–Paklitaksel)',
+    schedule: 'Hari 1, tiap 3 minggu × 6 siklus; lalu rumatan durvalumab 1500 mg q4mgg (± olaparib).',
+    note: 'DUO-E (EC lanjut/rekuren): durvalumab + karbo–paklitaksel → rumatan durvalumab. Pada pMMR tambahkan olaparib 300 mg 2×/hari rumatan (lihat regimen Olaparib); pada dMMR durvalumab tanpa olaparib umumnya sudah cukup. Durvalumab < 30 kg: pertimbangkan 20 mg/kg.',
+    drugs: [
+      { key: 'durva', name: 'Durvalumab', kind: 'flat', dose: 1120, unit: 'mg', freq: 'tiap 3 minggu', route: 'IV', days: 'hari 1', hint: '1120 mg q3mgg saat kemo → 1500 mg q4mgg rumatan.' },
+      { key: 'pac', name: 'Paclitaxel', kind: 'm2', dose: 175, min: 135, max: 175, range: true, hint: 'Interval 135–175 mg/m².', days: 'hari 1' },
+      { key: 'carbo', name: 'Carboplatin', kind: 'auc', dose: 5, min: 1, max: 7, step: 0.5, hint: 'AUC 5–6.', days: 'hari 1' },
+    ],
+  },
+
   // ---- Trofoblas (GTN) ----
   {
     id: 'gtn-mtx-8day', group: 'Trofoblas (GTN)', name: 'Metotreksat–asam folinat 8 hari (risiko rendah)',
@@ -346,7 +358,7 @@ const REGIMENS = [
 export default {
   id: 'chemo-dosing',
   name: 'Protokol & Dosis Kemoterapi',
-  short: 'Hitung BSA, carboplatin (Calvert/AUC), dosis m²/mg-kg, terapi target & imunoterapi, serta regimen kombinasi ginekologi onkologi — termasuk serviks (GOG-240/JCOG0505/KEYNOTE-826), trofoblas/GTN (EMA-CO, EMA-EP, metotreksat–folinat), dan melanoma (nivolumab, nivo+ipi, dabrafenib+trametinib, imatinib).',
+  short: 'Hitung BSA, carboplatin (Calvert/AUC), dosis m²/mg-kg, terapi target & imunoterapi, serta regimen kombinasi ginekologi onkologi — termasuk serviks (GOG-240/JCOG0505/KEYNOTE-826), endometrium (DUO-E: durvalumab + karbo–paklitaksel), trofoblas/GTN (EMA-CO, EMA-EP, metotreksat–folinat), dan melanoma (nivolumab, nivo+ipi, dabrafenib+trametinib, imatinib).',
   category: 'Dosis kemoterapi',
   scope: 'Umum (lintas-kanker)',
   render(container) {

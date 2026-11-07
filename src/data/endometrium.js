@@ -137,6 +137,7 @@ export default {
         rows: [
           { regimen: 'Pembrolizumab + karbo–paklitaksel → rumatan', indikasi: 'Lanjut/rekuren; manfaat pada dMMR & pMMR', bukti: 'NRG-GY018' },
           { regimen: 'Dostarlimab + karbo–paklitaksel → rumatan', indikasi: 'Lanjut/rekuren; manfaat besar pada dMMR', bukti: 'RUBY' },
+          { regimen: 'Durvalumab + karbo–paklitaksel → rumatan (± olaparib)', indikasi: 'Lanjut/rekuren; dMMR (durvalumab) & pMMR (tambah olaparib rumatan)', bukti: 'DUO-E (ENGOT-EN10)' },
           { regimen: 'Pembrolizumab monoterapi', indikasi: 'dMMR/MSI-H rekuren pasca-platinum', bukti: 'KEYNOTE-158' },
           { regimen: 'Dostarlimab monoterapi', indikasi: 'dMMR rekuren', bukti: 'GARNET' },
         ],
