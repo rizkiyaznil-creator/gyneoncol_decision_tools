@@ -1,7 +1,7 @@
 import { h, mount } from '../utils/dom.js';
 import { crumbs } from './common.js';
 import { getCancer } from '../data/cancers.js';
-import { TRIALS, TRIAL_THEMES, trialPubmedUrl } from '../data/trials.js';
+import { TRIALS, TRIAL_THEMES, trialPubmedUrl, trialDoiUrl } from '../data/trials.js';
 
 // Urutan tampil kanker (vagina tak memiliki landmark trial khusus → tidak muncul).
 const CANCER_ORDER = ['ovarium', 'serviks', 'endometrium', 'vulva', 'gtn', 'sarkoma', 'melanoma'];
@@ -77,7 +77,9 @@ export function renderTrials(root) {
         row('Implikasi', t.impact),
         h('p', { class: 'trial__ref' },
           t.ref, ' · ',
-          h('a', { href: trialPubmedUrl(t, c ? c.name : ''), target: '_blank', rel: 'noopener noreferrer' }, 'PubMed ↗'))
+          h('a', { href: trialPubmedUrl(t, c ? c.name : ''), target: '_blank', rel: 'noopener noreferrer' }, 'PubMed ↗'),
+          trialDoiUrl(t) ? ' · ' : null,
+          trialDoiUrl(t) ? h('a', { href: trialDoiUrl(t), target: '_blank', rel: 'noopener noreferrer' }, 'DOI ↗') : null)
       )
     );
   }

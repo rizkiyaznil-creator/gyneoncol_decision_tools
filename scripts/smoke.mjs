@@ -45,7 +45,8 @@ try {
   const b = fresh(); renderTrials(b);
   const all = b.querySelectorAll('.trial').length;
   if (all < 80) throw new Error(`hanya ${all} kartu trial`);
-  if (!b.querySelector('.trial__ref a[href*="pubmed"]')) throw new Error('tautan PubMed tak ada');
+  if (!b.querySelector('.trial__ref a[href*="pubmed.ncbi.nlm.nih.gov/3"]')) throw new Error('tautan PubMed PMID langsung tak ada');
+  if (!b.querySelector('.trial__ref a[href*="doi.org/"]')) throw new Error('tautan DOI tak ada');
   const ovChip = [...b.querySelectorAll('.trial-chip')].find((c) => /^Ovarium/i.test(c.textContent));
   if (!ovChip) throw new Error('chip filter kanker tak ada');
   ovChip.click();
