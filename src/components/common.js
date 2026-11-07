@@ -1,4 +1,5 @@
 import { h, mount } from '../utils/dom.js';
+import { therapyAvailable, availBadge, AVAIL_LEGEND } from '../data/availability.js';
 
 /** Breadcrumb nav. items: [{label, href?}] — last item without href = current. */
 export function crumbs(items) {
@@ -96,9 +97,10 @@ export function renderSystemicTherapy(st) {
               h('th', { style: { width: '26%' } }, 'Dasar bukti'))),
             h('tbody', {}, ...cat.rows.map((r) =>
               h('tr', {},
-                h('td', {}, h('strong', {}, r.regimen)),
+                h('td', {}, h('strong', {}, r.regimen), therapyAvailable(r.regimen) ? availBadge() : null),
                 h('td', {}, r.indikasi),
                 h('td', { class: 'muted' }, r.bukti)))))))),
+    h('p', { class: 'avail-legend' }, AVAIL_LEGEND),
     h('div', { class: 'note note--warn', style: { marginTop: '20px' } },
       h('strong', {}, '⚠️ '),
       'Daftar opsi berbasis bukti yang disederhanakan — bukan urutan wajib. Pemilihan bergantung pada biomarker (BRCA/HRD, dMMR/MSI-H, PD-L1, HER2, ER/PR), lini terapi, toksisitas, akses obat, komorbiditas, dan diskusi tumor board. Verifikasi terhadap guideline terbaru (NCCN/ESGO) dan label obat. Dosis tersedia di alat “Protokol & Dosis Kemoterapi”.')

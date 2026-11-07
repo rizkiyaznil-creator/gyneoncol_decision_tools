@@ -1,5 +1,6 @@
 import { h, mount } from '../utils/dom.js';
 import { num, round, field, selectField, stat, showResult, disclaimerNote, criteriaBox, formula } from './shared.js';
+import { therapyAvailable, availBadge, AVAIL_LEGEND } from '../data/availability.js';
 
 // Regimen & dosis kemoterapi terpadu (menggantikan kalkulator BSA, Carboplatin, dan Cisplatin terpisah).
 //
@@ -584,7 +585,9 @@ export default {
         )
       );
 
-      const extra = [table];
+      const extra = [];
+      if (therapyAvailable(r.name)) extra.push(h('div', { class: 'avail-line' }, availBadge()));
+      extra.push(table);
       if (r.schedule) extra.push(h('p', { class: 'muted', style: { fontSize: '.82rem', margin: '10px 0 0' } }, `Jadwal: ${r.schedule}`));
       if (r.note) extra.push(h('p', { class: 'muted', style: { fontSize: '.82rem', margin: '4px 0 0' } }, r.note));
       for (const n of notes) extra.push(h('p', { class: 'muted', style: { fontSize: '.82rem', margin: '4px 0 0' } }, `* ${n}`));
@@ -617,7 +620,9 @@ export default {
       formula('Total = dosis (mg/m²) × BSA\nTotal = dosis (mg/kg) × BB'),
       h('p', { class: 'muted', style: { margin: '0', fontSize: '.82rem' } }, 'Batas per pemberian: cisplatin mingguan ≤ 70 mg · vinkristin ≤ 2 mg · aktinomisin-D pulsed ≤ 2 mg.'),
       h('p', { style: { margin: '12px 0 4px', fontWeight: '700' } }, 'Niraparib — dosis awal individualized (PRIMA)'),
-      h('p', { style: { margin: '0', fontSize: '.86rem' } }, '200 mg/hari bila BB < 77 kg atau trombosit < 150 ×10³/µL; selain itu 300 mg/hari.')
+      h('p', { style: { margin: '0', fontSize: '.86rem' } }, '200 mg/hari bila BB < 77 kg atau trombosit < 150 ×10³/µL; selain itu 300 mg/hari.'),
+      h('p', { style: { margin: '12px 0 4px', fontWeight: '700' } }, 'Ketersediaan di Indonesia (per Nov 2026)'),
+      h('p', { class: 'avail-legend', style: { margin: '0' } }, AVAIL_LEGEND)
     );
 
     container.appendChild(

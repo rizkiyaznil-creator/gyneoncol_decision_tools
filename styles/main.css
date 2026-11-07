@@ -36,6 +36,7 @@
 
   --green-50: #f0fdf4;
   --green-100: #dcfce7;
+  --green-200: #bbf7d0;
   --green-600: #16a34a;
   --green-700: #15803d;
 
@@ -400,6 +401,17 @@ fieldset legend { font-weight: 700; font-size: .9rem; color: var(--slate-700); p
 .risk-int { background: var(--amber-100); color: var(--amber-700); }
 .risk-high { background: var(--red-100); color: var(--red-700); }
 
+/* ---------- Badge "Tersedia di Indonesia" ---------- */
+.avail-badge {
+  display: inline-flex; align-items: center; gap: 4px; vertical-align: middle;
+  margin-left: 8px; padding: 1px 9px 1px 7px; border-radius: 999px;
+  font-size: .68rem; font-weight: 800; letter-spacing: .01em; line-height: 1.7; white-space: nowrap;
+  color: var(--green-700); background: var(--green-50); border: 1px solid var(--green-200);
+}
+.avail-badge__flag { font-size: .82rem; line-height: 1; }
+.avail-line { margin: 2px 0 0; }
+.avail-legend { margin: 12px 0 0; font-size: .8rem; line-height: 1.5; color: var(--muted); }
+
 /* ---------- Data tables ---------- */
 .data-table { width: 100%; border-collapse: collapse; font-size: .86rem; }
 .data-table th, .data-table td { text-align: left; padding: 9px 12px; border-bottom: 1px solid var(--border); vertical-align: top; }
@@ -507,7 +519,7 @@ body { display: flex; flex-direction: column; min-height: 100vh; }
     --teal-50: #0c2e2a; --teal-100: #134e4a; --teal-200: #1f5f57;
     --amber-50: #2e2206; --amber-100: #3d2e08;
     --red-50: #2e1212; --red-100: #3d1818;
-    --green-50: #0c2a16; --green-100: #143d1f;
+    --green-50: #0c2a16; --green-100: #143d1f; --green-200: #1c5030;
     --coral-50: #2a1216; --coral-100: #3d1820; --coral-200: #5e2a35; --coral-500: #fb7185; --coral-600: #fda4af;
     --bg: #0b1220; --surface: #111a2e; --text: #e7ecf3; --muted: #9aa7bd; --border: #2a3650;
     color-scheme: dark;
@@ -527,6 +539,7 @@ body { display: flex; flex-direction: column; min-height: 100vh; }
   [data-theme="dark"] .flow__outcome--low { color: #86efac; }
   [data-theme="dark"] .flow__outcome--int { color: #fcd34d; }
   [data-theme="dark"] .flow__outcome--high { color: #fca5a5; }
+  [data-theme="dark"] .avail-badge { color: #86efac; }
   [data-theme="dark"] .note--warn, [data-theme="dark"] .note--warn strong,
   [data-theme="dark"] .disclaimer-banner p, [data-theme="dark"] .disclaimer-banner__close { color: #fcd34d; }
   [data-theme="dark"] .app-header { background: rgba(13, 20, 36, .82); }
