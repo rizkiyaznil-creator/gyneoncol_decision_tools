@@ -66,6 +66,8 @@ export const AVAILABLE = [
   'imatinib',
   'everolimus',
   'ribociclib',
+  'erlotinib',
+  'pazopanib',
   // --- Hormonal / endokrin ---
   'letrozol', 'letrozole',
   'anastrozol', 'anastrozole',
