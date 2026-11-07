@@ -1,5 +1,5 @@
 import { h } from '../utils/dom.js';
-import { num, round, field, selectField, showResult, disclaimerNote, criteriaBox, formula, resultSection } from './shared.js';
+import { num, round, field, selectField, showResult, disclaimerNote, criteriaBox, formula, resultSection, infoTip } from './shared.js';
 
 // Triase massa adneksa pra-operasi — empat model penilaian risiko keganasan.
 //   RMI 1/2/3 (Jacobs/Tingulstad) · IOTA Simple Rules · ROMA (HE4+CA-125) · IOTA ADNEX (input + kalkulator resmi).
@@ -134,7 +134,13 @@ export default {
     const adxShadow = selectField({ id: 'adx-shadow', label: 'Bayangan akustik?', options: [{ value: 'no', label: 'Tidak' }, { value: 'yes', label: 'Ya' }], value: 'no' });
     const adxAsc = selectField({ id: 'adx-asc', label: 'Asites?', options: [{ value: 'no', label: 'Tidak' }, { value: 'yes', label: 'Ya' }], value: 'no' });
     const adnexHint = h('p', { class: 'muted', style: { gridColumn: '1 / -1', margin: '0', fontSize: '.82rem' } },
-      '🔬 CA-125 (kolom di atas) opsional untuk ADNEX — kosongkan untuk memakai model tanpa CA-125.');
+      '🔬 CA-125 (kolom di atas) opsional untuk ADNEX ',
+      infoTip('Kapan CA-125 sebaiknya diisi?',
+        h('strong', {}, 'Kapan mengisi CA-125?'), h('br'),
+        'Isi bila nilainya tersedia — menambah akurasi ADNEX, terutama membedakan kanker invasif lanjut (stadium II–IV) & metastasis (CA-125 salah satu prediktor terkuat). Kosongkan hanya bila belum ada saat USG.',
+        h('br'), h('br'),
+        'Hati-hati: CA-125 dapat meningkat non-ganas (endometriosis, radang panggul, menstruasi, kehamilan, mioma) & pada beberapa kanker non-ginekologi — tafsirkan dalam konteks klinis.'),
+      ' — kosongkan untuk memakai model tanpa CA-125.');
     const adnexBlock = h('div', { class: 'form-grid' }, adnexHint, adxAge.el, adxCenter.el, adxLesion.el, adxSolid.el, adxLoc.el, adxPap.el, adxShadow.el, adxAsc.el);
 
     const result = h('div', { class: 'result', role: 'status', 'aria-live': 'polite', hidden: true });

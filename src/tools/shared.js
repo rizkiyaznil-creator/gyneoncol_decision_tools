@@ -111,6 +111,41 @@ export function criteriaBox(...children) {
 }
 
 /**
+ * Tooltip "ⓘ" yang dapat di-hover (desktop) & di-tap (mobile).
+ * label = teks aria untuk tombol; children = isi balon penjelasan.
+ */
+export function infoTip(label, ...children) {
+  const bubble = h('span', { class: 'tip__bubble', role: 'tooltip' }, ...children.filter(Boolean));
+  const btn = h('button', { type: 'button', class: 'tip__btn', 'aria-label': label || 'Info', 'aria-expanded': 'false' }, 'ⓘ');
+  const wrap = h('span', { class: 'tip' }, btn, bubble);
+  let bound = false;
+  const onDoc = (e) => { if (!wrap.contains(e.target)) setOpen(false); };
+  // Geser balon agar tidak keluar tepi layar (penting di HP: pemicu bisa di tengah baris).
+  function reposition() {
+    bubble.style.left = '0'; bubble.style.right = 'auto';
+    const r = bubble.getBoundingClientRect();
+    const pad = 8, vw = window.innerWidth || document.documentElement.clientWidth;
+    if (r.right > vw - pad) {
+      let shift = r.right - (vw - pad);
+      if (r.left - shift < pad) shift -= (pad - (r.left - shift));
+      bubble.style.left = `${-shift}px`;
+    }
+  }
+  function setOpen(open) {
+    wrap.classList.toggle('tip--open', open);
+    btn.setAttribute('aria-expanded', open ? 'true' : 'false');
+    if (open && typeof requestAnimationFrame === 'function') requestAnimationFrame(reposition);
+    if (open && !bound) { bound = true; setTimeout(() => document.addEventListener('click', onDoc), 0); }
+    if (!open && bound) { bound = false; document.removeEventListener('click', onDoc); }
+  }
+  btn.addEventListener('click', (e) => { e.preventDefault(); e.stopPropagation(); setOpen(!wrap.classList.contains('tip--open')); });
+  btn.addEventListener('keydown', (e) => { if (e.key === 'Escape') { setOpen(false); btn.blur(); } });
+  // Desktop: hover juga memposisikan ulang balon (dibuka via CSS :hover).
+  wrap.addEventListener('mouseenter', () => { if (typeof requestAnimationFrame === 'function') requestAnimationFrame(reposition); });
+  return wrap;
+}
+
+/**
  * Seksi hasil: judul ber-aksen + daftar butir (kelas ber-gaya, mudah dibaca).
  * Menggantikan helper `section(title, items)` inline yang tersebar di alat.
  */
