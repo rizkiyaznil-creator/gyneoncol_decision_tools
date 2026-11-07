@@ -16,6 +16,7 @@ const { renderToolsIndex } = await import('../src/components/toolsIndex.js');
 const { renderAbout } = await import('../src/components/about.js');
 const { renderSearch } = await import('../src/components/search.js');
 const { renderPain } = await import('../src/components/painPage.js');
+const { renderTrials } = await import('../src/components/trials.js');
 
 let errors = 0;
 const fail = (m, e) => { console.error('  ✗', m, '→', e?.message || e); errors++; };
@@ -40,6 +41,24 @@ try { renderToolsIndex(fresh()); ok('daftar alat'); } catch (e) { fail('daftar a
 try { renderAbout(fresh()); ok('tentang'); } catch (e) { fail('tentang', e); }
 try { const b = fresh(); renderSearch(b); const inp = b.querySelector('.search-box__input'); inp.value = 'serv'; inp.dispatchEvent(new dom.window.Event('input', { bubbles: true })); if (!b.querySelector('.search-result')) throw new Error('tak ada hasil untuk "serv"'); ok('cari'); } catch (e) { fail('cari', e); }
 try { const b = fresh(); renderPain(b); if (!b.querySelector('.data-table')) throw new Error('konten nyeri tak render'); ok('manajemen nyeri'); } catch (e) { fail('manajemen nyeri', e); }
+try {
+  const b = fresh(); renderTrials(b);
+  const all = b.querySelectorAll('.trial').length;
+  if (all < 80) throw new Error(`hanya ${all} kartu trial`);
+  if (!b.querySelector('.trial__ref a[href*="pubmed"]')) throw new Error('tautan PubMed tak ada');
+  const ovChip = [...b.querySelectorAll('.trial-chip')].find((c) => /^Ovarium/i.test(c.textContent));
+  if (!ovChip) throw new Error('chip filter kanker tak ada');
+  ovChip.click();
+  const nOv = b.querySelectorAll('.trial').length;
+  if (!(nOv > 0 && nOv < all)) throw new Error('filter kanker tak mempersempit');
+  const semua = [...b.querySelectorAll('.trial-chip')].find((c) => /Semua kanker/i.test(c.textContent));
+  semua.click();
+  const s = b.querySelector('.trial-search'); s.value = 'pembrolizumab';
+  s.dispatchEvent(new dom.window.Event('input', { bubbles: true }));
+  const nQ = b.querySelectorAll('.trial').length;
+  if (!(nQ > 0 && nQ < all)) throw new Error('pencarian tak mempersempit');
+  ok(`landmark trials (${all} trial, filter & cari)`);
+} catch (e) { fail('landmark trials', e); }
 
 console.log('\n== Halaman kanker (semua tab) ==');
 for (const c of cancers) {

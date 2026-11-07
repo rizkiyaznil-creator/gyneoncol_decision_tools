@@ -63,6 +63,7 @@ export function renderHome(root) {
 
     h('div', { class: 'section-head' }, h('h2', {}, 'Lainnya')),
     h('div', { class: 'grid grid--tools' },
+      linkCard({ icon: '📚', title: 'Landmark Clinical Trials', desc: 'Uji klinis pivotal yang membentuk praktik — per kanker, dengan filter & pencarian.', href: '#/trials', cta: 'Jelajahi trial' }),
       linkCard({ icon: '🧰', title: 'Semua alat bantu keputusan', desc: 'Kalkulator, skor, algoritma terapi & penentuan stadium — daftar lengkap lintas-kanker.', href: '#/alat', cta: 'Lihat semua' }),
       linkCard({ icon: 'ℹ️', title: 'Tentang & Disclaimer', desc: 'Ruang lingkup, sumber guideline, tema & ukuran teks, privasi.', href: '#/tentang', cta: 'Baca' })
     ),

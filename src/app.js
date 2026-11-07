@@ -9,6 +9,7 @@ import { renderToolsIndex } from './components/toolsIndex.js';
 import { renderAbout } from './components/about.js';
 import { renderSearch } from './components/search.js';
 import { renderPain } from './components/painPage.js';
+import { renderTrials } from './components/trials.js';
 import { renderNotFound } from './components/common.js';
 import { initSystemThemeListener } from './utils/theme.js';
 
@@ -20,7 +21,7 @@ function segments() {
 
 // Sorot tab navigasi bawah sesuai rute aktif.
 function highlightBottomNav(seg) {
-  const key = seg[0] === 'tentang' ? 'about' : seg[0] === 'cari' ? 'search' : seg[0] === 'alat' ? 'tools' : 'home';
+  const key = seg[0] === 'tentang' ? 'about' : seg[0] === 'cari' ? 'search' : seg[0] === 'alat' ? 'tools' : seg[0] === 'trials' ? 'trials' : 'home';
   document.querySelectorAll('.bottom-nav a[data-nav]').forEach((a) => {
     if (a.dataset.nav === key) a.setAttribute('aria-current', 'page');
     else a.removeAttribute('aria-current');
@@ -83,6 +84,8 @@ function route() {
     }
   } else if (seg[0] === 'cari') {
     renderSearch(content);
+  } else if (seg[0] === 'trials') {
+    renderTrials(content);
   } else if (seg[0] === 'nyeri') {
     renderPain(content);
   } else if (seg[0] === 'tentang') {
