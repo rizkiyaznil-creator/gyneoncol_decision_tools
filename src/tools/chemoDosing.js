@@ -361,6 +361,8 @@ export default {
   short: 'Hitung BSA, carboplatin (Calvert/AUC), dosis m²/mg-kg, terapi target & imunoterapi, serta regimen kombinasi ginekologi onkologi — termasuk serviks (GOG-240/JCOG0505/KEYNOTE-826), endometrium (DUO-E: durvalumab + karbo–paklitaksel), trofoblas/GTN (EMA-CO, EMA-EP, metotreksat–folinat), dan melanoma (nivolumab, nivo+ipi, dabrafenib+trametinib, imatinib).',
   category: 'Dosis kemoterapi',
   scope: 'Umum (lintas-kanker)',
+  // Kata kunci pencarian: semua nama regimen + obat (otomatis dari REGIMENS) agar dapat dicari di menu Cari.
+  keywords: [...new Set(REGIMENS.flatMap((r) => [r.name, ...r.drugs.map((d) => d.name)]))].join(' '),
   render(container) {
     const byId = new Map(REGIMENS.map((r) => [r.id, r]));
 

@@ -2,6 +2,7 @@ import { h, mount, route } from '../utils/dom.js';
 import { crumbs } from './common.js';
 import { cancers } from '../data/cancers.js';
 import { tools } from '../tools/registry.js';
+import { TRIALS } from '../data/trials.js';
 
 const MIN = 3; // saran muncul setelah ≥ 3 huruf
 
@@ -17,13 +18,32 @@ function buildIndex() {
       label: c.name, sub: c.subtitle, type: 'Kanker', href: route('c', c.id),
       text: [c.name, c.shortName, c.subtitle, c.blurb, c.code, c.staging && c.staging.system].filter(Boolean).join(' ').toLowerCase(),
     });
+    // Terapi sistemik: indeks nama obat & regimen → hasil langsung ke tab Terapi Sistemik.
+    if (c.systemicTherapy) {
+      const stText = c.systemicTherapy.categories
+        .flatMap((cat) => cat.rows.map((r) => `${r.regimen} ${r.indikasi} ${r.bukti}`))
+        .join(' ').toLowerCase();
+      e.push({
+        label: `Terapi sistemik — ${c.shortName || c.name}`,
+        sub: 'Obat & regimen sistemik berbasis bukti',
+        type: 'Terapi', href: route('c', c.id, 'tab', 'therapy'),
+        text: stText,
+      });
+    }
   }
   for (const t of tools) {
     e.push({
       label: t.name, sub: t.short, type: 'Alat', href: '#/alat/' + t.id,
-      text: [t.name, t.short, t.category, t.scope].filter(Boolean).join(' ').toLowerCase(),
+      text: [t.name, t.short, t.category, t.scope, t.keywords].filter(Boolean).join(' ').toLowerCase(),
     });
   }
+  // Landmark trials: cari berdasarkan nama trial maupun obat di dalamnya.
+  e.push({
+    label: 'Landmark Clinical Trials',
+    sub: 'Uji klinis pivotal — filter & pencarian',
+    type: 'Trials', href: '#/trials',
+    text: TRIALS.map((t) => `${t.title} ${t.design} ${t.impact} ${t.pop} ${t.ref}`).join(' ').toLowerCase(),
+  });
   return e;
 }
 
@@ -39,11 +59,11 @@ function score(entry, q) {
 export function renderSearch(root) {
   const index = buildIndex();
   const input = h('input', {
-    type: 'search', class: 'search-box__input', placeholder: 'Cari modul kanker, alat, atau menu…',
+    type: 'search', class: 'search-box__input', placeholder: 'Cari kanker, alat, obat, regimen, atau trial…',
     autocomplete: 'off', autocorrect: 'off', spellcheck: 'false', 'aria-label': 'Kata kunci pencarian',
   });
   const results = h('div', { class: 'search-results', role: 'listbox', 'aria-label': 'Hasil pencarian' });
-  const hint = h('p', { class: 'muted', style: { margin: '12px 2px 0', fontSize: '.9rem' } }, `Ketik minimal ${MIN} huruf untuk melihat saran.`);
+  const hint = h('p', { class: 'muted', style: { margin: '12px 2px 0', fontSize: '.9rem' } }, `Ketik minimal ${MIN} huruf — mis. “niraparib”, “DUO-E”, atau “stadium”.`);
 
   let items = [];
   let sel = -1;

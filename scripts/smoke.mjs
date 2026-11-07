@@ -39,7 +39,18 @@ console.log('\n== Halaman umum ==');
 try { renderHome(fresh()); const n = content.querySelectorAll('.card').length; if (n < 7) throw new Error(`hanya ${n} kartu`); ok(`home (${n} kartu)`); } catch (e) { fail('home', e); }
 try { renderToolsIndex(fresh()); ok('daftar alat'); } catch (e) { fail('daftar alat', e); }
 try { renderAbout(fresh()); ok('tentang'); } catch (e) { fail('tentang', e); }
-try { const b = fresh(); renderSearch(b); const inp = b.querySelector('.search-box__input'); inp.value = 'serv'; inp.dispatchEvent(new dom.window.Event('input', { bubbles: true })); if (!b.querySelector('.search-result')) throw new Error('tak ada hasil untuk "serv"'); ok('cari'); } catch (e) { fail('cari', e); }
+try {
+  const b = fresh(); renderSearch(b);
+  const inp = b.querySelector('.search-box__input');
+  const query = (q) => { inp.value = q; inp.dispatchEvent(new dom.window.Event('input', { bubbles: true })); return [...b.querySelectorAll('.search-result')]; };
+  if (!query('serv').length) throw new Error('tak ada hasil untuk "serv"');
+  // Pencarian obat: niraparib → harus menemukan tab Terapi Sistemik (ovarium) + alat dosis.
+  const drug = query('niraparib');
+  if (!drug.length) throw new Error('obat "niraparib" tak ditemukan');
+  if (!drug.some((r) => /Terapi sistemik/i.test(r.textContent))) throw new Error('niraparib tak mengarah ke Terapi Sistemik');
+  if (!query('durvalumab').some((r) => /Terapi sistemik|Dosis/i.test(r.textContent))) throw new Error('durvalumab tak ditemukan');
+  ok('cari (menu, kanker, alat, obat/regimen, trial)');
+} catch (e) { fail('cari', e); }
 try { const b = fresh(); renderPain(b); if (!b.querySelector('.data-table')) throw new Error('konten nyeri tak render'); ok('manajemen nyeri'); } catch (e) { fail('manajemen nyeri', e); }
 try {
   const b = fresh(); renderTrials(b);
