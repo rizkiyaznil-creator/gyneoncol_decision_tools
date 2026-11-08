@@ -47,6 +47,7 @@ export default {
           { regimen: 'EMA-CO', indikasi: 'Multiagen lini-1 risiko tinggi', bukti: 'Standar; kuratif tinggi' },
           { regimen: 'EMA-EP', indikasi: 'Salvage resistan EMA-CO atau metastasis luas', bukti: 'Charing Cross' },
           { regimen: 'Induksi etoposid–cisplatin dosis rendah', indikasi: 'Ultra-risiko tinggi: cegah kematian dini/hemoragik', bukti: 'Seri Charing Cross' },
+          { regimen: 'TP/TE (paklitaksel–cisplatin / paklitaksel–etoposid)', indikasi: 'Salvage rekuren/resistan yang banyak diterapi (termasuk pasca-platinum)', bukti: 'Wang/Seckl dkk., Ann Oncol 2008' },
         ],
       },
       {

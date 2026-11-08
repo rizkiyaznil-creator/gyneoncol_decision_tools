@@ -297,6 +297,17 @@ const REGIMENS = [
       { key: 'cis', name: 'Cisplatin (EP)', kind: 'm2', dose: 75, days: 'hari 8' },
     ],
   },
+  {
+    id: 'gtn-tpte', group: 'Trofoblas (GTN)', name: 'TP/TE (salvage GTN)',
+    schedule: 'Selang-seling tiap 2 minggu: TP hari 1, TE hari 15; ulang (siklus 28 hari).',
+    note: 'Salvage GTN rekuren/risiko tinggi yang banyak diterapi (Charing Cross; Wang dkk., Ann Oncol 2008). Paklitaksel infus 3 jam; cisplatin dengan hidrasi adekuat. Lanjutkan ≥ 3 siklus setelah β-hCG normal sesuai protokol.',
+    drugs: [
+      { key: 'pactp', name: 'Paklitaksel (TP)', kind: 'm2', dose: 135, days: 'hari 1' },
+      { key: 'cistp', name: 'Cisplatin (TP)', kind: 'm2', dose: 60, days: 'hari 1' },
+      { key: 'pacte', name: 'Paklitaksel (TE)', kind: 'm2', dose: 135, days: 'hari 15' },
+      { key: 'etote', name: 'Etoposid (TE)', kind: 'm2', dose: 150, days: 'hari 15' },
+    ],
+  },
 
   // ---- Melanoma (mukosa vulvovaginal) ----
   {
@@ -600,7 +611,9 @@ export default {
       );
 
       const extra = [];
-      if (therapyAvailable(r.name)) extra.push(h('div', { class: 'avail-line' }, availBadge()));
+      // Ketersediaan dinilai dari nama regimen + nama obatnya (agar regimen berakronim mis. TP/TE ikut terdeteksi).
+      const availText = [r.name, ...r.drugs.map((d) => d.name)].join(' ');
+      if (therapyAvailable(availText)) extra.push(h('div', { class: 'avail-line' }, availBadge()));
       extra.push(table);
       if (r.schedule) extra.push(h('p', { class: 'muted', style: { fontSize: '.82rem', margin: '10px 0 0' } }, `Jadwal: ${r.schedule}`));
       if (r.note) extra.push(h('p', { class: 'muted', style: { fontSize: '.82rem', margin: '4px 0 0' } }, r.note));
